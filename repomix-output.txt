@@ -1,0 +1,767 @@
+This file is a merged representation of the entire codebase, combined into a single document by Repomix.
+
+================================================================
+File Summary
+================================================================
+
+Purpose:
+--------
+This file contains a packed representation of the entire repository's contents.
+It is designed to be easily consumable by AI systems for analysis, code review,
+or other automated processes.
+
+File Format:
+------------
+The content is organized as follows:
+1. This summary section
+2. Repository information
+3. Directory structure
+4. Multiple file entries, each consisting of:
+  a. A separator line (================)
+  b. The file path (File: path/to/file)
+  c. Another separator line
+  d. The full contents of the file
+  e. A blank line
+
+Usage Guidelines:
+-----------------
+- This file should be treated as read-only. Any changes should be made to the
+  original repository files, not this packed version.
+- When processing this file, use the file path to distinguish
+  between different files in the repository.
+- Be aware that this file may contain sensitive information. Handle it with
+  the same level of security as you would the original repository.
+
+Notes:
+------
+- Some files may have been excluded based on .gitignore rules and Repomix's configuration
+- Binary files are not included in this packed representation. Please refer to the Repository Structure section for a complete list of file paths, including binary files
+- Files matching patterns in .gitignore are excluded
+- Files matching default ignore patterns are excluded
+
+Additional Info:
+----------------
+
+================================================================
+Directory Structure
+================================================================
+.gitignore
+eslint.config.mjs
+next.config.ts
+package.json
+postcss.config.mjs
+public/file.svg
+public/globe.svg
+public/next.svg
+public/vercel.svg
+public/window.svg
+README.md
+src/app/globals.css
+src/app/layout.tsx
+src/app/meedo-memory/page.tsx
+src/app/page.tsx
+src/app/spelling-mee/page.tsx
+src/components/BeedoSpellingMee.tsx
+src/components/LandingPage.tsx
+src/components/PhotoGallery.tsx
+tailwind.config.ts
+tsconfig.json
+
+================================================================
+Files
+================================================================
+
+================
+File: .gitignore
+================
+# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
+
+# dependencies
+/node_modules
+/.pnp
+.pnp.*
+.yarn/*
+!.yarn/patches
+!.yarn/plugins
+!.yarn/releases
+!.yarn/versions
+
+# testing
+/coverage
+
+# next.js
+/.next/
+/out/
+
+# production
+/build
+
+# misc
+.DS_Store
+*.pem
+
+# debug
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnpm-debug.log*
+
+# env files (can opt-in for committing if needed)
+.env*
+
+# vercel
+.vercel
+
+# typescript
+*.tsbuildinfo
+next-env.d.ts
+
+================
+File: eslint.config.mjs
+================
+import { dirname } from "path";
+import { fileURLToPath } from "url";
+import { FlatCompat } from "@eslint/eslintrc";
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
+
+const compat = new FlatCompat({
+  baseDirectory: __dirname,
+});
+
+const eslintConfig = [
+  ...compat.extends("next/core-web-vitals", "next/typescript"),
+];
+
+export default eslintConfig;
+
+================
+File: next.config.ts
+================
+import type { NextConfig } from "next";
+
+const nextConfig: NextConfig = {
+  /* config options here */
+};
+
+export default nextConfig;
+
+================
+File: package.json
+================
+{
+  "name": "meedo-beedo-world",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev --turbopack",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint"
+  },
+  "dependencies": {
+    "@heroicons/react": "^2.2.0",
+    "framer-motion": "^12.0.1",
+    "lucide-react": "^0.473.0",
+    "next": "15.1.6",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0"
+  },
+  "devDependencies": {
+    "@eslint/eslintrc": "^3",
+    "@types/node": "^20",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+    "eslint": "^9",
+    "eslint-config-next": "15.1.6",
+    "postcss": "^8",
+    "tailwindcss": "^3.4.17",
+    "typescript": "^5"
+  }
+}
+
+================
+File: postcss.config.mjs
+================
+/** @type {import('postcss-load-config').Config} */
+const config = {
+  plugins: {
+    tailwindcss: {},
+  },
+};
+
+export default config;
+
+================
+File: public/file.svg
+================
+<svg fill="none" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg"><path d="M14.5 13.5V5.41a1 1 0 0 0-.3-.7L9.8.29A1 1 0 0 0 9.08 0H1.5v13.5A2.5 2.5 0 0 0 4 16h8a2.5 2.5 0 0 0 2.5-2.5m-1.5 0v-7H8v-5H3v12a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1M9.5 5V2.12L12.38 5zM5.13 5h-.62v1.25h2.12V5zm-.62 3h7.12v1.25H4.5zm.62 3h-.62v1.25h7.12V11z" clip-rule="evenodd" fill="#666" fill-rule="evenodd"/></svg>
+
+================
+File: public/globe.svg
+================
+<svg fill="none" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><g clip-path="url(#a)"><path fill-rule="evenodd" clip-rule="evenodd" d="M10.27 14.1a6.5 6.5 0 0 0 3.67-3.45q-1.24.21-2.7.34-.31 1.83-.97 3.1M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16m.48-1.52a7 7 0 0 1-.96 0H7.5a4 4 0 0 1-.84-1.32q-.38-.89-.63-2.08a40 40 0 0 0 3.92 0q-.25 1.2-.63 2.08a4 4 0 0 1-.84 1.31zm2.94-4.76q1.66-.15 2.95-.43a7 7 0 0 0 0-2.58q-1.3-.27-2.95-.43a18 18 0 0 1 0 3.44m-1.27-3.54a17 17 0 0 1 0 3.64 39 39 0 0 1-4.3 0 17 17 0 0 1 0-3.64 39 39 0 0 1 4.3 0m1.1-1.17q1.45.13 2.69.34a6.5 6.5 0 0 0-3.67-3.44q.65 1.26.98 3.1M8.48 1.5l.01.02q.41.37.84 1.31.38.89.63 2.08a40 40 0 0 0-3.92 0q.25-1.2.63-2.08a4 4 0 0 1 .85-1.32 7 7 0 0 1 .96 0m-2.75.4a6.5 6.5 0 0 0-3.67 3.44 29 29 0 0 1 2.7-.34q.31-1.83.97-3.1M4.58 6.28q-1.66.16-2.95.43a7 7 0 0 0 0 2.58q1.3.27 2.95.43a18 18 0 0 1 0-3.44m.17 4.71q-1.45-.12-2.69-.34a6.5 6.5 0 0 0 3.67 3.44q-.65-1.27-.98-3.1" fill="#666"/></g><defs><clipPath id="a"><path fill="#fff" d="M0 0h16v16H0z"/></clipPath></defs></svg>
+
+================
+File: public/next.svg
+================
+<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 394 80"><path fill="#000" d="M262 0h68.5v12.7h-27.2v66.6h-13.6V12.7H262V0ZM149 0v12.7H94v20.4h44.3v12.6H94v21h55v12.6H80.5V0h68.7zm34.3 0h-17.8l63.8 79.4h17.9l-32-39.7 32-39.6h-17.9l-23 28.6-23-28.6zm18.3 56.7-9-11-27.1 33.7h17.8l18.3-22.7z"/><path fill="#000" d="M81 79.3 17 0H0v79.3h13.6V17l50.2 62.3H81Zm252.6-.4c-1 0-1.8-.4-2.5-1s-1.1-1.6-1.1-2.6.3-1.8 1-2.5 1.6-1 2.6-1 1.8.3 2.5 1a3.4 3.4 0 0 1 .6 4.3 3.7 3.7 0 0 1-3 1.8zm23.2-33.5h6v23.3c0 2.1-.4 4-1.3 5.5a9.1 9.1 0 0 1-3.8 3.5c-1.6.8-3.5 1.3-5.7 1.3-2 0-3.7-.4-5.3-1s-2.8-1.8-3.7-3.2c-.9-1.3-1.4-3-1.4-5h6c.1.8.3 1.6.7 2.2s1 1.2 1.6 1.5c.7.4 1.5.5 2.4.5 1 0 1.8-.2 2.4-.6a4 4 0 0 0 1.6-1.8c.3-.8.5-1.8.5-3V45.5zm30.9 9.1a4.4 4.4 0 0 0-2-3.3 7.5 7.5 0 0 0-4.3-1.1c-1.3 0-2.4.2-3.3.5-.9.4-1.6 1-2 1.6a3.5 3.5 0 0 0-.3 4c.3.5.7.9 1.3 1.2l1.8 1 2 .5 3.2.8c1.3.3 2.5.7 3.7 1.2a13 13 0 0 1 3.2 1.8 8.1 8.1 0 0 1 3 6.5c0 2-.5 3.7-1.5 5.1a10 10 0 0 1-4.4 3.5c-1.8.8-4.1 1.2-6.8 1.2-2.6 0-4.9-.4-6.8-1.2-2-.8-3.4-2-4.5-3.5a10 10 0 0 1-1.7-5.6h6a5 5 0 0 0 3.5 4.6c1 .4 2.2.6 3.4.6 1.3 0 2.5-.2 3.5-.6 1-.4 1.8-1 2.4-1.7a4 4 0 0 0 .8-2.4c0-.9-.2-1.6-.7-2.2a11 11 0 0 0-2.1-1.4l-3.2-1-3.8-1c-2.8-.7-5-1.7-6.6-3.2a7.2 7.2 0 0 1-2.4-5.7 8 8 0 0 1 1.7-5 10 10 0 0 1 4.3-3.5c2-.8 4-1.2 6.4-1.2 2.3 0 4.4.4 6.2 1.2 1.8.8 3.2 2 4.3 3.4 1 1.4 1.5 3 1.5 5h-5.8z"/></svg>
+
+================
+File: public/vercel.svg
+================
+<svg fill="none" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1155 1000"><path d="m577.3 0 577.4 1000H0z" fill="#fff"/></svg>
+
+================
+File: public/window.svg
+================
+<svg fill="none" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path fill-rule="evenodd" clip-rule="evenodd" d="M1.5 2.5h13v10a1 1 0 0 1-1 1h-11a1 1 0 0 1-1-1zM0 1h16v11.5a2.5 2.5 0 0 1-2.5 2.5h-11A2.5 2.5 0 0 1 0 12.5zm3.75 4.5a.75.75 0 1 0 0-1.5.75.75 0 0 0 0 1.5M7 4.75a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0m1.75.75a.75.75 0 1 0 0-1.5.75.75 0 0 0 0 1.5" fill="#666"/></svg>
+
+================
+File: README.md
+================
+This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+
+## Getting Started
+
+First, run the development server:
+
+```bash
+npm run dev
+# or
+yarn dev
+# or
+pnpm dev
+# or
+bun dev
+```
+
+Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+
+You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+
+This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+
+## Learn More
+
+To learn more about Next.js, take a look at the following resources:
+
+- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
+- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+
+You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+
+## Deploy on Vercel
+
+The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+
+Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+
+================
+File: src/app/globals.css
+================
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --background: #ffffff;
+  --foreground: #000000;
+}
+
+body {
+  color: var(--foreground);
+  background: var(--background);
+}
+
+@font-face {
+  font-family: 'Carrots';
+  src: url('/fonts/CARROTS FREE.OTF') format('opentype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'CheekyRabbit';
+  src: url('/fonts/CHEEKY RABBIT.TTF') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+================
+File: src/app/layout.tsx
+================
+import type { Metadata } from "next";
+import { Geist, Geist_Mono } from "next/font/google";
+import "./globals.css";
+
+const geistSans = Geist({
+  variable: "--font-geist-sans",
+  subsets: ["latin"],
+});
+
+const geistMono = Geist_Mono({
+  variable: "--font-geist-mono",
+  subsets: ["latin"],
+});
+
+export const metadata: Metadata = {
+  title: "Meedo & Beedo World",
+  description: "Where love and mischief come together",
+};
+
+
+export default function RootLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
+  return (
+    <html lang="en">
+      <body className="bg-white">
+        {children}
+      </body>
+    </html>
+  );
+}
+
+================
+File: src/app/meedo-memory/page.tsx
+================
+'use client';
+
+import PhotoGallery from '../../components/PhotoGallery';
+
+export default function MemoryPage() {
+  return (
+    <main>
+      <PhotoGallery />
+    </main>
+  );
+}
+
+================
+File: src/app/page.tsx
+================
+import LandingPage from '../components/LandingPage';
+
+export default function Home() {
+  return <LandingPage />;
+}
+
+================
+File: src/app/spelling-mee/page.tsx
+================
+'use client';
+
+import BeedoSpellingMee from '../../components/BeedoSpellingMee';
+
+export default function SpellingMeePage() {
+  return <BeedoSpellingMee />;
+}
+
+================
+File: src/components/BeedoSpellingMee.tsx
+================
+import React, { useState, useEffect } from 'react';
+import { motion } from 'framer-motion';
+
+interface Word {
+  original: string;
+  mLanguage: string;
+  difficulty: 'easy' | 'medium' | 'hard' | 'panic';
+  hints?: string[];
+}
+
+const wordList: Word[] = [
+  // Easy Words
+  { original: 'cat', mLanguage: 'meedo', difficulty: 'easy' },
+  { original: 'sup', mLanguage: 'sum', difficulty: 'easy' },
+  { original: 'hi', mLanguage: 'mi', difficulty: 'easy' },
+  { original: 'bye', mLanguage: 'meece', difficulty: 'easy' },
+  
+  // Medium Words
+  { original: 'sleep', mLanguage: 'eep', difficulty: 'medium' },
+  { original: 'sandwich', mLanguage: 'sammy', difficulty: 'medium' },
+  { original: 'sorry', mLanguage: 'morry', difficulty: 'medium' },
+  { original: 'know', mLanguage: 'mo', difficulty: 'medium' },
+  { original: 'please', mLanguage: 'mlease', difficulty: 'medium' },
+  
+  // Hard Words
+  { original: 'dictionary', mLanguage: 'dicshimary', difficulty: 'hard',
+    hints: ['dicsh...', 'dicshim...'] },
+  { original: 'valentine', mLanguage: 'malentimes', difficulty: 'hard',
+    hints: ['mal...', 'malen...'] },
+  { original: 'computer', mLanguage: 'meemuter', difficulty: 'hard',
+    hints: ['mee...', 'meemu...'] },
+  { original: 'beautiful', mLanguage: 'meautiful', difficulty: 'hard',
+    hints: ['meau...', 'meaut...'] },
+  { original: 'picture', mLanguage: 'micture', difficulty: 'hard',
+    hints: ['mic...', 'mict...'] },
+  
+  // Panic Words
+  { original: 'professional', mLanguage: 'mofeshmal', difficulty: 'panic',
+    hints: ['mof...', 'mofesh...', 'mofeshm...'] },
+  { original: 'sophisticated', mLanguage: 'mofimated', difficulty: 'panic',
+    hints: ['mof...', 'mofi...', 'mofim...'] },
+  { original: 'technology', mLanguage: 'meemology', difficulty: 'panic',
+    hints: ['meem...', 'meemo...', 'meemol...'] },
+  { original: 'wonderful', mLanguage: 'mumderful', difficulty: 'panic',
+    hints: ['mum...', 'mumd...', 'mumder...'] },
+  { original: 'experience', mLanguage: 'memerience', difficulty: 'panic',
+    hints: ['mem...', 'meme...', 'memer...'] }
+];
+
+const BeedoSpellingMee: React.FC = () => {
+  const [currentWord, setCurrentWord] = useState<Word>(wordList[0]);
+  const [userAnswer, setUserAnswer] = useState('');
+  const [isTyping, setIsTyping] = useState(false);
+  const [progress, setProgress] = useState(0);
+  const [currentAttempt, setCurrentAttempt] = useState(0);
+  const [hintIndex, setHintIndex] = useState(-1);
+
+  const getBeedoExpression = (difficulty: string, progress: number): string => {
+    if (difficulty === 'easy') return '😊';
+    if (difficulty === 'medium') return progress < 0.5 ? '😊' : '😅';
+    if (difficulty === 'hard') return progress < 0.5 ? '😅' : '😰';
+    return progress < 0.5 ? '😰' : '😱';
+  };
+
+  const getBeedoThought = (difficulty: string, progress: number): string => {
+    if (difficulty === 'easy') return 'This is easy! I got this!';
+    if (difficulty === 'medium') return progress < 0.5 ? 'Hmm... let me think...' : 'Oh! I think I know this!';
+    if (difficulty === 'hard') return progress < 0.5 ? 'This is getting tricky...' : 'Oh no, is this right?';
+    return progress < 0.5 ? 'Help! This is too hard!' : 'I\'m really not sure about this one...';
+  };
+
+  useEffect(() => {
+    const targetLength = currentWord.mLanguage.length;
+    const currentLength = userAnswer.length;
+    const newProgress = Math.min(currentLength / targetLength, 1);
+    setProgress(newProgress);
+
+    // Show hints for hard/panic words when user is struggling
+    if ((currentWord.difficulty === 'hard' || currentWord.difficulty === 'panic') && 
+        currentAttempt > 1 && currentWord.hints) {
+      const newHintIndex = Math.min(currentAttempt - 2, currentWord.hints.length - 1);
+      setHintIndex(newHintIndex);
+    }
+  }, [userAnswer, currentWord, currentAttempt]);
+
+  const handleTyping = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setUserAnswer(e.target.value);
+    setIsTyping(true);
+    
+    // Clear typing indicator after delay
+    setTimeout(() => setIsTyping(false), 150);
+  };
+
+  const handleSubmit = () => {
+    if (userAnswer.toLowerCase() === currentWord.mLanguage.toLowerCase()) {
+      // Correct answer! Move to next word
+      const currentIndex = wordList.findIndex(w => w === currentWord);
+      const nextWord = wordList[(currentIndex + 1) % wordList.length];
+      setCurrentWord(nextWord);
+      setUserAnswer('');
+      setCurrentAttempt(0);
+      setHintIndex(-1);
+    } else {
+      // Wrong answer - increment attempt counter
+      setCurrentAttempt(prev => prev + 1);
+    }
+  };
+
+  return (
+    <div className="max-w-3xl mx-auto p-6">
+      <div className="text-center mb-8">
+        <h1 className="font-carrots text-6xl">Spelling Mee</h1>
+        <p className="font-cheeky text-2xl mt-2">Help Beedo spell in M language!</p>
+      </div>
+
+      <div className="relative bg-white rounded-3xl border-4 border-black p-8 mb-8">
+        <div className="absolute top-0 left-0 w-full h-16 bg-red-600 rounded-t-2xl"></div>
+        <div className="absolute top-16 left-4 w-4 h-64 bg-red-600"></div>
+        <div className="absolute top-16 right-4 w-4 h-64 bg-red-600"></div>
+
+        <div className="pt-20 text-center">
+          <motion.div
+            animate={{
+              scale: isTyping ? 1.05 : 1,
+            }}
+            className="w-48 h-48 mx-auto mb-4 relative"
+          >
+            <div className="font-carrots text-6xl">
+              {getBeedoExpression(currentWord.difficulty, progress)}
+            </div>
+          </motion.div>
+
+          <div className="mb-6">
+            <p className="font-carrots text-3xl">Spell this word in M language:</p>
+            <p className="font-cheeky text-4xl mt-2">{currentWord.original}</p>
+            {hintIndex >= 0 && currentWord.hints && (
+              <p className="font-cheeky text-xl mt-2 text-gray-500">
+                Hint: {currentWord.hints[hintIndex]}
+              </p>
+            )}
+          </div>
+
+          <div className="relative">
+            <input
+              type="text"
+              value={userAnswer}
+              onChange={handleTyping}
+              onKeyDown={(e) => e.key === 'Enter' && handleSubmit()}
+              className="w-full p-4 border-4 border-black rounded-xl font-cheeky text-2xl text-center"
+              placeholder="Type your answer..."
+            />
+            <div className="w-full h-2 bg-gray-200 rounded-full mt-2">
+              <motion.div
+                className="h-full bg-purple-500 rounded-full"
+                animate={{ width: `${progress * 100}%` }}
+                transition={{ type: "spring", stiffness: 300, damping: 30 }}
+              />
+            </div>
+            <p className="font-cheeky text-lg mt-4 text-gray-600 italic">
+              {getBeedoThought(currentWord.difficulty, progress)}
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default BeedoSpellingMee;
+
+================
+File: src/components/LandingPage.tsx
+================
+'use client';
+
+import React from 'react';
+import { motion } from 'framer-motion';
+import { Heart, Sparkles, Star } from 'lucide-react';
+import { useRouter } from 'next/navigation';
+
+const LandingPage = () => {
+  const router = useRouter();
+
+  const activities = [
+    { name: 'Dress Up Time!', route: '/dress-up' },
+    { name: 'Spelling Mee', route: '/spelling-mee' },
+    { name: 'Meedo Memory', route: '/meedo-memory' }, 
+  ];
+    return (
+    <div className="min-h-screen bg-white">
+      {/* Them decorative patterns */}
+      <div className="absolute inset-0 overflow-hidden">
+        <div className="grid grid-cols-6 gap-8 opacity-5">
+          {Array.from({ length: 24 }).map((_, i) => (
+            <div key={i} className="w-full">
+              <Star className="w-full h-full" />
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <div className="container mx-auto px-4 py-8 relative">
+        {/* Main title with that Carrots font drip */}
+        <div className="text-center mb-16">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8 }}
+            className="relative"
+          >
+            <h1 className="font-carrots text-7xl text-black mb-4 relative z-10">
+              Meedo & Beedo World
+            </h1>
+            <Sparkles className="absolute top-0 right-1/4 text-yellow-400 w-8 h-8" />
+            <p className="font-cheeky text-3xl text-gray-600 mb-8">
+              Where love and mischief come together 💕
+            </p>
+          </motion.div>
+        </div>
+
+        {/* Character Cards with that font mix */}
+        <div className="font-carrots grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+          {/* Meedo Card */}
+            <motion.div
+              initial={{ opacity: 0, x: -50 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.8, delay: 0.2 }}
+              className="bg-white rounded-3xl border-4 border-black p-6 transform hover:scale-105 transition-transform duration-300"
+            >
+              <div className="h-64 bg-gray-50 rounded-2xl mb-4 flex items-center justify-center border-2 border-black">
+                <img src="/meedo.png" alt="Meedo" className="h-full w-full object-contain" />
+              </div>
+              <h2 className="text-2xl font-bold text-black mb-2">Meedo</h2>
+              <p className="text-gray-600">The loving, playful creator of all things mice!</p>
+            </motion.div>
+            {/* Beedo Card */}
+            <motion.div
+              initial={{ opacity: 0, x: 50 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.8, delay: 0.4 }}
+              className="bg-white rounded-3xl border-4 border-black p-6 transform hover:scale-105 transition-transform duration-300"
+            >
+              <div className="h-64 bg-gray-50 rounded-2xl mb-4 flex items-center justify-center border-2 border-black">
+                <img src="/beedo.png" alt="Beedo" className="h-full w-full object-contain" />
+              </div>
+              <h2 className="text-2xl font-bold text-black mb-2">Beedo</h2>
+              <p className="text-gray-600">The mischievous Baby Meedo, full of curiosity!</p>
+            </motion.div>
+        </div>
+
+        {/* Activity Buttons with that Cheeky font energy */}
+        <div className="grid md:grid-cols-3 gap-6 max-w-4xl mx-auto mt-16">
+          {activities.map((activity, index) => (
+            <motion.button
+              key={activity.name}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.6 + index * 0.1 }}
+              onClick={() => router.push(activity.route)}
+              className="font-cheeky text-2xl bg-white border-4 border-black rounded-2xl p-4 hover:bg-gray-50 transition-colors duration-300"
+            >
+              {activity.name}
+            </motion.button>
+          ))}
+        </div>
+
+        {/* Footer Love Note */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.8, delay: 0.8 }}
+          className="text-center mt-16 border-4 border-black rounded-3xl p-8 max-w-2xl mx-auto"
+        >
+          <Heart className="inline-block text-black w-12 h-12 mb-4" />
+          <p className="font-carrots text-2xl text-black">
+            Three years of love, laughter, and creating our own special world together...
+            To many more years!
+          </p>
+        </motion.div>
+      </div>
+    </div>
+  );
+};
+
+export default LandingPage;
+
+================
+File: src/components/PhotoGallery.tsx
+================
+import React from 'react';
+import { motion } from 'framer-motion';
+
+const PhotoGallery: React.FC = () => {
+  // This array would contain your actual photos
+  const photos = [
+    { id: 1 },
+    { id: 2 },
+    { id: 3 },
+    { id: 4 },
+    { id: 5 },
+    { id: 6 },
+    { id: 7 },
+    { id: 8 },
+    { id: 9 },
+    { id: 10 },
+    { id: 11 },
+    { id: 12 }
+  ];
+
+  return (
+    <div className="min-h-screen p-8">
+      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-4">
+        {photos.map((photo, index) => (
+          <motion.div
+            key={photo.id}
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.3, delay: index * 0.05 }}
+            className="aspect-square relative group"
+          >
+            <div className="w-full h-full rounded-lg overflow-hidden">
+              <img
+                src={`/api/placeholder/300/300`}
+                alt=""
+                className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110"
+              />
+              <div className="absolute inset-0 bg-black opacity-0 group-hover:opacity-10 transition-opacity duration-300" />
+            </div>
+          </motion.div>
+        ))}
+      </div>
+    </div>
+  );
+};
+
+export default PhotoGallery;
+
+================
+File: tailwind.config.ts
+================
+import type { Config } from "tailwindcss";
+
+const config: Config = {
+  content: [
+    "./src/pages/**/*.{js,ts,jsx,tsx,mdx}",
+    "./src/components/**/*.{js,ts,jsx,tsx,mdx}",
+    "./src/app/**/*.{js,ts,jsx,tsx,mdx}",
+  ],
+  theme: {
+    extend: {
+      colors: {
+        background: "var(--background)",
+        foreground: "var(--foreground)",
+      },
+      fontFamily: {
+        carrots: ['Carrots', 'sans-serif'],
+        cheeky: ['CheekyRabbit', 'sans-serif'],
+      }
+    },
+  },
+  plugins: [],
+};
+
+export default config;
+
+================
+File: tsconfig.json
+================
+{
+  "compilerOptions": {
+    "target": "ES2017",
+    "lib": ["dom", "dom.iterable", "esnext"],
+    "allowJs": true,
+    "skipLibCheck": true,
+    "strict": true,
+    "noEmit": true,
+    "esModuleInterop": true,
+    "module": "esnext",
+    "moduleResolution": "bundler",
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "jsx": "preserve",
+    "incremental": true,
+    "plugins": [
+      {
+        "name": "next"
+      }
+    ],
+    "paths": {
+      "@/*": ["./*"]
+    }
+  },
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
+  "exclude": ["node_modules"]
+}
+
+
+
+================================================================
+End of Codebase
+================================================================

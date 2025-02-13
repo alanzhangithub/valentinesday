@@ -1,0 +1,27 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --background: #ffffff;
+  --foreground: #000000;
+}
+
+body {
+  color: var(--foreground);
+  background: var(--background);
+}
+
+@font-face {
+  font-family: 'Carrots';
+  src: url('/fonts/CARROTS FREE.OTF') format('opentype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'CheekyRabbit';
+  src: url('/fonts/CHEEKY RABBIT.TTF') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
