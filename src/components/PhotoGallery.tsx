@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import Image from 'next/image';
 import { motion } from 'framer-motion';
 
 const PhotoGallery: React.FC = () => {
@@ -7,7 +8,6 @@ const PhotoGallery: React.FC = () => {
   useEffect(() => {
     const fetchPhotos = async () => {
       try {
-        // Get the list of files from the memories directory
         const response = await fetch('/api/get-photos');
         const data = await response.json();
         setPhotos(data.photos);
@@ -30,11 +30,12 @@ const PhotoGallery: React.FC = () => {
             transition={{ duration: 0.3, delay: index * 0.05 }}
             className="aspect-square relative group"
           >
-            <div className="w-full h-full rounded-lg overflow-hidden">
-              <img
+            <div className="w-full h-full rounded-lg overflow-hidden relative">
+              <Image
                 src={`/memories/${photo}`}
                 alt=""
-                className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110"
+                fill
+                className="object-cover transition-transform duration-300 group-hover:scale-110"
               />
               <div className="absolute inset-0 bg-black opacity-0 group-hover:opacity-10 transition-opacity duration-300" />
             </div>
