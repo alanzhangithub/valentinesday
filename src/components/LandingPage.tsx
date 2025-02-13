@@ -1,13 +1,16 @@
-'use client'
+'use client';
 
 import React from 'react';
 import Image from 'next/image';
 import { motion } from 'framer-motion';
-import { Heart, Sparkles, Star } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 
 const LandingPage = () => {
   const router = useRouter();
+
+  const handleActivityClick = (route: string) => {
+    router.push(route);
+  };
 
   const activities = [
     { name: 'Spelling Mee', route: '/spelling-mee' },
@@ -16,7 +19,6 @@ const LandingPage = () => {
 
   return (
     <div className="min-h-screen bg-white">
-      {/* Rest of the component stays the same until the image parts */}
       <div className="font-carrots grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
         <motion.div
           initial={{ opacity: 0, x: -50 }}
@@ -54,7 +56,20 @@ const LandingPage = () => {
           <p className="text-gray-600">The mischievous Baby Meedo, full of curiosity!</p>
         </motion.div>
       </div>
-      {/* Rest of the component stays the same */}
+
+      <div className="mt-12 flex justify-center gap-6">
+        {activities.map((activity) => (
+          <motion.button
+            key={activity.route}
+            onClick={() => handleActivityClick(activity.route)}
+            className="bg-white rounded-xl border-4 border-black px-6 py-3 font-carrots text-xl hover:scale-105 transition-transform duration-300"
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+          >
+            {activity.name}
+          </motion.button>
+        ))}
+      </div>
     </div>
   );
 };

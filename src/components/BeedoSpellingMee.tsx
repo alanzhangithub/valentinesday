@@ -1,5 +1,6 @@
-import React, { useState, useEffect } from 'react';
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
+'use client';
+
+import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 
 interface Word {
@@ -65,7 +66,6 @@ const BeedoSpellingMee: React.FC = () => {
     const target = currentWord.mLanguage;
     let nervousLevel = 0;
     
-    // Check each character against the target word
     for (let i = 0; i < input.length; i++) {
       if (i >= target.length || input[i] !== target[i]) {
         nervousLevel++;
@@ -82,18 +82,15 @@ const BeedoSpellingMee: React.FC = () => {
     setIsTyping(true);
     checkSpelling(newAnswer);
     
-    // Show hints after first mistake
     if (nervousness > 0 && currentWord.hints && !showHint) {
       setShowHint(true);
     }
     
-    // Clear typing indicator after delay
     setTimeout(() => setIsTyping(false), 150);
   };
 
   const handleSubmit = () => {
     if (userAnswer.toLowerCase() === currentWord.mLanguage.toLowerCase()) {
-      // Correct answer! Move to next random word
       const availableWords = wordList.filter(w => w !== currentWord);
       const nextWord = availableWords[Math.floor(Math.random() * availableWords.length)];
       setCurrentWord(nextWord);
@@ -102,7 +99,6 @@ const BeedoSpellingMee: React.FC = () => {
       setShowHint(false);
       setCurrentHintIndex(0);
     } else {
-      // Wrong answer - show next hint if available
       if (currentWord.hints && currentHintIndex < currentWord.hints.length - 1) {
         setCurrentHintIndex(prev => prev + 1);
       }
