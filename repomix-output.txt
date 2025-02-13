@@ -47,6 +47,7 @@ Directory Structure
 ================================================================
 .gitignore
 eslint.config.mjs
+next.config.mjs
 next.config.ts
 package.json
 postcss.config.mjs
@@ -56,6 +57,7 @@ public/next.svg
 public/vercel.svg
 public/window.svg
 README.md
+src/app/api/get-photos/route.ts
 src/app/globals.css
 src/app/layout.tsx
 src/app/meedo-memory/page.tsx
@@ -135,6 +137,23 @@ const eslintConfig = [
 ];
 
 export default eslintConfig;
+
+================
+File: next.config.mjs
+================
+/** @type {import('next').NextConfig} */
+const nextConfig = {
+    images: {
+      remotePatterns: [
+        {
+          protocol: 'https',
+          hostname: '**',
+        },
+      ],
+    },
+  };
+  
+  export default nextConfig;
 
 ================
 File: next.config.ts
@@ -259,6 +278,31 @@ The easiest way to deploy your Next.js app is to use the [Vercel Platform](https
 Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
 
 ================
+File: src/app/api/get-photos/route.ts
+================
+import { NextResponse } from 'next/server';
+import fs from 'fs';
+import path from 'path';
+
+export async function GET() {
+  try {
+    const memoriesDir = path.join(process.cwd(), 'public', 'memories');
+    const files = fs.readdirSync(memoriesDir);
+    
+    // Filter for image files only
+    const photos = files.filter(file => {
+      const ext = path.extname(file).toLowerCase();
+      return ['.jpg', '.jpeg', '.png'].includes(ext);
+    });
+
+    return NextResponse.json({ photos });
+  } catch (error) {
+    console.error('Error reading photos directory:', error);
+    return NextResponse.json({ error: 'Failed to fetch photos' }, { status: 500 });
+  }
+}
+
+================
 File: src/app/globals.css
 ================
 @tailwind base;
@@ -293,16 +337,10 @@ body {
 File: src/app/layout.tsx
 ================
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Geist } from "next/font/google";
 import "./globals.css";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
+const geist = Geist({
   subsets: ["latin"],
 });
 
@@ -311,14 +349,13 @@ export const metadata: Metadata = {
   description: "Where love and mischief come together",
 };
 
-
 export default function RootLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
+    <html lang="en" className={geist.className}>
       <body className="bg-white">
         {children}
       </body>
@@ -393,65 +430,64 @@ const wordList: Word[] = [
     hints: ['dicsh...', 'dicshim...'] },
   { original: 'valentine', mLanguage: 'malentimes', difficulty: 'hard',
     hints: ['mal...', 'malen...'] },
-  { original: 'computer', mLanguage: 'meemuter', difficulty: 'hard',
-    hints: ['mee...', 'meemu...'] },
+  { original: 'computer / PC', mLanguage: 'meecee', difficulty: 'hard',
+    hints: ['mee...', 'meec...'] },
   { original: 'beautiful', mLanguage: 'meautiful', difficulty: 'hard',
     hints: ['meau...', 'meaut...'] },
   { original: 'picture', mLanguage: 'micture', difficulty: 'hard',
-    hints: ['mic...', 'mict...'] },
-  
-  // Panic Words
-  { original: 'professional', mLanguage: 'mofeshmal', difficulty: 'panic',
-    hints: ['mof...', 'mofesh...', 'mofeshm...'] },
-  { original: 'sophisticated', mLanguage: 'mofimated', difficulty: 'panic',
-    hints: ['mof...', 'mofi...', 'mofim...'] },
-  { original: 'technology', mLanguage: 'meemology', difficulty: 'panic',
-    hints: ['meem...', 'meemo...', 'meemol...'] },
-  { original: 'wonderful', mLanguage: 'mumderful', difficulty: 'panic',
-    hints: ['mum...', 'mumd...', 'mumder...'] },
-  { original: 'experience', mLanguage: 'memerience', difficulty: 'panic',
-    hints: ['mem...', 'meme...', 'memer...'] }
+    hints: ['mic...', 'mict...'] }
 ];
 
 const BeedoSpellingMee: React.FC = () => {
-  const [currentWord, setCurrentWord] = useState<Word>(wordList[0]);
+  const [currentWord, setCurrentWord] = useState<Word>(() => {
+    const randomIndex = Math.floor(Math.random() * wordList.length);
+    return wordList[randomIndex];
+  });
   const [userAnswer, setUserAnswer] = useState('');
+  const [nervousness, setNervousness] = useState(0);
   const [isTyping, setIsTyping] = useState(false);
-  const [progress, setProgress] = useState(0);
-  const [currentAttempt, setCurrentAttempt] = useState(0);
-  const [hintIndex, setHintIndex] = useState(-1);
+  const [showHint, setShowHint] = useState(false);
+  const [currentHintIndex, setCurrentHintIndex] = useState(0);
 
-  const getBeedoExpression = (difficulty: string, progress: number): string => {
-    if (difficulty === 'easy') return '😊';
-    if (difficulty === 'medium') return progress < 0.5 ? '😊' : '😅';
-    if (difficulty === 'hard') return progress < 0.5 ? '😅' : '😰';
-    return progress < 0.5 ? '😰' : '😱';
+  const getBeedoExpression = (nervousness: number): string => {
+    if (nervousness === 0) return '😊';
+    if (nervousness === 1) return '😅';
+    if (nervousness === 2) return '😰';
+    return '😱';
   };
 
-  const getBeedoThought = (difficulty: string, progress: number): string => {
-    if (difficulty === 'easy') return 'This is easy! I got this!';
-    if (difficulty === 'medium') return progress < 0.5 ? 'Hmm... let me think...' : 'Oh! I think I know this!';
-    if (difficulty === 'hard') return progress < 0.5 ? 'This is getting tricky...' : 'Oh no, is this right?';
-    return progress < 0.5 ? 'Help! This is too hard!' : 'I\'m really not sure about this one...';
+  const getBeedoThought = (nervousness: number): string => {
+    if (nervousness === 0) return 'I think I got this!';
+    if (nervousness === 1) return 'Oh... something feels off...';
+    if (nervousness === 2) return 'This is getting scary...';
+    return 'Help! I\'m totally lost!';
   };
 
-  useEffect(() => {
-    const targetLength = currentWord.mLanguage.length;
-    const currentLength = userAnswer.length;
-    const newProgress = Math.min(currentLength / targetLength, 1);
-    setProgress(newProgress);
-
-    // Show hints for hard/panic words when user is struggling
-    if ((currentWord.difficulty === 'hard' || currentWord.difficulty === 'panic') && 
-        currentAttempt > 1 && currentWord.hints) {
-      const newHintIndex = Math.min(currentAttempt - 2, currentWord.hints.length - 1);
-      setHintIndex(newHintIndex);
+  const checkSpelling = (input: string) => {
+    const target = currentWord.mLanguage;
+    let nervousLevel = 0;
+    
+    // Check each character against the target word
+    for (let i = 0; i < input.length; i++) {
+      if (i >= target.length || input[i] !== target[i]) {
+        nervousLevel++;
+        if (nervousLevel > 3) nervousLevel = 3;
+      }
     }
-  }, [userAnswer, currentWord, currentAttempt]);
+    
+    setNervousness(nervousLevel);
+  };
 
   const handleTyping = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setUserAnswer(e.target.value);
+    const newAnswer = e.target.value.toLowerCase();
+    setUserAnswer(newAnswer);
     setIsTyping(true);
+    checkSpelling(newAnswer);
+    
+    // Show hints after first mistake
+    if (nervousness > 0 && currentWord.hints && !showHint) {
+      setShowHint(true);
+    }
     
     // Clear typing indicator after delay
     setTimeout(() => setIsTyping(false), 150);
@@ -459,16 +495,20 @@ const BeedoSpellingMee: React.FC = () => {
 
   const handleSubmit = () => {
     if (userAnswer.toLowerCase() === currentWord.mLanguage.toLowerCase()) {
-      // Correct answer! Move to next word
-      const currentIndex = wordList.findIndex(w => w === currentWord);
-      const nextWord = wordList[(currentIndex + 1) % wordList.length];
+      // Correct answer! Move to next random word
+      const availableWords = wordList.filter(w => w !== currentWord);
+      const nextWord = availableWords[Math.floor(Math.random() * availableWords.length)];
       setCurrentWord(nextWord);
       setUserAnswer('');
-      setCurrentAttempt(0);
-      setHintIndex(-1);
+      setNervousness(0);
+      setShowHint(false);
+      setCurrentHintIndex(0);
     } else {
-      // Wrong answer - increment attempt counter
-      setCurrentAttempt(prev => prev + 1);
+      // Wrong answer - show next hint if available
+      if (currentWord.hints && currentHintIndex < currentWord.hints.length - 1) {
+        setCurrentHintIndex(prev => prev + 1);
+      }
+      setShowHint(true);
     }
   };
 
@@ -492,17 +532,19 @@ const BeedoSpellingMee: React.FC = () => {
             className="w-48 h-48 mx-auto mb-4 relative"
           >
             <div className="font-carrots text-6xl">
-              {getBeedoExpression(currentWord.difficulty, progress)}
+              {getBeedoExpression(nervousness)}
             </div>
           </motion.div>
 
           <div className="mb-6">
             <p className="font-carrots text-3xl">Spell this word in M language:</p>
             <p className="font-cheeky text-4xl mt-2">{currentWord.original}</p>
-            {hintIndex >= 0 && currentWord.hints && (
-              <p className="font-cheeky text-xl mt-2 text-gray-500">
-                Hint: {currentWord.hints[hintIndex]}
-              </p>
+            {showHint && currentWord.hints && (
+              <div className="mt-4 p-4 bg-yellow-50 rounded-xl border-2 border-yellow-200">
+                <p className="font-cheeky text-2xl text-yellow-800">
+                  Hint: {currentWord.hints[currentHintIndex]}
+                </p>
+              </div>
             )}
           </div>
 
@@ -515,15 +557,8 @@ const BeedoSpellingMee: React.FC = () => {
               className="w-full p-4 border-4 border-black rounded-xl font-cheeky text-2xl text-center"
               placeholder="Type your answer..."
             />
-            <div className="w-full h-2 bg-gray-200 rounded-full mt-2">
-              <motion.div
-                className="h-full bg-purple-500 rounded-full"
-                animate={{ width: `${progress * 100}%` }}
-                transition={{ type: "spring", stiffness: 300, damping: 30 }}
-              />
-            </div>
             <p className="font-cheeky text-lg mt-4 text-gray-600 italic">
-              {getBeedoThought(currentWord.difficulty, progress)}
+              {getBeedoThought(nervousness)}
             </p>
           </div>
         </div>
@@ -537,9 +572,8 @@ export default BeedoSpellingMee;
 ================
 File: src/components/LandingPage.tsx
 ================
-'use client';
-
 import React from 'react';
+import Image from 'next/image';
 import { motion } from 'framer-motion';
 import { Heart, Sparkles, Star } from 'lucide-react';
 import { useRouter } from 'next/navigation';
@@ -548,102 +582,51 @@ const LandingPage = () => {
   const router = useRouter();
 
   const activities = [
-    { name: 'Dress Up Time!', route: '/dress-up' },
     { name: 'Spelling Mee', route: '/spelling-mee' },
-    { name: 'Meedo Memory', route: '/meedo-memory' }, 
+    { name: 'Meedo Memory', route: '/meedo-memory' }
   ];
-    return (
+
+  return (
     <div className="min-h-screen bg-white">
-      {/* Them decorative patterns */}
-      <div className="absolute inset-0 overflow-hidden">
-        <div className="grid grid-cols-6 gap-8 opacity-5">
-          {Array.from({ length: 24 }).map((_, i) => (
-            <div key={i} className="w-full">
-              <Star className="w-full h-full" />
-            </div>
-          ))}
-        </div>
-      </div>
-
-      <div className="container mx-auto px-4 py-8 relative">
-        {/* Main title with that Carrots font drip */}
-        <div className="text-center mb-16">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-            className="relative"
-          >
-            <h1 className="font-carrots text-7xl text-black mb-4 relative z-10">
-              Meedo & Beedo World
-            </h1>
-            <Sparkles className="absolute top-0 right-1/4 text-yellow-400 w-8 h-8" />
-            <p className="font-cheeky text-3xl text-gray-600 mb-8">
-              Where love and mischief come together 💕
-            </p>
-          </motion.div>
-        </div>
-
-        {/* Character Cards with that font mix */}
-        <div className="font-carrots grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
-          {/* Meedo Card */}
-            <motion.div
-              initial={{ opacity: 0, x: -50 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.8, delay: 0.2 }}
-              className="bg-white rounded-3xl border-4 border-black p-6 transform hover:scale-105 transition-transform duration-300"
-            >
-              <div className="h-64 bg-gray-50 rounded-2xl mb-4 flex items-center justify-center border-2 border-black">
-                <img src="/meedo.png" alt="Meedo" className="h-full w-full object-contain" />
-              </div>
-              <h2 className="text-2xl font-bold text-black mb-2">Meedo</h2>
-              <p className="text-gray-600">The loving, playful creator of all things mice!</p>
-            </motion.div>
-            {/* Beedo Card */}
-            <motion.div
-              initial={{ opacity: 0, x: 50 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.8, delay: 0.4 }}
-              className="bg-white rounded-3xl border-4 border-black p-6 transform hover:scale-105 transition-transform duration-300"
-            >
-              <div className="h-64 bg-gray-50 rounded-2xl mb-4 flex items-center justify-center border-2 border-black">
-                <img src="/beedo.png" alt="Beedo" className="h-full w-full object-contain" />
-              </div>
-              <h2 className="text-2xl font-bold text-black mb-2">Beedo</h2>
-              <p className="text-gray-600">The mischievous Baby Meedo, full of curiosity!</p>
-            </motion.div>
-        </div>
-
-        {/* Activity Buttons with that Cheeky font energy */}
-        <div className="grid md:grid-cols-3 gap-6 max-w-4xl mx-auto mt-16">
-          {activities.map((activity, index) => (
-            <motion.button
-              key={activity.name}
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.6 + index * 0.1 }}
-              onClick={() => router.push(activity.route)}
-              className="font-cheeky text-2xl bg-white border-4 border-black rounded-2xl p-4 hover:bg-gray-50 transition-colors duration-300"
-            >
-              {activity.name}
-            </motion.button>
-          ))}
-        </div>
-
-        {/* Footer Love Note */}
+      {/* Rest of the component stays the same until the image parts */}
+      <div className="font-carrots grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
         <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 0.8, delay: 0.8 }}
-          className="text-center mt-16 border-4 border-black rounded-3xl p-8 max-w-2xl mx-auto"
+          initial={{ opacity: 0, x: -50 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.8, delay: 0.2 }}
+          className="bg-white rounded-3xl border-4 border-black p-6 transform hover:scale-105 transition-transform duration-300"
         >
-          <Heart className="inline-block text-black w-12 h-12 mb-4" />
-          <p className="font-carrots text-2xl text-black">
-            Three years of love, laughter, and creating our own special world together...
-            To many more years!
-          </p>
+          <div className="h-64 bg-gray-50 rounded-2xl mb-4 flex items-center justify-center border-2 border-black relative">
+            <Image 
+              src="/meedo.png" 
+              alt="Meedo" 
+              fill
+              className="object-contain"
+            />
+          </div>
+          <h2 className="text-2xl font-bold text-black mb-2">Meedo</h2>
+          <p className="text-gray-600">The loving, playful creator of all things mice!</p>
+        </motion.div>
+        
+        <motion.div
+          initial={{ opacity: 0, x: 50 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.8, delay: 0.4 }}
+          className="bg-white rounded-3xl border-4 border-black p-6 transform hover:scale-105 transition-transform duration-300"
+        >
+          <div className="h-64 bg-gray-50 rounded-2xl mb-4 flex items-center justify-center border-2 border-black relative">
+            <Image 
+              src="/beedo.png" 
+              alt="Beedo" 
+              fill
+              className="object-contain"
+            />
+          </div>
+          <h2 className="text-2xl font-bold text-black mb-2">Beedo</h2>
+          <p className="text-gray-600">The mischievous Baby Meedo, full of curiosity!</p>
         </motion.div>
       </div>
+      {/* Rest of the component stays the same */}
     </div>
   );
 };
@@ -653,42 +636,44 @@ export default LandingPage;
 ================
 File: src/components/PhotoGallery.tsx
 ================
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import Image from 'next/image';
 import { motion } from 'framer-motion';
 
 const PhotoGallery: React.FC = () => {
-  // This array would contain your actual photos
-  const photos = [
-    { id: 1 },
-    { id: 2 },
-    { id: 3 },
-    { id: 4 },
-    { id: 5 },
-    { id: 6 },
-    { id: 7 },
-    { id: 8 },
-    { id: 9 },
-    { id: 10 },
-    { id: 11 },
-    { id: 12 }
-  ];
+  const [photos, setPhotos] = useState<string[]>([]);
+
+  useEffect(() => {
+    const fetchPhotos = async () => {
+      try {
+        const response = await fetch('/api/get-photos');
+        const data = await response.json();
+        setPhotos(data.photos);
+      } catch (error) {
+        console.error('Error fetching photos:', error);
+      }
+    };
+
+    fetchPhotos();
+  }, []);
 
   return (
     <div className="min-h-screen p-8">
       <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-4">
         {photos.map((photo, index) => (
           <motion.div
-            key={photo.id}
+            key={photo}
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.3, delay: index * 0.05 }}
             className="aspect-square relative group"
           >
-            <div className="w-full h-full rounded-lg overflow-hidden">
-              <img
-                src={`/api/placeholder/300/300`}
+            <div className="w-full h-full rounded-lg overflow-hidden relative">
+              <Image
+                src={`/memories/${photo}`}
                 alt=""
-                className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110"
+                fill
+                className="object-cover transition-transform duration-300 group-hover:scale-110"
               />
               <div className="absolute inset-0 bg-black opacity-0 group-hover:opacity-10 transition-opacity duration-300" />
             </div>
