@@ -18,8 +18,19 @@ const LandingPage = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-white">
-      <div className="font-carrots grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+    <div className="min-h-screen bg-white py-12 px-4">
+      {/* Header Section */}
+      <div className="text-center mb-12">
+        <h1 className="font-carrots text-6xl mb-4">Meedo & Beedo World</h1>
+        <p className="font-cheeky text-2xl mb-8">Where love and mischief come together!</p>
+        <div className="max-w-4xl mx-auto text-lg text-gray-600">
+          <p>Welcome to our little corner of the internet! This is where Meedo and Beedo share their adventures, 
+          precious memories, and all the fun they have together. Stay a while and explore our world!</p>
+        </div>
+      </div>
+
+      {/* Character Cards */}
+      <div className="font-carrots grid md:grid-cols-2 gap-8 max-w-4xl mx-auto mb-12">
         <motion.div
           initial={{ opacity: 0, x: -50 }}
           animate={{ opacity: 1, x: 0 }}
@@ -57,7 +68,14 @@ const LandingPage = () => {
         </motion.div>
       </div>
 
-      <div className="mt-12 flex justify-center gap-6">
+      {/* Activities Section */}
+      <div className="text-center mb-8">
+        <h2 className="font-carrots text-4xl mb-4">Fun Activities</h2>
+        <p className="font-cheeky text-xl mb-6">Pick an adventure!</p>
+      </div>
+
+      {/* Activity Buttons */}
+      <div className="flex justify-center gap-6">
         {activities.map((activity) => (
           <motion.button
             key={activity.route}
