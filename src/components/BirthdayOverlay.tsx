@@ -9,17 +9,20 @@ interface EmojiProps {
   initialY: number;
   duration: number;
   delay: number;
+  screenHeight: number;
 }
 
-const BirthdayEmoji: React.FC<EmojiProps> = ({ emoji, initialX, initialY, duration, delay }) => {
+const BirthdayEmoji: React.FC<EmojiProps> = ({ 
+  emoji, initialX, initialY, duration, delay, screenHeight 
+}) => {
   return (
     <motion.div
-      className="absolute text-4xl"
+      className="absolute text-4xl z-50"
       initial={{ x: initialX, y: initialY, opacity: 0, scale: 0 }}
       animate={{ 
         x: [initialX, initialX + (Math.random() * 200 - 100)],
-        y: [initialY, window.innerHeight],
-        opacity: [0, 1, 0],
+        y: [initialY, screenHeight],
+        opacity: [0, 1, 0.8],
         scale: [0, 1.2, 1, 0.8]
       }}
       transition={{ 
@@ -39,37 +42,59 @@ const birthdayEmojis = ['🎂', '🎁', '🎈', '🎉', '🎊', '🥳', '🧁', 
 const BirthdayOverlay: React.FC = () => {
   const [showOverlay, setShowOverlay] = useState(true);
   const [emojis, setEmojis] = useState<React.ReactNode[]>([]);
+  const [dimensions, setDimensions] = useState({ width: 0, height: 0 });
+  const [isClient, setIsClient] = useState(false);
 
+  // Set isClient to true when component mounts
   useEffect(() => {
-    // Create falling emojis
-    const emojiElements = [];
-    for (let i = 0; i < 40; i++) {
-      const emoji = birthdayEmojis[Math.floor(Math.random() * birthdayEmojis.length)];
-      const initialX = Math.random() * window.innerWidth;
-      const initialY = -100 - Math.random() * 500; // Start above the screen
-      const duration = 2 + Math.random() * 3;
-      const delay = Math.random() * 5;
-      
-      emojiElements.push(
-        <BirthdayEmoji 
-          key={i}
-          emoji={emoji}
-          initialX={initialX}
-          initialY={initialY}
-          duration={duration}
-          delay={delay}
-        />
-      );
-    }
-    setEmojis(emojiElements);
-
-    // Hide overlay after 5 seconds
-    const timer = setTimeout(() => {
-      setShowOverlay(false);
-    }, 5000);
-
-    return () => clearTimeout(timer);
+    setIsClient(true);
+    setDimensions({
+      width: window.innerWidth,
+      height: window.innerHeight
+    });
   }, []);
+
+  // Create emojis after component is mounted and dimensions are set
+  useEffect(() => {
+    if (isClient && dimensions.width > 0) {
+      // Create falling emojis
+      const emojiElements = [];
+      for (let i = 0; i < 40; i++) {
+        const emoji = birthdayEmojis[Math.floor(Math.random() * birthdayEmojis.length)];
+        const initialX = Math.random() * dimensions.width;
+        const initialY = -100 - Math.random() * 500; // Start above the screen
+        const duration = 2 + Math.random() * 3;
+        const delay = Math.random() * 4;
+        
+        emojiElements.push(
+          <BirthdayEmoji 
+            key={i}
+            emoji={emoji}
+            initialX={initialX}
+            initialY={initialY}
+            duration={duration}
+            delay={delay}
+            screenHeight={dimensions.height}
+          />
+        );
+      }
+      setEmojis(emojiElements);
+    }
+  }, [isClient, dimensions]);
+
+  // Hide overlay after 5 seconds
+  useEffect(() => {
+    if (isClient) {
+      const timer = setTimeout(() => {
+        setShowOverlay(false);
+      }, 5000);
+      
+      return () => clearTimeout(timer);
+    }
+  }, [isClient]);
+
+  // Return null if not on the client side yet
+  if (!isClient) return null;
 
   return (
     <AnimatePresence>
