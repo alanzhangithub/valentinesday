@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Geist } from "next/font/google";
 import "./globals.css";
 import BirthdayWrapper from "../components/BirthdayWrapper";
+import Providers from "../components/Providers";
 
 const geist = Geist({
   subsets: ["latin"],
@@ -20,8 +21,10 @@ export default function RootLayout({
   return (
     <html lang="en" className={geist.className}>
       <body className="bg-white">
-        <BirthdayWrapper />
-        {children}
+        <Providers>
+          <BirthdayWrapper />
+          {children}
+        </Providers>
       </body>
     </html>
   );
