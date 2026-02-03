@@ -70,14 +70,16 @@ export default function PhotoUploader({
 
   const addFiles = useCallback(
     (newFiles: File[]) => {
+      setError(null);
       const validFiles = validateFiles(newFiles);
+      if (validFiles.length === 0) return;
+
       const newPreviewFiles: PreviewFile[] = validFiles.map((file) => ({
         file,
         preview: URL.createObjectURL(file),
         id: Math.random().toString(36).substring(7),
       }));
       setFiles((prev) => [...prev, ...newPreviewFiles]);
-      setError(null);
     },
     [validateFiles]
   );

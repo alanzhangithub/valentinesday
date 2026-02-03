@@ -24,8 +24,11 @@ export default function Slideshow({
   const [isPlaying, setIsPlaying] = useState(autoAdvance);
   const [direction, setDirection] = useState(0);
   const [showControls, setShowControls] = useState(true);
+  const [touchStart, setTouchStart] = useState<number | null>(null);
+  const [touchEnd, setTouchEnd] = useState<number | null>(null);
 
   const currentPhoto = photos[currentIndex];
+  const minSwipeDistance = 50;
 
   const goToNext = useCallback(() => {
     setDirection(1);
@@ -41,6 +44,29 @@ export default function Slideshow({
     setDirection(index > currentIndex ? 1 : -1);
     setCurrentIndex(index);
   }, [currentIndex]);
+
+  // Touch handlers for swipe navigation
+  const onTouchStart = (e: React.TouchEvent) => {
+    setTouchEnd(null);
+    setTouchStart(e.targetTouches[0].clientX);
+  };
+
+  const onTouchMove = (e: React.TouchEvent) => {
+    setTouchEnd(e.targetTouches[0].clientX);
+  };
+
+  const onTouchEnd = () => {
+    if (!touchStart || !touchEnd) return;
+    const distance = touchStart - touchEnd;
+    const isLeftSwipe = distance > minSwipeDistance;
+    const isRightSwipe = distance < -minSwipeDistance;
+
+    if (isLeftSwipe) {
+      goToNext();
+    } else if (isRightSwipe) {
+      goToPrev();
+    }
+  };
 
   // Auto-advance
   useEffect(() => {
@@ -121,7 +147,12 @@ export default function Slideshow({
   return (
     <div className="fixed inset-0 bg-black z-50 flex flex-col">
       {/* Main image area */}
-      <div className="flex-1 relative overflow-hidden">
+      <div
+        className="flex-1 relative overflow-hidden"
+        onTouchStart={onTouchStart}
+        onTouchMove={onTouchMove}
+        onTouchEnd={onTouchEnd}
+      >
         <AnimatePresence initial={false} custom={direction} mode="wait">
           <motion.div
             key={currentPhoto.id}
@@ -306,10 +337,13 @@ export default function Slideshow({
                 </span>
               </div>
 
-              {/* Uploaded by */}
-              <div className="px-4 py-2">
+              {/* Uploaded by + keyboard hint */}
+              <div className="px-4 py-2 flex items-center gap-3">
                 <span className="text-sm text-gray-400">
                   by {currentPhoto.uploaded_by}
+                </span>
+                <span className="text-xs text-gray-600 hidden sm:inline">
+                  [esc] close [space] next [p] play/pause
                 </span>
               </div>
             </div>
