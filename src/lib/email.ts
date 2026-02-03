@@ -148,4 +148,76 @@ export function buildEmailHtml(content: string): string {
 `.trim();
 }
 
+// Wish-specific email functions
+
+interface WishEmailData {
+  wishText: string;
+  wishedBy: 'meedo' | 'beedo';
+  wishedAt: string;
+}
+
+interface WishGrantedEmailData {
+  wishText: string;
+  wishedBy: 'meedo' | 'beedo';
+  status: 'granted' | 'denied';
+  statusNote?: string;
+}
+
+export async function sendWishNotification(data: WishEmailData): Promise<boolean> {
+  const result = await sendAdminEmail(
+    `New Wish from ${data.wishedBy === 'meedo' ? 'Meedo' : 'Beedo'}`,
+    buildEmailHtml(`
+      <h1>A New Wish Has Been Cast</h1>
+      <p style="font-size: 18px;">
+        <strong>${data.wishedBy === 'meedo' ? 'Meedo' : 'Beedo'}</strong> has dropped a wish into the well...
+      </p>
+      <div class="highlight">
+        <p style="font-size: 20px; font-style: italic;">
+          "${data.wishText}"
+        </p>
+      </div>
+      <p style="color: #999; font-size: 14px;">
+        Wished at: ${new Date(data.wishedAt).toLocaleString()}
+      </p>
+      <p>Head to the Wishing Well to grant or deny this wish.</p>
+      <p style="color: #999; font-size: 12px; margin-top: 40px;">
+        - Mod (the benevolent deity of Meedobeedo)
+      </p>
+    `)
+  );
+  return result.success;
+}
+
+export async function sendWishStatusEmail(data: WishGrantedEmailData): Promise<boolean> {
+  const recipientEmail = process.env[`${data.wishedBy.toUpperCase()}_EMAIL`] || ADMIN_EMAIL;
+  const statusEmoji = data.status === 'granted' ? '✨' : '😢';
+  const statusText = data.status === 'granted' ? 'GRANTED' : 'denied';
+
+  if (!recipientEmail) {
+    console.warn('[email] no recipient email configured for wish status');
+    return false;
+  }
+
+  const result = await sendEmail({
+    to: recipientEmail,
+    subject: `${statusEmoji} Your Wish Has Been ${statusText}!`,
+    html: buildEmailHtml(`
+      <h1>${statusEmoji} Mod Has Spoken ${statusEmoji}</h1>
+      <p style="font-size: 18px;">
+        Your wish has been <strong>${statusText}</strong>!
+      </p>
+      <div class="highlight">
+        <p style="font-size: 18px; font-style: italic;">
+          "${data.wishText}"
+        </p>
+      </div>
+      ${data.statusNote ? `<p><strong>Mod says:</strong> ${data.statusNote}</p>` : ''}
+      <p style="color: #999; font-size: 12px; margin-top: 40px;">
+        - Mod (the benevolent deity of Meedobeedo)
+      </p>
+    `)
+  });
+  return result.success;
+}
+
 export { resend };
