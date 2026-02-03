@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect, useMemo } from 'react';
+import { useState, useMemo, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
   CalendarEvent,
@@ -16,6 +16,7 @@ interface CalendarViewProps {
   onEventClick?: (event: Partial<CalendarEvent>) => void;
   onDateClick?: (date: Date) => void;
   onAddEvent?: (date: Date) => void;
+  onMonthChange?: (date: Date) => void;
   isLoading?: boolean;
 }
 
@@ -30,10 +31,16 @@ export default function CalendarView({
   onEventClick,
   onDateClick,
   onAddEvent,
+  onMonthChange,
   isLoading = false,
 }: CalendarViewProps) {
   const [viewType, setViewType] = useState<CalendarViewType>('month');
   const [currentDate, setCurrentDate] = useState(new Date());
+
+  // notify parent when month changes so they can fetch new events
+  useEffect(() => {
+    onMonthChange?.(currentDate);
+  }, [currentDate, onMonthChange]);
 
   // Get the days to display based on view type
   const days = useMemo(() => {
@@ -173,24 +180,26 @@ export default function CalendarView({
       </div>
 
       {/* Legend */}
-      <div className="flex flex-wrap gap-3 mb-4 text-sm">
+      <div className="flex flex-wrap gap-4 mb-4 text-sm">
         {(Object.keys(EVENT_TYPE_COLORS) as EventType[]).map(type => (
-          <div key={type} className="flex items-center gap-1">
-            <div className={`w-3 h-3 rounded ${EVENT_TYPE_COLORS[type].bg} ${EVENT_TYPE_COLORS[type].border} border`} />
-            <span className="text-gray-600">{EVENT_TYPE_LABELS[type]}</span>
+          <div key={type} className="flex items-center gap-1.5">
+            <div className={`w-3 h-3 rounded-sm ${EVENT_TYPE_COLORS[type].bg} ${EVENT_TYPE_COLORS[type].border} border`} />
+            <span className="text-gray-600 text-xs">{EVENT_TYPE_LABELS[type]}</span>
           </div>
         ))}
       </div>
 
-      {/* Loading Overlay */}
-      {isLoading && (
-        <div className="absolute inset-0 bg-white/50 flex items-center justify-center z-10">
-          <div className="animate-spin rounded-full h-8 w-8 border-2 border-gray-300 border-t-gray-900" />
-        </div>
-      )}
-
       {/* Calendar Grid */}
-      <div className="relative border border-gray-200 rounded-lg overflow-hidden">
+      <div className="relative border border-gray-200 rounded-lg overflow-hidden bg-white">
+        {/* Loading Overlay */}
+        {isLoading && (
+          <div className="absolute inset-0 bg-white/70 flex items-center justify-center z-10 backdrop-blur-sm">
+            <div className="flex flex-col items-center gap-2">
+              <div className="animate-spin rounded-full h-8 w-8 border-2 border-gray-300 border-t-gray-900" />
+              <span className="text-sm text-gray-500">loading events...</span>
+            </div>
+          </div>
+        )}
         {/* Days of Week Header */}
         <div className="grid grid-cols-7 bg-gray-50 border-b border-gray-200">
           {DAYS_OF_WEEK.map(day => (
@@ -216,10 +225,10 @@ export default function CalendarView({
                   exit={{ opacity: 0 }}
                   transition={{ duration: 0.15, delay: index * 0.01 }}
                   className={`
-                    border-b border-r border-gray-100 p-1
+                    group border-b border-r border-gray-100 p-1.5
                     ${viewType === 'month' ? 'min-h-[100px]' : 'min-h-[150px]'}
-                    ${!isCurrentMonth(date) && viewType === 'month' ? 'bg-gray-50' : 'bg-white'}
-                    ${isToday(date) ? 'bg-blue-50' : ''}
+                    ${!isCurrentMonth(date) && viewType === 'month' ? 'bg-gray-50/50' : 'bg-white'}
+                    ${isToday(date) ? 'bg-blue-50/70' : ''}
                     hover:bg-gray-50 cursor-pointer transition-colors
                   `}
                   onClick={() => onDateClick?.(date)}

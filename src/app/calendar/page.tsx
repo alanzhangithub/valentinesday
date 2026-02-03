@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, useRef } from 'react';
 import CalendarView from '@/components/calendar/CalendarView';
 import EventForm from '@/components/calendar/EventForm';
 import { CalendarEvent, CreateEventInput, User } from '@/types/calendar';
@@ -9,26 +9,37 @@ export default function CalendarPage() {
   const [events, setEvents] = useState<Partial<CalendarEvent>[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [currentMonth, setCurrentMonth] = useState(new Date());
 
   // Form modal state
   const [isFormOpen, setIsFormOpen] = useState(false);
   const [selectedEvent, setSelectedEvent] = useState<Partial<CalendarEvent> | null>(null);
   const [selectedDate, setSelectedDate] = useState<Date | undefined>(undefined);
 
+  // track what range we've already fetched to avoid re-fetching
+  const fetchedRangeRef = useRef<{ min: string; max: string } | null>(null);
+
   // TODO: get actual user from auth context
   const currentUser: User = 'meedo';
 
-  // Fetch events for current month + buffer
-  const fetchEvents = useCallback(async () => {
+  // Fetch events for a given month + buffer
+  const fetchEvents = useCallback(async (monthDate: Date, force = false) => {
+    // Get 3 months range (prev month to next month)
+    const timeMin = new Date(monthDate.getFullYear(), monthDate.getMonth() - 1, 1).toISOString();
+    const timeMax = new Date(monthDate.getFullYear(), monthDate.getMonth() + 2, 0).toISOString();
+
+    // skip if we already fetched this range (unless forced)
+    if (!force && fetchedRangeRef.current) {
+      const { min, max } = fetchedRangeRef.current;
+      if (timeMin >= min && timeMax <= max) {
+        return;
+      }
+    }
+
     setIsLoading(true);
     setError(null);
 
     try {
-      // Get 3 months range (prev month to next month)
-      const now = new Date();
-      const timeMin = new Date(now.getFullYear(), now.getMonth() - 1, 1).toISOString();
-      const timeMax = new Date(now.getFullYear(), now.getMonth() + 2, 0).toISOString();
-
       const response = await fetch(
         `/api/calendar?timeMin=${encodeURIComponent(timeMin)}&timeMax=${encodeURIComponent(timeMax)}`
       );
@@ -39,6 +50,7 @@ export default function CalendarPage() {
 
       const data = await response.json();
       setEvents(data.events || []);
+      fetchedRangeRef.current = { min: timeMin, max: timeMax };
     } catch (err) {
       console.error('fetch error:', err);
       setError(err instanceof Error ? err.message : 'something went wrong');
@@ -47,8 +59,16 @@ export default function CalendarPage() {
     }
   }, []);
 
+  // initial fetch on mount
   useEffect(() => {
-    fetchEvents();
+    fetchEvents(new Date());
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  // handle month change from calendar
+  const handleMonthChange = useCallback((date: Date) => {
+    setCurrentMonth(date);
+    fetchEvents(date);
   }, [fetchEvents]);
 
   // Handle event click (open edit form)
@@ -110,8 +130,8 @@ export default function CalendarPage() {
       }
     }
 
-    // Refresh events after mutation
-    await fetchEvents();
+    // Refresh events after mutation (force refetch)
+    await fetchEvents(currentMonth, true);
   };
 
   // Delete event
@@ -125,8 +145,8 @@ export default function CalendarPage() {
       throw new Error(errorData.error || 'failed to delete event');
     }
 
-    // Refresh events after deletion
-    await fetchEvents();
+    // Refresh events after deletion (force refetch)
+    await fetchEvents(currentMonth, true);
   };
 
   return (
@@ -161,7 +181,7 @@ export default function CalendarPage() {
             <p className="font-medium">oops</p>
             <p className="text-sm">{error}</p>
             <button
-              onClick={fetchEvents}
+              onClick={() => fetchEvents(currentMonth, true)}
               className="mt-2 text-sm underline hover:no-underline"
             >
               try again
@@ -174,6 +194,7 @@ export default function CalendarPage() {
           onEventClick={handleEventClick}
           onDateClick={handleDateClick}
           onAddEvent={handleAddEvent}
+          onMonthChange={handleMonthChange}
           isLoading={isLoading}
         />
       </div>
