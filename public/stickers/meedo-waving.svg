@@ -1,0 +1,45 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" fill="none">
+  <!-- Meedo - Waving Pose -->
+
+  <!-- Striped Tail -->
+  <path d="M45 140 Q20 150 15 170 Q10 185 25 185 Q35 185 40 175 Q50 160 55 150" fill="white" stroke="black" stroke-width="3"/>
+  <line x1="22" y1="175" x2="35" y2="165" stroke="black" stroke-width="4"/>
+  <line x1="28" y1="180" x2="42" y2="168" stroke="black" stroke-width="4"/>
+  <line x1="18" y1="168" x2="30" y2="158" stroke="black" stroke-width="4"/>
+
+  <!-- Body (round) -->
+  <ellipse cx="100" cy="115" rx="55" ry="50" fill="white" stroke="black" stroke-width="3"/>
+
+  <!-- Left Ear -->
+  <path d="M55 55 L70 85 L40 80 Z" fill="black" stroke="black" stroke-width="2"/>
+
+  <!-- Right Ear -->
+  <path d="M145 55 L130 85 L160 80 Z" fill="black" stroke="black" stroke-width="2"/>
+
+  <!-- Head patch (black area on left side) -->
+  <path d="M55 55 C50 70 50 90 70 100 C85 105 95 95 95 80 C95 65 85 55 75 50 C65 45 55 50 55 55" fill="black"/>
+
+  <!-- Left Eye (white circle with black pupil) -->
+  <circle cx="80" cy="90" r="18" fill="white" stroke="black" stroke-width="2"/>
+  <circle cx="82" cy="88" r="10" fill="black"/>
+
+  <!-- Right Eye -->
+  <circle cx="120" cy="90" r="18" fill="white" stroke="black" stroke-width="2"/>
+  <circle cx="122" cy="88" r="10" fill="black"/>
+
+  <!-- Nose -->
+  <ellipse cx="100" cy="110" rx="5" ry="4" fill="black"/>
+
+  <!-- Mouth (happy smile) -->
+  <path d="M90 118 Q100 130 110 118" fill="none" stroke="black" stroke-width="2" stroke-linecap="round"/>
+
+  <!-- Left Arm/Paw (down) -->
+  <path d="M55 130 Q40 140 45 150 Q50 155 55 150 Q58 145 60 140" fill="white" stroke="black" stroke-width="2"/>
+
+  <!-- Right Arm/Paw (waving up!) -->
+  <path d="M150 110 Q175 90 180 70 Q182 60 175 60 Q168 62 165 75 Q160 90 150 100" fill="white" stroke="black" stroke-width="2"/>
+
+  <!-- Wave lines -->
+  <path d="M185 55 Q190 50 195 55" fill="none" stroke="black" stroke-width="2" stroke-linecap="round"/>
+  <path d="M188 65 Q193 60 198 65" fill="none" stroke="black" stroke-width="2" stroke-linecap="round"/>
+</svg>
