@@ -7,41 +7,47 @@ interface CoinBalanceProps {
   coins: number;
   loading?: boolean;
   size?: 'sm' | 'md' | 'lg';
+  showLabel?: boolean;
 }
 
-export default function CoinBalance({ coins, loading = false, size = 'md' }: CoinBalanceProps) {
+export default function CoinBalance({ coins, loading = false, size = 'md', showLabel = false }: CoinBalanceProps) {
   const sizeClasses = {
-    sm: 'text-lg px-3 py-1',
-    md: 'text-xl px-4 py-2',
-    lg: 'text-2xl px-5 py-3',
+    sm: 'text-base px-3 py-1.5 gap-2',
+    md: 'text-lg px-4 py-2 gap-2',
+    lg: 'text-xl px-5 py-2.5 gap-3',
   };
 
   const coinSizes = {
-    sm: 'w-5 h-5',
-    md: 'w-6 h-6',
-    lg: 'w-8 h-8',
+    sm: 'w-5 h-5 text-[10px]',
+    md: 'w-6 h-6 text-xs',
+    lg: 'w-8 h-8 text-sm',
   };
 
   return (
     <motion.div
-      className={`inline-flex items-center gap-2 bg-yellow-50 border-2 border-yellow-400 rounded-full font-carrots ${sizeClasses[size]}`}
+      className={`inline-flex items-center bg-gradient-to-r from-yellow-50 to-amber-50 border-2 border-yellow-300 rounded-full font-bold shadow-sm ${sizeClasses[size]}`}
       initial={{ scale: 0.9, opacity: 0 }}
       animate={{ scale: 1, opacity: 1 }}
       transition={{ duration: 0.3 }}
     >
       {/* Coin icon */}
       <motion.div
-        className={`${coinSizes[size]} rounded-full bg-yellow-400 border-2 border-yellow-500 flex items-center justify-center`}
+        className={`${coinSizes[size]} rounded-full bg-gradient-to-br from-yellow-300 to-yellow-500 border-2 border-yellow-600 flex items-center justify-center shadow-inner`}
         animate={loading ? { rotate: 360 } : {}}
         transition={loading ? { duration: 1, repeat: Infinity, ease: 'linear' } : {}}
       >
-        <span className="text-yellow-700 font-bold text-xs">M</span>
+        <span className="text-yellow-800 font-bold">M</span>
       </motion.div>
 
       {/* Balance */}
-      <span className="text-yellow-700 font-bold">
+      <span className="text-yellow-800">
         {loading ? '...' : coins.toLocaleString()}
       </span>
+
+      {/* Optional label */}
+      {showLabel && (
+        <span className="text-yellow-600 font-normal text-sm">coins</span>
+      )}
     </motion.div>
   );
 }
