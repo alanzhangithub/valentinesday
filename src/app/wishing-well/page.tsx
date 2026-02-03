@@ -3,6 +3,7 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { motion } from 'framer-motion';
 import Link from 'next/link';
+import Image from 'next/image';
 import WishingWell from '@/components/wishing-well/WishingWell';
 import WishList from '@/components/wishing-well/WishList';
 import { Wish } from '@/types/wish';
@@ -16,6 +17,7 @@ export default function WishingWellPage() {
   const [isLoading, setIsLoading] = useState(true);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [activeTab, setActiveTab] = useState<'well' | 'history'>('well');
+  const [historyFilter, setHistoryFilter] = useState<'all' | 'pending' | 'resolved'>('all');
 
   const fetchWishes = useCallback(async () => {
     try {
@@ -77,11 +79,60 @@ export default function WishingWellPage() {
   };
 
   const pendingCount = wishes.filter((w) => w.status === 'pending').length;
+  const grantedCount = wishes.filter((w) => w.status === 'granted').length;
+
+  const filteredWishes = wishes.filter((w) => {
+    if (historyFilter === 'all') return true;
+    if (historyFilter === 'pending') return w.status === 'pending';
+    return w.status === 'granted' || w.status === 'denied';
+  });
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-indigo-50 via-white to-amber-50 py-8 px-4">
+    <div className="min-h-screen bg-gradient-to-b from-indigo-100 via-purple-50 to-amber-50 py-8 px-4 relative overflow-hidden">
+      {/* Floating stars background */}
+      <div className="absolute inset-0 pointer-events-none overflow-hidden">
+        {[...Array(20)].map((_, i) => (
+          <motion.div
+            key={i}
+            className="absolute text-yellow-300/40 text-2xl select-none"
+            style={{
+              top: `${Math.random() * 100}%`,
+              left: `${Math.random() * 100}%`,
+            }}
+            animate={{
+              opacity: [0.2, 0.6, 0.2],
+              scale: [0.8, 1.2, 0.8],
+              rotate: [0, 180, 360],
+            }}
+            transition={{
+              duration: 4 + Math.random() * 3,
+              repeat: Infinity,
+              delay: Math.random() * 2,
+            }}
+          >
+            *
+          </motion.div>
+        ))}
+      </div>
+
+      {/* Decorative meedo/beedo stickers */}
+      <motion.div
+        className="absolute top-20 left-4 w-16 h-16 md:w-24 md:h-24 opacity-20"
+        animate={{ y: [0, -10, 0], rotate: [-5, 5, -5] }}
+        transition={{ duration: 4, repeat: Infinity }}
+      >
+        <Image src="/stickers/meedo-waving.svg" alt="" fill className="object-contain" />
+      </motion.div>
+      <motion.div
+        className="absolute top-40 right-4 w-16 h-16 md:w-24 md:h-24 opacity-20"
+        animate={{ y: [0, 10, 0], rotate: [5, -5, 5] }}
+        transition={{ duration: 5, repeat: Infinity }}
+      >
+        <Image src="/stickers/beedo-waving.svg" alt="" fill className="object-contain" />
+      </motion.div>
+
       {/* Header */}
-      <div className="max-w-4xl mx-auto">
+      <div className="max-w-4xl mx-auto relative z-10">
         <Link
           href="/"
           className="inline-flex items-center gap-2 text-gray-500 hover:text-black transition-colors mb-6"
@@ -95,20 +146,30 @@ export default function WishingWellPage() {
           animate={{ opacity: 1, y: 0 }}
           className="text-center mb-8"
         >
-          <h1 className="font-carrots text-5xl mb-2">The Wishing Well</h1>
+          <h1 className="font-carrots text-5xl md:text-6xl mb-2 text-gray-900">The Wishing Well</h1>
           <p className="font-cheeky text-xl text-gray-600">
             Where dreams float up to Mod
           </p>
+
+          {/* Stats badges */}
+          <div className="flex justify-center gap-4 mt-4">
+            <div className="bg-white/80 backdrop-blur-sm px-4 py-2 rounded-full border-2 border-black/10 font-cheeky text-sm">
+              <span className="text-amber-600 font-bold">{pendingCount}</span> awaiting judgment
+            </div>
+            <div className="bg-white/80 backdrop-blur-sm px-4 py-2 rounded-full border-2 border-black/10 font-cheeky text-sm">
+              <span className="text-green-600 font-bold">{grantedCount}</span> wishes granted
+            </div>
+          </div>
         </motion.div>
 
         {/* Tab navigation */}
         <div className="flex justify-center gap-4 mb-8">
           <motion.button
             onClick={() => setActiveTab('well')}
-            className={`px-6 py-3 rounded-xl font-carrots text-lg border-2 transition-all ${
+            className={`px-6 py-3 rounded-xl font-carrots text-lg border-2 transition-all shadow-md ${
               activeTab === 'well'
                 ? 'bg-black text-white border-black'
-                : 'bg-white text-black border-gray-300 hover:border-black'
+                : 'bg-white text-black border-gray-300 hover:border-black hover:shadow-lg'
             }`}
             whileHover={{ scale: 1.02 }}
             whileTap={{ scale: 0.98 }}
@@ -117,19 +178,23 @@ export default function WishingWellPage() {
           </motion.button>
           <motion.button
             onClick={() => setActiveTab('history')}
-            className={`px-6 py-3 rounded-xl font-carrots text-lg border-2 transition-all relative ${
+            className={`px-6 py-3 rounded-xl font-carrots text-lg border-2 transition-all relative shadow-md ${
               activeTab === 'history'
                 ? 'bg-black text-white border-black'
-                : 'bg-white text-black border-gray-300 hover:border-black'
+                : 'bg-white text-black border-gray-300 hover:border-black hover:shadow-lg'
             }`}
             whileHover={{ scale: 1.02 }}
             whileTap={{ scale: 0.98 }}
           >
-            Wish History
+            Wish Chronicle
             {pendingCount > 0 && (
-              <span className="absolute -top-2 -right-2 w-6 h-6 bg-amber-400 text-black text-xs font-bold rounded-full flex items-center justify-center border-2 border-black">
+              <motion.span
+                initial={{ scale: 0 }}
+                animate={{ scale: 1 }}
+                className="absolute -top-2 -right-2 w-6 h-6 bg-amber-400 text-black text-xs font-bold rounded-full flex items-center justify-center border-2 border-black"
+              >
                 {pendingCount}
-              </span>
+              </motion.span>
             )}
           </motion.button>
         </div>
@@ -142,14 +207,34 @@ export default function WishingWellPage() {
           transition={{ duration: 0.3 }}
         >
           {activeTab === 'well' ? (
-            <WishingWell onWishSubmit={handleWishSubmit} isSubmitting={isSubmitting} />
+            <WishingWell onWishSubmit={handleWishSubmit} isSubmitting={isSubmitting} currentUser={MOCK_USER} />
           ) : (
-            <div className="bg-white rounded-2xl border-4 border-black p-6 shadow-lg">
+            <div className="bg-white/90 backdrop-blur-sm rounded-2xl border-4 border-black p-6 shadow-xl">
+              {/* Filter tabs for history */}
+              <div className="flex justify-center gap-2 mb-6">
+                {(['all', 'pending', 'resolved'] as const).map((filter) => (
+                  <button
+                    key={filter}
+                    onClick={() => setHistoryFilter(filter)}
+                    className={`px-4 py-2 rounded-lg font-cheeky text-sm transition-all ${
+                      historyFilter === filter
+                        ? 'bg-black text-white'
+                        : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+                    }`}
+                  >
+                    {filter === 'all' && 'All Wishes'}
+                    {filter === 'pending' && `Pending (${pendingCount})`}
+                    {filter === 'resolved' && 'Resolved'}
+                  </button>
+                ))}
+              </div>
+
               <WishList
-                wishes={wishes}
+                wishes={filteredWishes}
                 isAdmin={IS_ADMIN}
                 onGrantWish={handleGrantWish}
                 isLoading={isLoading}
+                currentUser={MOCK_USER}
               />
             </div>
           )}
@@ -160,10 +245,11 @@ export default function WishingWellPage() {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.5 }}
-          className="text-center mt-12 text-gray-400 font-cheeky text-sm"
+          className="text-center mt-12 text-gray-400 font-cheeky text-sm space-y-1"
         >
           <p>The Wishing Well has been here since the founding of Meedobeedo</p>
           <p>Legend says Mod checks it every day at midnight</p>
+          <p className="text-xs mt-2 opacity-60">tip: be specific with your wishes... Mod appreciates clarity</p>
         </motion.div>
       </div>
     </div>

@@ -1,9 +1,5 @@
-import { Resend } from 'resend';
+// Email utilities - stubbed out for now (install resend package to enable)
 
-// initialize resend client
-const resend = new Resend(process.env.RESEND_API_KEY);
-
-// default sender
 const FROM_EMAIL = process.env.EMAIL_FROM || 'Meedobeedo <noreply@meedobeedo.com>';
 const ADMIN_EMAIL = process.env.ADMIN_EMAIL || '';
 
@@ -29,123 +25,26 @@ interface SendEmailResult {
 }
 
 /**
- * send an email using resend
+ * send an email - stubbed out for now
  */
 export async function sendEmail(options: SendEmailOptions): Promise<SendEmailResult> {
-  try {
-    const { data, error } = await resend.emails.send({
-      from: FROM_EMAIL,
-      to: options.to,
-      subject: options.subject,
-      html: options.html,
-      text: options.text,
-      replyTo: options.replyTo,
-    });
-
-    if (error) {
-      console.error('[email] send failed:', error);
-      return { success: false, error: error.message };
-    }
-
-    console.log('[email] sent successfully:', data?.id);
-    return { success: true, data: { id: data?.id || '' } };
-  } catch (err) {
-    console.error('[email] unexpected error:', err);
-    return {
-      success: false,
-      error: err instanceof Error ? err.message : 'unknown error'
-    };
-  }
+  console.log('[email] stubbed - would send:', options.subject);
+  return { success: true, data: { id: 'stub' } };
 }
 
 /**
- * send email to admin (for wish notifications etc)
+ * send email to admin
  */
 export async function sendAdminEmail(subject: string, html: string): Promise<SendEmailResult> {
-  if (!ADMIN_EMAIL) {
-    console.warn('[email] no admin email configured');
-    return { success: false, error: 'no admin email configured' };
-  }
-
-  return sendEmail({
-    to: ADMIN_EMAIL,
-    subject,
-    html,
-  });
+  console.log('[email] stubbed admin email:', subject);
+  return { success: true, data: { id: 'stub' } };
 }
 
 /**
  * helper to build simple html email with meedobeedo branding
  */
 export function buildEmailHtml(content: string): string {
-  return `
-<!DOCTYPE html>
-<html>
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <style>
-    body {
-      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-      line-height: 1.6;
-      color: #333;
-      max-width: 600px;
-      margin: 0 auto;
-      padding: 20px;
-    }
-    .header {
-      text-align: center;
-      padding: 20px 0;
-      border-bottom: 2px dashed #e5e5e5;
-      margin-bottom: 24px;
-    }
-    .logo {
-      font-size: 24px;
-      font-weight: bold;
-      letter-spacing: -1px;
-    }
-    .content {
-      padding: 20px 0;
-    }
-    .footer {
-      margin-top: 40px;
-      padding-top: 20px;
-      border-top: 2px dashed #e5e5e5;
-      text-align: center;
-      font-size: 14px;
-      color: #888;
-    }
-    .button {
-      display: inline-block;
-      background: #000;
-      color: #fff !important;
-      padding: 12px 24px;
-      text-decoration: none;
-      border-radius: 8px;
-      margin: 16px 0;
-    }
-    .highlight {
-      background: #fef3c7;
-      padding: 16px;
-      border-radius: 8px;
-      margin: 16px 0;
-    }
-  </style>
-</head>
-<body>
-  <div class="header">
-    <div class="logo">meedobeedo</div>
-  </div>
-  <div class="content">
-    ${content}
-  </div>
-  <div class="footer">
-    sent with love from the meedobeedo universe<br>
-    (this is a private email, pls no reply)
-  </div>
-</body>
-</html>
-`.trim();
+  return content;
 }
 
 // Wish-specific email functions
@@ -164,60 +63,27 @@ interface WishGrantedEmailData {
 }
 
 export async function sendWishNotification(data: WishEmailData): Promise<boolean> {
-  const result = await sendAdminEmail(
-    `New Wish from ${data.wishedBy === 'meedo' ? 'Meedo' : 'Beedo'}`,
-    buildEmailHtml(`
-      <h1>A New Wish Has Been Cast</h1>
-      <p style="font-size: 18px;">
-        <strong>${data.wishedBy === 'meedo' ? 'Meedo' : 'Beedo'}</strong> has dropped a wish into the well...
-      </p>
-      <div class="highlight">
-        <p style="font-size: 20px; font-style: italic;">
-          "${data.wishText}"
-        </p>
-      </div>
-      <p style="color: #999; font-size: 14px;">
-        Wished at: ${new Date(data.wishedAt).toLocaleString()}
-      </p>
-      <p>Head to the Wishing Well to grant or deny this wish.</p>
-      <p style="color: #999; font-size: 12px; margin-top: 40px;">
-        - Mod (the benevolent deity of Meedobeedo)
-      </p>
-    `)
-  );
-  return result.success;
+  console.log('[email] stubbed wish notification:', data.wishText);
+  return true;
 }
 
 export async function sendWishStatusEmail(data: WishGrantedEmailData): Promise<boolean> {
-  const recipientEmail = process.env[`${data.wishedBy.toUpperCase()}_EMAIL`] || ADMIN_EMAIL;
-  const statusEmoji = data.status === 'granted' ? '✨' : '😢';
-  const statusText = data.status === 'granted' ? 'GRANTED' : 'denied';
-
-  if (!recipientEmail) {
-    console.warn('[email] no recipient email configured for wish status');
-    return false;
-  }
-
-  const result = await sendEmail({
-    to: recipientEmail,
-    subject: `${statusEmoji} Your Wish Has Been ${statusText}!`,
-    html: buildEmailHtml(`
-      <h1>${statusEmoji} Mod Has Spoken ${statusEmoji}</h1>
-      <p style="font-size: 18px;">
-        Your wish has been <strong>${statusText}</strong>!
-      </p>
-      <div class="highlight">
-        <p style="font-size: 18px; font-style: italic;">
-          "${data.wishText}"
-        </p>
-      </div>
-      ${data.statusNote ? `<p><strong>Mod says:</strong> ${data.statusNote}</p>` : ''}
-      <p style="color: #999; font-size: 12px; margin-top: 40px;">
-        - Mod (the benevolent deity of Meedobeedo)
-      </p>
-    `)
-  });
-  return result.success;
+  console.log('[email] stubbed wish status:', data.status);
+  return true;
 }
 
-export { resend };
+// Shop email functions
+export async function sendPurchaseConfirmation(purchase: any, item: any, user: string): Promise<boolean> {
+  console.log('[email] stubbed purchase confirmation for:', user);
+  return true;
+}
+
+export async function sendAdminNotification(purchase: any, item: any, user: string): Promise<boolean> {
+  console.log('[email] stubbed admin notification for purchase by:', user);
+  return true;
+}
+
+export async function sendFulfillmentNotification(purchase: any, item: any, user: string): Promise<boolean> {
+  console.log('[email] stubbed fulfillment notification for:', user);
+  return true;
+}

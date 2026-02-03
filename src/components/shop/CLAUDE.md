@@ -7,5 +7,6 @@
 
 | ID | Time | T | Title | Read |
 |----|------|---|-------|------|
-| #418 | 2:22 AM | 🔴 | Fixed Photo Uploader Error State Clearing and Empty File Handling | ~291 |
+| #473 | 2:25 AM | 🟣 | Shop Feature Comprehensive Polish with Modal Confirmations and Enhanced UX | ~671 |
+| #402 | 2:21 AM | 🔵 | Shop Item Component with Meedo Coins Economy and Purchase Confirmation | ~467 |
 </claude-mem-context>

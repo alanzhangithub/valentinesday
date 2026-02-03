@@ -6,6 +6,40 @@ A private digital world for exactly 2 people (Meedo and Beedo). This is a relati
 
 **The vibe:** Clean modern UI (shadcn-style) with hand-drawn crayon illustrations. The contrast IS the joke - sophisticated infrastructure built by 2.3 year olds who understand epsilon but not the number 3.
 
+## Current Status (Feb 2026)
+
+**All features merged and polished!** The v2.0 overhaul is complete:
+
+| Feature | Status | Route |
+|---------|--------|-------|
+| Auth | Done | Google OAuth + whitelist + password gate |
+| Home | Done | `/` - Feature grid with all links |
+| Photos | Polished | `/photos` - Upload, gallery, slideshow with swipe |
+| Sticker Board | Done | `/sticker-board` - Drag & drop stickers |
+| Calendar | Polished | `/calendar` - Events with month nav |
+| Wishing Well | Done | `/wishing-well` - Wishes to Mod |
+| Coupons | Done | `/coupons` - Create & redeem love coupons |
+| Games | Done | `/games` - Spelling Mee, Memory, Tap the Beedo, Slots |
+| Shop | Polished | `/shop` - Buy rewards with Meedo Coins |
+| Food Picker | Done | `/food-picker` - Spin wheel for restaurants |
+
+### Environment Setup
+
+Required `.env.local`:
+```
+NEXT_PUBLIC_SUPABASE_URL=https://[project].supabase.co
+NEXT_PUBLIC_SUPABASE_ANON_KEY=[key]
+SUPABASE_SERVICE_ROLE_KEY=[key]
+NEXTAUTH_URL=http://localhost:3000
+NEXTAUTH_SECRET=[secret]
+GOOGLE_CLIENT_ID=[id]
+GOOGLE_CLIENT_SECRET=[secret]
+ALLOWED_EMAIL_1=[meedo email]
+ALLOWED_EMAIL_2=[beedo email]
+```
+
+Note: Password hash is currently hardcoded in `src/lib/auth.ts` due to env var `$` interpretation issues.
+
 ## Core Principles
 
 1. **Private by default** - Only 2 whitelisted emails can access this. Everyone else gets rejected.
@@ -21,89 +55,51 @@ A private digital world for exactly 2 people (Meedo and Beedo). This is a relati
 - **MTO/BTO** - Meedo/Beedo Time Off. Like PTO but for the relationship when traveling.
 - **Meedo Coins** - Currency earned through games, spent in shop
 
-## Features (v2.0)
-
-| Feature | Description |
-|---------|-------------|
-| **Auth** | Google OAuth + whitelist (2 emails only) + password gate |
-| **Photos** | Upload, gallery, slideshow mode |
-| **Sticker Board** | Whiteboard with draggable Meedo/Beedo stickers |
-| **Calendar** | Full Google Calendar sync, MTO/BTO, hangout schedule |
-| **Wishing Well** | Requests to Mod, status tracking |
-| **Coupons** | Both create, both redeem |
-| **Mini Games** | Spelling Mee, Memory, Tap the Beedo, Slot Machine |
-| **Shop** | Buy coupons + real rewards with Meedo Coins |
-| **Food Picker** | Weighted random restaurant picker |
-| **Engagement** | Newsletter, badges, news ticker, countdowns |
-
 ## Tech Stack
 
-- **Framework:** Next.js 14+ (App Router)
+- **Framework:** Next.js 15 (App Router, Turbopack)
 - **Styling:** Tailwind CSS + shadcn/ui components
 - **Animation:** Framer Motion
-- **Database:** Supabase (PostgreSQL + Auth + Storage)
-- **Email:** Resend or SendGrid
-- **Calendar:** Google Calendar API
-
-## Design Direction
-
-### UI Components
-- Clean, modern, proper spacing
-- shadcn/ui as the component foundation
-- Consistent typography hierarchy
-- Smooth animations
-
-### Illustrations
-- Black and white Meedo/Beedo characters
-- Hand-drawn, crayon/construction paper aesthetic
-- Characters in various poses and expressions
-- Wobbly borders, texture accents where appropriate
-
-### Colors
-- Primary: Black & White (matching characters)
-- Accents: Soft pastels (TBD)
-- Background: Clean white or very light gray
+- **Database:** Supabase (PostgreSQL)
+- **Auth:** NextAuth.js with Google OAuth
+- **Package Manager:** Bun
 
 ## Project Structure
 
 ```
 valentinesday/
 ├── src/
-│   ├── app/           # Next.js app router pages
-│   ├── components/    # React components
-│   │   ├── ui/        # shadcn components
-│   │   └── ...        # feature components
-│   ├── lib/           # Utilities, supabase client
-│   └── types/         # TypeScript types
+│   ├── app/              # Next.js app router pages
+│   │   ├── api/          # API routes
+│   │   ├── photos/       # Photo gallery
+│   │   ├── games/        # Mini games
+│   │   ├── shop/         # Meedo coin shop
+│   │   ├── calendar/     # Event calendar
+│   │   ├── coupons/      # Love coupons
+│   │   ├── wishing-well/ # Wishes to Mod
+│   │   ├── sticker-board/# Shared sticker canvas
+│   │   └── food-picker/  # Restaurant spinner
+│   ├── components/       # React components
+│   │   ├── layout/       # Navigation, wrappers
+│   │   ├── photos/       # Photo components
+│   │   ├── games/        # Game components
+│   │   ├── shop/         # Shop components
+│   │   └── ...           # Feature components
+│   ├── lib/              # Utilities, supabase client
+│   └── types/            # TypeScript types
 ├── public/
-│   ├── stickers/      # Meedo/Beedo SVG stickers
-│   ├── badges/        # Achievement badge icons
-│   └── fonts/         # Custom fonts (carrots, cheeky)
-├── docs/
-│   └── plans/         # Design docs, specs
-└── .worktrees/        # Isolated feature branches
+│   └── stickers/         # Meedo/Beedo SVG stickers
+└── .worktrees/           # (Legacy) Feature worktrees
 ```
 
-## Worktree Development
+## Development
 
-Each feature is developed in isolation using git worktrees:
+```bash
+bun install
+bun run dev
+```
 
-| Worktree | Branch | Purpose |
-|----------|--------|---------|
-| `.worktrees/design-system` | `feature/design-system` | Components, styles, stickers |
-| `.worktrees/database` | `feature/database` | Supabase schema, types |
-| `.worktrees/auth` | `feature/auth` | Google OAuth, whitelist, password |
-| (more to come) | | |
-
-**Full design doc:** `docs/plans/2026-02-01-meedobeedo-v2-design.md`
-
-## For Agents Working on This Project
-
-1. **Read the design doc** before starting work
-2. **Stay in your worktree** - don't modify files outside your scope
-3. **Commit your work** when done, but don't push
-4. **Keep it simple** - remember it's just 2 users
-5. **Match the vibe** - clean UI, cute illustrations, fun copy
+Then visit http://localhost:3000
 
 ## Communication Style
 

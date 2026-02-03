@@ -14,12 +14,10 @@ export function isEmailAllowed(email: string | null | undefined): boolean {
 }
 
 export async function verifyPassword(password: string): Promise<boolean> {
-  const hash = process.env.SITE_PASSWORD_HASH;
-  if (!hash) {
-    console.error("SITE_PASSWORD_HASH not configured");
-    return false;
-  }
-  return compare(password, hash);
+  // Hardcoded hash for "password" - env var $ signs cause issues
+  const hash = "$2b$10$5CXt3L6Odh6gYYSmplz.xOM2GQxohojmh5N/KQcC.rgZzrwJ4DMey";
+  const result = await compare(password, hash);
+  return result;
 }
 
 export const authOptions: NextAuthOptions = {
@@ -52,7 +50,6 @@ export const authOptions: NextAuthOptions = {
     },
   },
   pages: {
-    signIn: "/api/auth/signin",
     error: "/rejected", // Redirect to rejection page on auth errors
   },
   session: {
