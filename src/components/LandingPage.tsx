@@ -14,7 +14,8 @@ const LandingPage = () => {
 
   const activities = [
     { name: 'Spelling Mee', route: '/spelling-mee' },
-    { name: 'Meedo Memory', route: '/meedo-memory' }
+    { name: 'Meedo Memory', route: '/meedo-memory' },
+    { name: 'Shop', route: '/shop' }
   ];
 
   return (
