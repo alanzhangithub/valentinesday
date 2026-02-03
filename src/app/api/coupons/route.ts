@@ -1,37 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { Coupon, CreateCouponRequest } from '@/types/coupon';
-
-// in-memory storage for now - will be replaced with supabase
-// TODO: replace with supabase when database worktree is merged
-let coupons: Coupon[] = [
-  {
-    id: '1',
-    title: 'Movie Night Pick',
-    description: 'You get to pick the movie tonight, no complaints from me!',
-    created_by: 'meedo',
-    created_at: new Date('2026-01-15').toISOString(),
-    redeemed: false,
-  },
-  {
-    id: '2',
-    title: 'Breakfast in Bed',
-    description: 'Wake up to your favorite breakfast served in bed!',
-    created_by: 'beedo',
-    created_at: new Date('2026-01-20').toISOString(),
-    redeemed: true,
-    redeemed_at: new Date('2026-01-25').toISOString(),
-    redeemed_by: 'meedo',
-  },
-  {
-    id: '3',
-    title: 'Boba Run',
-    description: 'I will go get us boba, your pick of flavors!',
-    created_by: 'meedo',
-    created_at: new Date('2026-01-10').toISOString(),
-    expires_at: new Date('2026-01-20').toISOString(),
-    redeemed: false,
-  },
-];
+import { getCoupons, addCoupon, deleteCoupon } from '@/lib/coupons-store';
 
 // GET /api/coupons - get all coupons
 export async function GET(request: NextRequest) {
@@ -39,7 +8,7 @@ export async function GET(request: NextRequest) {
   const filter = searchParams.get('filter'); // 'available', 'redeemed', 'expired', or null for all
   const createdBy = searchParams.get('created_by'); // 'meedo' or 'beedo'
 
-  let filteredCoupons = [...coupons];
+  let filteredCoupons = getCoupons();
 
   // filter by creator
   if (createdBy === 'meedo' || createdBy === 'beedo') {
@@ -99,7 +68,7 @@ export async function POST(request: NextRequest) {
       redeemed: false,
     };
 
-    coupons.push(newCoupon);
+    addCoupon(newCoupon);
 
     return NextResponse.json({ coupon: newCoupon }, { status: 201 });
   } catch (error) {
@@ -117,12 +86,10 @@ export async function DELETE(request: NextRequest) {
     return NextResponse.json({ error: 'Coupon ID is required' }, { status: 400 });
   }
 
-  const index = coupons.findIndex((c) => c.id === id);
-  if (index === -1) {
+  const deleted = deleteCoupon(id);
+  if (!deleted) {
     return NextResponse.json({ error: 'Coupon not found' }, { status: 404 });
   }
-
-  coupons.splice(index, 1);
 
   return NextResponse.json({ success: true });
 }
