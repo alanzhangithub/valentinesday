@@ -389,3 +389,42 @@ CREATE TRIGGER update_boards_updated_at
 CREATE TRIGGER update_events_updated_at
   BEFORE UPDATE ON events
   FOR EACH ROW EXECUTE FUNCTION update_updated_at();
+
+-- ============================================
+-- STAMPS (Calendar stamp system)
+-- ============================================
+
+CREATE TABLE stamps (
+  id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+  name TEXT NOT NULL,
+  emoji TEXT NOT NULL,
+  color TEXT NOT NULL,
+  created_by user_role NOT NULL,
+  created_at TIMESTAMPTZ DEFAULT NOW(),
+  updated_at TIMESTAMPTZ DEFAULT NOW(),
+  is_default BOOLEAN DEFAULT FALSE
+);
+
+CREATE TABLE day_stamps (
+  id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+  stamp_id UUID NOT NULL REFERENCES stamps(id) ON DELETE CASCADE,
+  date DATE NOT NULL,
+  placed_by user_role NOT NULL,
+  placed_at TIMESTAMPTZ DEFAULT NOW(),
+  UNIQUE(stamp_id, date)
+);
+
+CREATE INDEX idx_day_stamps_date ON day_stamps(date);
+
+-- Trigger for stamps updated_at
+CREATE TRIGGER update_stamps_updated_at
+  BEFORE UPDATE ON stamps
+  FOR EACH ROW
+  EXECUTE FUNCTION update_updated_at();
+
+-- Seed default stamps
+INSERT INTO stamps (name, emoji, color, created_by, is_default) VALUES
+  ('meedo''s', '🏠', '#3b82f6', 'meedo', true),
+  ('beedo''s', '🏠', '#ec4899', 'beedo', true),
+  ('pickleball', '🏓', '#10b981', 'meedo', true),
+  ('mex', '🔥', '#f59e0b', 'meedo', true);
