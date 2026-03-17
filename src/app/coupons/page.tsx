@@ -19,7 +19,7 @@ export default function CouponsPage() {
   // TODO: get from auth context when auth worktree is merged
   const currentUser = 'beedo' as User;
 
-  const fetchCoupons = async () => {
+  const fetchCoupons = React.useCallback(async () => {
     setIsLoading(true);
     try {
       const params = new URLSearchParams();
@@ -34,11 +34,11 @@ export default function CouponsPage() {
     } finally {
       setIsLoading(false);
     }
-  };
+  }, [filter]);
 
   useEffect(() => {
     fetchCoupons();
-  }, [filter]);
+  }, [fetchCoupons]);
 
   const handleRedeem = async (couponId: string) => {
     setRedeemingId(couponId);
