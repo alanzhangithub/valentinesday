@@ -44,7 +44,7 @@ export const authOptions: NextAuthOptions = {
       if (session.user) {
         session.user.email = token.email as string;
         // Pass through the password verification status
-        (session as any).passwordVerified = token.passwordVerified;
+        session.passwordVerified = token.passwordVerified as boolean;
       }
       return session;
     },

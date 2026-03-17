@@ -75,6 +75,25 @@ export interface Event {
   updated_at: string;
 }
 
+export interface Stamp {
+  id: string;
+  name: string;
+  emoji: string;
+  color: string;
+  created_by: UserRole;
+  created_at: string;
+  updated_at: string;
+  is_default: boolean;
+}
+
+export interface DayStamp {
+  id: string;
+  stamp_id: string;
+  date: string;
+  placed_by: UserRole;
+  placed_at: string;
+}
+
 export interface Wish {
   id: string;
   text: string;
@@ -250,6 +269,18 @@ export type FoodOptionInsert = Omit<FoodOption, 'id' | 'created_at' | 'weight' |
   active?: boolean;
 };
 
+export type StampInsert = Omit<Stamp, 'id' | 'created_at' | 'updated_at' | 'is_default'> & {
+  id?: string;
+  created_at?: string;
+  updated_at?: string;
+  is_default?: boolean;
+};
+
+export type DayStampInsert = Omit<DayStamp, 'id' | 'placed_at'> & {
+  id?: string;
+  placed_at?: string;
+};
+
 // ============================================
 // UPDATE TYPES (for updating existing records)
 // ============================================
@@ -265,6 +296,13 @@ export type PurchaseUpdate = Partial<Omit<Purchase, 'id' | 'purchased_at'>>;
 export type NewsHeadlineUpdate = Partial<Omit<NewsHeadline, 'id' | 'created_at'>>;
 export type CountdownUpdate = Partial<Omit<Countdown, 'id' | 'created_at'>>;
 export type FoodOptionUpdate = Partial<Omit<FoodOption, 'id' | 'created_at'>>;
+export type StampUpdate = Partial<Omit<Stamp, 'id' | 'created_at'>>;
+export type DayStampUpdate = Partial<DayStamp>; // placements are immutable — delete and re-create (enforced at app level)
+
+// For day_stamps with joined stamp data (from select('*, stamp:stamps(*)'))
+export interface DayStampWithStamp extends DayStamp {
+  stamp: Stamp;
+}
 
 // ============================================
 // SUPABASE DATABASE TYPE (for createClient<Database>)
@@ -277,73 +315,101 @@ export interface Database {
         Row: User;
         Insert: UserInsert;
         Update: UserUpdate;
+        Relationships: [];
       };
       photos: {
         Row: Photo;
         Insert: PhotoInsert;
         Update: PhotoUpdate;
+        Relationships: [];
       };
       boards: {
         Row: Board;
         Insert: BoardInsert;
         Update: BoardUpdate;
+        Relationships: [];
       };
       events: {
         Row: Event;
         Insert: EventInsert;
         Update: EventUpdate;
+        Relationships: [];
       };
       wishes: {
         Row: Wish;
         Insert: WishInsert;
         Update: WishUpdate;
+        Relationships: [];
       };
       coupons: {
         Row: Coupon;
         Insert: CouponInsert;
         Update: CouponUpdate;
+        Relationships: [];
       };
       shop_items: {
         Row: ShopItem;
         Insert: ShopItemInsert;
         Update: ShopItemUpdate;
+        Relationships: [];
       };
       purchases: {
         Row: Purchase;
         Insert: PurchaseInsert;
         Update: PurchaseUpdate;
+        Relationships: [];
       };
       user_balances: {
         Row: UserBalance;
-        Insert: never; // pre-seeded, no insert
+        Insert: never;
         Update: Partial<Omit<UserBalance, 'user_role'>>;
+        Relationships: [];
       };
       badges: {
         Row: Badge;
         Insert: BadgeInsert;
         Update: Partial<Badge>;
+        Relationships: [];
       };
       user_badges: {
         Row: UserBadge;
         Insert: UserBadgeInsert;
-        Update: never; // badges are immutable once earned
+        Update: Partial<UserBadge>;
+        Relationships: [];
       };
       news_headlines: {
         Row: NewsHeadline;
         Insert: NewsHeadlineInsert;
         Update: NewsHeadlineUpdate;
+        Relationships: [];
       };
       countdowns: {
         Row: Countdown;
         Insert: CountdownInsert;
         Update: CountdownUpdate;
+        Relationships: [];
       };
       food_options: {
         Row: FoodOption;
         Insert: FoodOptionInsert;
         Update: FoodOptionUpdate;
+        Relationships: [];
+      };
+      stamps: {
+        Row: Stamp;
+        Insert: StampInsert;
+        Update: StampUpdate;
+        Relationships: [];
+      };
+      day_stamps: {
+        Row: DayStamp;
+        Insert: DayStampInsert;
+        Update: DayStampUpdate;
+        Relationships: [];
       };
     };
+    // eslint-disable-next-line @typescript-eslint/no-empty-object-type
+    Views: {};
     Functions: {
       update_coin_balance: {
         Args: {

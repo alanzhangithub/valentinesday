@@ -81,7 +81,7 @@ export async function POST(request: NextRequest) {
     // const currentBalance = await getUserBalance(user.id);
 
     let coinsToAdd = 0;
-    let newBalance = 0;
+    // let newBalance = 0;
 
     switch (body.game) {
       case 'tap-the-beedo':
@@ -95,7 +95,7 @@ export async function POST(request: NextRequest) {
       case 'slots':
         // for slots, we receive the new balance directly
         // todo: validate balance change is reasonable (no cheating)
-        newBalance = body.newBalance;
+        // newBalance = body.newBalance;
         break;
 
       case 'spelling-mee':
@@ -150,7 +150,8 @@ export async function POST(request: NextRequest) {
 }
 
 // get current coin balance
-export async function GET(request: NextRequest) {
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+export async function GET(_request: NextRequest) {
   try {
     // todo: get user from session/auth
     // const user = await getUser(request);

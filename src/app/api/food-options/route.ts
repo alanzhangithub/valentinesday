@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { FoodOption, RecentPick } from '@/types/food';
 
 // In-memory storage for now - will be replaced with Supabase
-let foodOptions: FoodOption[] = [
+const foodOptions: FoodOption[] = [
   {
     id: '1',
     name: 'Chipotle',
@@ -32,7 +32,7 @@ let foodOptions: FoodOption[] = [
   },
 ];
 
-let recentPicks: RecentPick[] = [];
+const recentPicks: RecentPick[] = [];
 
 // GET - fetch all food options
 export async function GET() {

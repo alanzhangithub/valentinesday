@@ -14,7 +14,7 @@ export default function CreateCouponPage() {
   const [lastCreated, setLastCreated] = useState<string | null>(null);
 
   // TODO: get from auth context when auth worktree is merged
-  const currentUser: User = 'beedo';
+  const currentUser = 'beedo' as User;
 
   const handleSubmit = async (data: CreateCouponRequest) => {
     const response = await fetch('/api/coupons', {
@@ -67,7 +67,7 @@ export default function CreateCouponPage() {
                 className="object-contain"
               />
             </motion.div>
-            <h1 className="font-carrots text-4xl">New Coupon</h1>
+            <h1 className="font-heading text-4xl">New Coupon</h1>
             <span className="text-2xl text-pink-400">&#10084;</span>
             <motion.div
               animate={{ y: [0, -5, 0] }}
@@ -93,7 +93,7 @@ export default function CreateCouponPage() {
           <motion.div
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
-            className="bg-white rounded-2xl border-4 border-black p-8 text-center shadow-lg"
+            className="bg-card rounded-2xl border-4 border-black p-8 text-center shadow-lg"
           >
             <motion.div
               animate={{ scale: [1, 1.1, 1] }}
@@ -107,9 +107,9 @@ export default function CreateCouponPage() {
                 className="object-contain"
               />
             </motion.div>
-            <h2 className="font-carrots text-3xl mb-2">Coupon Created!</h2>
+            <h2 className="font-heading text-3xl mb-2">Coupon Created!</h2>
             <p className="text-gray-600 mb-2">
-              "{lastCreated}" is ready for {recipientName} to redeem
+              {`"${lastCreated}" is ready for ${recipientName} to redeem`}
             </p>
             <p className="text-pink-400 text-sm mb-6">
               such a sweet gift from {creatorName}
@@ -123,7 +123,7 @@ export default function CreateCouponPage() {
                   setShowPreview(false);
                   setLastCreated(null);
                 }}
-                className="px-6 py-2 rounded-xl border-2 border-black font-carrots hover:bg-gray-100 transition-colors"
+                className="px-6 py-2 rounded-xl border-2 border-black font-heading hover:bg-gray-100 transition-colors"
               >
                 Create Another
               </motion.button>
@@ -131,7 +131,7 @@ export default function CreateCouponPage() {
                 <motion.button
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
-                  className="px-6 py-2 rounded-xl bg-black text-white font-carrots hover:bg-gray-800 transition-colors"
+                  className="px-6 py-2 rounded-xl bg-black text-white font-heading hover:bg-gray-800 transition-colors"
                 >
                   View All Coupons
                 </motion.button>
@@ -152,24 +152,24 @@ export default function CreateCouponPage() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.2 }}
-            className="mt-8 p-6 bg-white rounded-2xl border-2 border-gray-200 shadow-sm"
+            className="mt-8 p-6 bg-card rounded-2xl border-2 border-border shadow-sm"
           >
-            <h3 className="font-carrots text-xl mb-3 flex items-center gap-2">
+            <h3 className="font-heading text-xl mb-3 flex items-center gap-2">
               <span>&#128161;</span> coupon tips
             </h3>
             <ul className="space-y-2 text-sm text-gray-600">
               <li className="flex items-start gap-2">
                 <span className="text-pink-400 mt-0.5">&#10084;</span>
                 <span>
-                  <span className="font-medium">be specific</span> - "one 15-min backrub" is better
-                  than just "backrub"
+                  <span className="font-medium">be specific</span> - {`"one 15-min backrub" is better
+                  than just "backrub"`}
                 </span>
               </li>
               <li className="flex items-start gap-2">
                 <span className="text-pink-400 mt-0.5">&#10084;</span>
                 <span>
-                  <span className="font-medium">make it redeemable</span> - don't promise something
-                  you can't deliver
+                  <span className="font-medium">make it redeemable</span> - don&apos;t promise something
+                  you can&apos;t deliver
                 </span>
               </li>
               <li className="flex items-start gap-2">

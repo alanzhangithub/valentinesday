@@ -139,8 +139,8 @@ const MeedoMemory: React.FC<MeedoMemoryProps> = ({
     <div className="max-w-2xl mx-auto p-4">
       {/* header */}
       <div className="text-center mb-6">
-        <h1 className="font-carrots text-5xl md:text-6xl">Meedo Memory</h1>
-        <p className="font-cheeky text-xl text-gray-600 mt-2">
+        <h1 className="font-heading text-5xl md:text-6xl">Meedo Memory</h1>
+        <p className="text-xl text-gray-600 mt-2">
           match the pairs to win coins!
         </p>
       </div>
@@ -149,19 +149,19 @@ const MeedoMemory: React.FC<MeedoMemoryProps> = ({
       <div className="flex justify-between items-center mb-6">
         <CoinDisplay coins={initialCoins + coinsEarned} size="sm" />
         <div className="flex items-center gap-4">
-          <div className="bg-white border-2 border-black rounded-xl px-4 py-2">
-            <span className="font-cheeky text-sm text-gray-500">moves</span>
-            <p className="font-carrots text-3xl">{moves}</p>
+          <div className="bg-card border-2 border-black rounded-xl px-4 py-2">
+            <span className="text-sm text-gray-500">moves</span>
+            <p className="font-heading text-3xl">{moves}</p>
           </div>
-          <div className="bg-white border-2 border-black rounded-xl px-4 py-2">
-            <span className="font-cheeky text-sm text-gray-500">pairs</span>
-            <p className="font-carrots text-3xl">{matchedPairs}/{CARD_PAIRS.length}</p>
+          <div className="bg-card border-2 border-black rounded-xl px-4 py-2">
+            <span className="text-sm text-gray-500">pairs</span>
+            <p className="font-heading text-3xl">{matchedPairs}/{CARD_PAIRS.length}</p>
           </div>
         </div>
       </div>
 
       {/* game area */}
-      <div className="bg-white rounded-3xl border-4 border-black p-6">
+      <div className="bg-card rounded-3xl border-4 border-black p-6">
         {gameState === 'idle' && (
           <div className="text-center py-12">
             <motion.div
@@ -171,14 +171,14 @@ const MeedoMemory: React.FC<MeedoMemoryProps> = ({
             >
               🧠
             </motion.div>
-            <p className="font-cheeky text-xl text-gray-600 mb-6">
+            <p className="text-xl text-gray-600 mb-6">
               find all the matching pairs!
             </p>
             <motion.button
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
               onClick={startGame}
-              className="bg-purple-500 text-white font-carrots text-2xl px-8 py-4 rounded-xl border-4 border-purple-600 hover:bg-purple-600 transition-colors"
+              className="bg-purple-500 text-white font-heading text-2xl px-8 py-4 rounded-xl border-4 border-purple-600 hover:bg-purple-600 transition-colors"
             >
               Start Game!
             </motion.button>
@@ -219,7 +219,7 @@ const MeedoMemory: React.FC<MeedoMemoryProps> = ({
                       animate={{ rotateY: 0, opacity: 1 }}
                       exit={{ rotateY: 90, opacity: 0 }}
                       transition={{ duration: 0.2 }}
-                      className="text-gray-400"
+                      className="text-muted-foreground/70"
                     >
                       ?
                     </motion.span>
@@ -244,22 +244,22 @@ const MeedoMemory: React.FC<MeedoMemoryProps> = ({
               >
                 🎉
               </motion.div>
-              <p className="font-carrots text-4xl mb-2">You Did It!</p>
-              <p className="font-cheeky text-xl text-gray-600 mb-4">
+              <p className="font-heading text-4xl mb-2">You Did It!</p>
+              <p className="text-xl text-gray-600 mb-4">
                 completed in {moves} moves!
               </p>
 
               <div className="bg-yellow-50 border-2 border-yellow-400 rounded-xl p-4 mb-6 inline-block">
-                <p className="font-cheeky text-lg text-yellow-700">you earned</p>
+                <p className="text-lg text-yellow-700">you earned</p>
                 <motion.p
                   initial={{ scale: 0 }}
                   animate={{ scale: 1 }}
                   transition={{ delay: 0.3, type: 'spring' }}
-                  className="font-carrots text-5xl text-yellow-800"
+                  className="font-heading text-5xl text-yellow-800"
                 >
                   +{coinsEarned}
                 </motion.p>
-                <p className="font-cheeky text-sm text-yellow-600">meedo coins!</p>
+                <p className="text-sm text-yellow-600">meedo coins!</p>
               </div>
 
               <div className="flex flex-col gap-3">
@@ -267,13 +267,13 @@ const MeedoMemory: React.FC<MeedoMemoryProps> = ({
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
                   onClick={startGame}
-                  className="bg-purple-500 text-white font-carrots text-xl px-6 py-3 rounded-xl border-4 border-purple-600 hover:bg-purple-600 transition-colors"
+                  className="bg-purple-500 text-white font-heading text-xl px-6 py-3 rounded-xl border-4 border-purple-600 hover:bg-purple-600 transition-colors"
                 >
                   Play Again!
                 </motion.button>
                 <Link
                   href="/games"
-                  className="font-cheeky text-lg text-gray-500 hover:text-gray-700 underline"
+                  className="text-lg text-gray-500 hover:text-gray-700 underline"
                 >
                   back to games
                 </Link>
@@ -290,7 +290,7 @@ const MeedoMemory: React.FC<MeedoMemoryProps> = ({
           animate={{ opacity: 1 }}
           className="mt-4 text-center"
         >
-          <p className="font-cheeky text-gray-500">
+          <p className="text-gray-500">
             tip: fewer moves = more coins!
           </p>
         </motion.div>
@@ -301,7 +301,7 @@ const MeedoMemory: React.FC<MeedoMemoryProps> = ({
         <div className="mt-6 text-center">
           <Link
             href="/games"
-            className="font-cheeky text-lg text-gray-500 hover:text-gray-700 underline"
+            className="text-lg text-gray-500 hover:text-gray-700 underline"
           >
             back to games
           </Link>

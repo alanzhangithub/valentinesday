@@ -87,14 +87,14 @@ export default function StickerBoardPage() {
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Header */}
-      <header className="bg-white border-b">
+      <header className="bg-card border-b">
         <div className="max-w-5xl mx-auto px-6 py-6">
           <div className="flex items-center justify-between">
             <div>
-              <Link href="/" className="text-sm text-gray-400 hover:text-gray-600 transition-colors">
+              <Link href="/" className="text-sm text-muted-foreground/70 hover:text-gray-600 transition-colors">
                 back to home
               </Link>
-              <h1 className="text-2xl font-bold text-gray-900 mt-1">sticker boards</h1>
+              <h1 className="text-2xl font-bold text-foreground mt-1">sticker boards</h1>
               <p className="text-gray-500 mt-1">decorate boards together with meedo and beedo stickers</p>
             </div>
             <button
@@ -123,7 +123,7 @@ export default function StickerBoardPage() {
             className="text-center py-20"
           >
             <div className="w-24 h-24 bg-gray-100 rounded-3xl mx-auto mb-6 flex items-center justify-center">
-              <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="text-gray-400">
+              <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="text-muted-foreground/70">
                 <rect x="3" y="3" width="18" height="18" rx="2" />
                 <path d="M3 9h18M9 21V9" />
               </svg>
@@ -145,7 +145,7 @@ export default function StickerBoardPage() {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: index * 0.05 }}
-                className="bg-white rounded-2xl shadow-sm border hover:shadow-md transition-shadow overflow-hidden group"
+                className="bg-card rounded-2xl shadow-sm border hover:shadow-md transition-shadow overflow-hidden group"
               >
                 {/* Preview area */}
                 <Link href={`/sticker-board/${board.id}`}>
@@ -189,7 +189,7 @@ export default function StickerBoardPage() {
                   <div className="flex items-start justify-between">
                     <div className="flex-1 min-w-0">
                       <Link href={`/sticker-board/${board.id}`}>
-                        <h3 className="font-medium text-gray-900 truncate hover:text-gray-600 transition-colors">
+                        <h3 className="font-medium text-foreground truncate hover:text-gray-600 transition-colors">
                           {board.name}
                         </h3>
                       </Link>
@@ -199,7 +199,7 @@ export default function StickerBoardPage() {
                     </div>
                     <button
                       onClick={() => deleteBoard(board.id)}
-                      className="p-2 text-gray-400 hover:text-red-500 hover:bg-red-50 rounded-lg transition-colors opacity-0 group-hover:opacity-100"
+                      className="p-2 text-muted-foreground/70 hover:text-red-500 hover:bg-red-50 rounded-lg transition-colors opacity-0 group-hover:opacity-100"
                     >
                       <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                         <path d="M3 6h18M19 6v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6m3 0V4a2 2 0 012-2h4a2 2 0 012 2v2" />
@@ -219,9 +219,9 @@ export default function StickerBoardPage() {
           <motion.div
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
-            className="bg-white rounded-2xl p-6 w-full max-w-md"
+            className="bg-card rounded-2xl p-6 w-full max-w-md"
           >
-            <h2 className="text-xl font-semibold text-gray-900 mb-4">create new board</h2>
+            <h2 className="text-xl font-semibold text-foreground mb-4">create new board</h2>
             <input
               type="text"
               value={newBoardName}

@@ -11,7 +11,7 @@ interface CanvasProps {
   onAddSticker: (src: string) => void;
 }
 
-export default function Canvas({ canvasData, onUpdate, onAddSticker }: CanvasProps) {
+export default function Canvas({ canvasData, onUpdate }: CanvasProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const [zoom, setZoom] = useState(1);
@@ -132,7 +132,7 @@ export default function Canvas({ canvasData, onUpdate, onAddSticker }: CanvasPro
       <div className="absolute top-4 right-4 z-10 flex gap-2">
         <button
           onClick={() => setZoom((z) => Math.min(z * 1.2, 4))}
-          className="w-8 h-8 bg-white rounded-lg shadow-md flex items-center justify-center hover:bg-gray-100 transition-colors"
+          className="w-8 h-8 bg-card rounded-lg shadow-md flex items-center justify-center hover:bg-gray-100 transition-colors"
         >
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
             <path d="M12 5v14M5 12h14" />
@@ -140,7 +140,7 @@ export default function Canvas({ canvasData, onUpdate, onAddSticker }: CanvasPro
         </button>
         <button
           onClick={() => setZoom((z) => Math.max(z * 0.8, 0.25))}
-          className="w-8 h-8 bg-white rounded-lg shadow-md flex items-center justify-center hover:bg-gray-100 transition-colors"
+          className="w-8 h-8 bg-card rounded-lg shadow-md flex items-center justify-center hover:bg-gray-100 transition-colors"
         >
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
             <path d="M5 12h14" />
@@ -148,14 +148,14 @@ export default function Canvas({ canvasData, onUpdate, onAddSticker }: CanvasPro
         </button>
         <button
           onClick={resetView}
-          className="px-3 h-8 bg-white rounded-lg shadow-md flex items-center justify-center hover:bg-gray-100 transition-colors text-sm"
+          className="px-3 h-8 bg-card rounded-lg shadow-md flex items-center justify-center hover:bg-gray-100 transition-colors text-sm"
         >
           {Math.round(zoom * 100)}%
         </button>
       </div>
 
       {/* Help text */}
-      <div className="absolute bottom-4 left-4 z-10 text-xs text-gray-400">
+      <div className="absolute bottom-4 left-4 z-10 text-xs text-muted-foreground/70">
         scroll to zoom, alt+drag to pan
       </div>
 
@@ -215,7 +215,7 @@ export default function Canvas({ canvasData, onUpdate, onAddSticker }: CanvasPro
           animate={{ opacity: 1, y: 0 }}
           className="absolute inset-0 flex items-center justify-center pointer-events-none"
         >
-          <div className="text-center text-gray-400">
+          <div className="text-center text-muted-foreground/70">
             <p className="text-lg font-medium mb-2">your board is empty</p>
             <p className="text-sm">drag stickers from the sidebar to get started</p>
           </div>

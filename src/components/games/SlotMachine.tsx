@@ -10,7 +10,6 @@ interface SlotMachineProps {
 }
 
 const SYMBOLS = ['🐻', '🎀', '❤️', '⭐', '🌸', '💝'];
-const SYMBOL_NAMES = ['meedo', 'beedo', 'heart', 'star', 'flower', 'love'];
 
 const SPIN_COST = 5;
 const PAYOUTS = {
@@ -27,10 +26,10 @@ const SlotMachine: React.FC<SlotMachineProps> = ({
 }) => {
   const [coins, setCoins] = useState(initialCoins);
   const [reels, setReels] = useState<number[]>([0, 1, 2]);
+  const [, setSpinAnimations] = useState([0, 0, 0]);
   const [isSpinning, setIsSpinning] = useState(false);
   const [lastWin, setLastWin] = useState<number | null>(null);
   const [winMessage, setWinMessage] = useState<string | null>(null);
-  const [spinAnimations, setSpinAnimations] = useState<number[]>([0, 0, 0]);
 
   const calculateWinnings = useCallback((results: number[]) => {
     const symbols = results.map((i) => SYMBOLS[i]);
@@ -136,8 +135,8 @@ const SlotMachine: React.FC<SlotMachineProps> = ({
     <div className="max-w-lg mx-auto p-4">
       {/* header */}
       <div className="text-center mb-6">
-        <h1 className="font-carrots text-5xl md:text-6xl">Meedo Slots</h1>
-        <p className="font-cheeky text-xl text-gray-600 mt-2">
+        <h1 className="font-heading text-5xl md:text-6xl">Meedo Slots</h1>
+        <p className="text-xl text-gray-600 mt-2">
           spin to win meedo coins!
         </p>
       </div>
@@ -151,11 +150,11 @@ const SlotMachine: React.FC<SlotMachineProps> = ({
       <div className="bg-gradient-to-b from-purple-600 to-purple-800 rounded-3xl border-4 border-purple-900 p-6 shadow-2xl">
         {/* decorative top */}
         <div className="bg-yellow-400 rounded-t-xl border-4 border-yellow-500 p-2 mb-4 text-center">
-          <span className="font-carrots text-2xl text-yellow-900">MEEDO CASINO</span>
+          <span className="font-heading text-2xl text-yellow-900">MEEDO CASINO</span>
         </div>
 
         {/* reels */}
-        <div className="bg-white rounded-xl border-4 border-gray-300 p-4 mb-4">
+        <div className="bg-card rounded-xl border-4 border-gray-300 p-4 mb-4">
           <div className="flex justify-center gap-2">
             {reels.map((symbolIndex, i) => (
               <motion.div
@@ -198,11 +197,11 @@ const SlotMachine: React.FC<SlotMachineProps> = ({
               exit={{ scale: 0, opacity: 0 }}
               className="bg-yellow-400 rounded-xl border-4 border-yellow-500 p-4 mb-4 text-center"
             >
-              <p className="font-cheeky text-lg text-yellow-800">{winMessage}</p>
+              <p className="text-lg text-yellow-800">{winMessage}</p>
               <motion.p
                 initial={{ scale: 1.5 }}
                 animate={{ scale: 1 }}
-                className="font-carrots text-4xl text-yellow-900"
+                className="font-heading text-4xl text-yellow-900"
               >
                 +{lastWin} coins!
               </motion.p>
@@ -216,7 +215,7 @@ const SlotMachine: React.FC<SlotMachineProps> = ({
           whileTap={{ scale: coins >= SPIN_COST ? 0.95 : 1 }}
           onClick={spin}
           disabled={isSpinning || coins < SPIN_COST}
-          className={`w-full py-4 rounded-xl border-4 font-carrots text-2xl transition-colors ${
+          className={`w-full py-4 rounded-xl border-4 font-heading text-2xl transition-colors ${
             coins >= SPIN_COST
               ? 'bg-green-500 border-green-600 text-white hover:bg-green-600'
               : 'bg-gray-400 border-gray-500 text-gray-200 cursor-not-allowed'
@@ -244,10 +243,10 @@ const SlotMachine: React.FC<SlotMachineProps> = ({
             animate={{ opacity: 1, y: 0 }}
             className="mt-4 text-center"
           >
-            <p className="font-cheeky text-white mb-2">ran outta coins?</p>
+            <p className="text-white mb-2">ran outta coins?</p>
             <button
               onClick={addFreeCoins}
-              className="bg-yellow-400 text-yellow-900 font-cheeky text-lg px-6 py-2 rounded-xl border-2 border-yellow-500 hover:bg-yellow-300 transition-colors"
+              className="bg-yellow-400 text-yellow-900 text-lg px-6 py-2 rounded-xl border-2 border-yellow-500 hover:bg-yellow-300 transition-colors"
             >
               get 50 free coins! 🎁
             </button>
@@ -256,9 +255,9 @@ const SlotMachine: React.FC<SlotMachineProps> = ({
       </div>
 
       {/* payout table */}
-      <div className="mt-6 bg-white rounded-xl border-2 border-gray-200 p-4">
-        <h3 className="font-carrots text-2xl text-center mb-4">payouts</h3>
-        <div className="space-y-2 font-cheeky text-lg">
+      <div className="mt-6 bg-card rounded-xl border-2 border-border p-4">
+        <h3 className="font-heading text-2xl text-center mb-4">payouts</h3>
+        <div className="space-y-2 text-lg">
           <div className="flex justify-between">
             <span>🐻🐻🐻 triple meedo</span>
             <span className="text-yellow-600 font-bold">100 coins</span>
@@ -294,7 +293,7 @@ const SlotMachine: React.FC<SlotMachineProps> = ({
       <div className="mt-6 text-center">
         <a
           href="/games"
-          className="font-cheeky text-lg text-gray-500 hover:text-gray-700 underline"
+          className="text-lg text-gray-500 hover:text-gray-700 underline"
         >
           back to games
         </a>

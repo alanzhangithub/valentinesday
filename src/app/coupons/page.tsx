@@ -17,7 +17,7 @@ export default function CouponsPage() {
   const [showSuccess, setShowSuccess] = useState<string | null>(null);
 
   // TODO: get from auth context when auth worktree is merged
-  const currentUser: User = 'beedo';
+  const currentUser = 'beedo' as User;
 
   const fetchCoupons = async () => {
     setIsLoading(true);
@@ -109,7 +109,7 @@ export default function CouponsPage() {
               <Image src="/meedo.png" alt="Meedo" fill className="object-contain" />
             </motion.div>
             <div>
-              <h1 className="font-carrots text-5xl">Coupon Book</h1>
+              <h1 className="font-heading text-5xl">Coupon Book</h1>
               <p className="text-pink-400 text-sm font-medium">little gifts of love</p>
             </div>
             <motion.div
@@ -132,7 +132,7 @@ export default function CouponsPage() {
               initial={{ opacity: 0, y: -20, scale: 0.9 }}
               animate={{ opacity: 1, y: 0, scale: 1 }}
               exit={{ opacity: 0, y: -20, scale: 0.9 }}
-              className="fixed top-4 left-1/2 -translate-x-1/2 bg-black text-white px-6 py-3 rounded-xl shadow-lg z-50 font-carrots flex items-center gap-2"
+              className="fixed top-4 left-1/2 -translate-x-1/2 bg-black text-white px-6 py-3 rounded-xl shadow-lg z-50 font-heading flex items-center gap-2"
             >
               <span className="text-pink-400">&#10084;</span>
               {showSuccess}
@@ -154,7 +154,7 @@ export default function CouponsPage() {
                 className={`px-4 py-2 rounded-xl font-medium transition-colors ${
                   filter === tab.key
                     ? 'bg-black text-white'
-                    : 'bg-white text-gray-700 hover:bg-gray-100 border border-gray-200'
+                    : 'bg-card text-gray-700 hover:bg-gray-100 border border-border'
                 }`}
               >
                 {tab.label}
@@ -167,7 +167,7 @@ export default function CouponsPage() {
             <motion.button
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
-              className="px-6 py-2 bg-black text-white rounded-xl font-carrots hover:bg-gray-800 transition-colors flex items-center gap-2 shadow-md"
+              className="px-6 py-2 bg-black text-white rounded-xl font-heading hover:bg-gray-800 transition-colors flex items-center gap-2 shadow-md"
             >
               <span className="text-xl">+</span>
               Create Coupon
@@ -189,7 +189,7 @@ export default function CouponsPage() {
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            className="text-center py-12 bg-white rounded-2xl border-2 border-dashed border-gray-300"
+            className="text-center py-12 bg-card rounded-2xl border-2 border-dashed border-gray-300"
           >
             <div className="flex justify-center gap-4 mb-4">
               <div className="w-16 h-16 relative opacity-50">
@@ -204,7 +204,7 @@ export default function CouponsPage() {
               <motion.button
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
-                className="px-6 py-2 bg-black text-white rounded-xl font-carrots hover:bg-gray-800"
+                className="px-6 py-2 bg-black text-white rounded-xl font-heading hover:bg-gray-800"
               >
                 Create First Coupon
               </motion.button>
@@ -243,10 +243,10 @@ export default function CouponsPage() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.3 }}
-            className="mt-8 p-6 bg-white rounded-2xl border-2 border-gray-200 text-center"
+            className="mt-8 p-6 bg-card rounded-2xl border-2 border-border text-center"
           >
             <p className="text-gray-500 text-sm">
-              you two have exchanged <span className="font-carrots text-black">{coupons.length}</span> love
+              you two have exchanged <span className="font-heading text-black">{coupons.length}</span> love
               coupons so far. keep it up!
             </p>
           </motion.div>

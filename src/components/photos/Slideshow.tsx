@@ -186,7 +186,7 @@ export default function Slideshow({
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
                 onClick={goToPrev}
-                className="absolute left-4 top-1/2 -translate-y-1/2 w-12 h-12 bg-white/20 hover:bg-white/30 rounded-full flex items-center justify-center text-white backdrop-blur-sm transition-colors"
+                className="absolute left-4 top-1/2 -translate-y-1/2 w-12 h-12 bg-card/20 hover:bg-card/30 rounded-full flex items-center justify-center text-white backdrop-blur-sm transition-colors"
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -209,7 +209,7 @@ export default function Slideshow({
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
                 onClick={goToNext}
-                className="absolute right-4 top-1/2 -translate-y-1/2 w-12 h-12 bg-white/20 hover:bg-white/30 rounded-full flex items-center justify-center text-white backdrop-blur-sm transition-colors"
+                className="absolute right-4 top-1/2 -translate-y-1/2 w-12 h-12 bg-card/20 hover:bg-card/30 rounded-full flex items-center justify-center text-white backdrop-blur-sm transition-colors"
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -288,7 +288,7 @@ export default function Slideshow({
               {/* Close button */}
               <button
                 onClick={onClose}
-                className="px-4 py-2 hover:bg-white/10 rounded-lg transition-colors"
+                className="px-4 py-2 hover:bg-card/10 rounded-lg transition-colors"
               >
                 close
               </button>
@@ -297,7 +297,7 @@ export default function Slideshow({
               <div className="flex items-center gap-4">
                 <button
                   onClick={() => setIsPlaying(!isPlaying)}
-                  className="w-10 h-10 bg-white/20 hover:bg-white/30 rounded-full flex items-center justify-center transition-colors"
+                  className="w-10 h-10 bg-card/20 hover:bg-card/30 rounded-full flex items-center justify-center transition-colors"
                 >
                   {isPlaying ? (
                     <svg
@@ -339,7 +339,7 @@ export default function Slideshow({
 
               {/* Uploaded by + keyboard hint */}
               <div className="px-4 py-2 flex items-center gap-3">
-                <span className="text-sm text-gray-400">
+                <span className="text-sm text-muted-foreground/70">
                   by {currentPhoto.uploaded_by}
                 </span>
                 <span className="text-xs text-gray-600 hidden sm:inline">
@@ -358,7 +358,7 @@ export default function Slideshow({
           initial={{ scaleX: 0 }}
           animate={{ scaleX: 1 }}
           transition={{ duration: autoAdvanceInterval / 1000, ease: 'linear' }}
-          className="absolute top-0 left-0 right-0 h-1 bg-white origin-left"
+          className="absolute top-0 left-0 right-0 h-1 bg-card origin-left"
         />
       )}
     </div>

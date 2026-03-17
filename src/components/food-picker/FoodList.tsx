@@ -47,25 +47,25 @@ export default function FoodList({
   };
 
   return (
-    <div className="bg-white rounded-2xl border-4 border-black overflow-hidden shadow-lg">
+    <div className="bg-card rounded-2xl border-4 border-black overflow-hidden shadow-lg">
       {/* Tabs */}
       <div className="flex border-b-4 border-black">
         <button
           onClick={() => setActiveTab('restaurants')}
-          className={`flex-1 font-carrots text-lg py-3 transition-colors ${
+          className={`flex-1 font-heading text-lg py-3 transition-colors ${
             activeTab === 'restaurants'
               ? 'bg-black text-white'
-              : 'bg-white text-black hover:bg-gray-100'
+              : 'bg-card text-black hover:bg-gray-100'
           }`}
         >
           our spots ({options.length})
         </button>
         <button
           onClick={() => setActiveTab('history')}
-          className={`flex-1 font-carrots text-lg py-3 transition-colors border-l-4 border-black ${
+          className={`flex-1 font-heading text-lg py-3 transition-colors border-l-4 border-black ${
             activeTab === 'history'
               ? 'bg-black text-white'
-              : 'bg-white text-black hover:bg-gray-100'
+              : 'bg-card text-black hover:bg-gray-100'
           }`}
         >
           history ({recentPicks.length})
@@ -85,10 +85,10 @@ export default function FoodList({
             >
               {options.length === 0 ? (
                 <div className="text-center py-8">
-                  <p className="font-cheeky text-xl text-gray-400">
+                  <p className="text-xl text-muted-foreground/70">
                     no restaurants added yet~
                   </p>
-                  <p className="font-cheeky text-gray-300 mt-1">
+                  <p className="text-gray-300 mt-1">
                     add some spots below!
                   </p>
                 </div>
@@ -118,7 +118,7 @@ export default function FoodList({
                           </span>
                         )}
                         {option.location && (
-                          <span className="text-xs text-gray-400">
+                          <span className="text-xs text-muted-foreground/70">
                             {option.location}
                           </span>
                         )}
@@ -127,7 +127,7 @@ export default function FoodList({
 
                     {/* Weight indicator - hearts instead of dots */}
                     <div className="flex flex-col items-center gap-1">
-                      <span className="text-[10px] text-gray-400 uppercase tracking-wide">vibe</span>
+                      <span className="text-[10px] text-muted-foreground/70 uppercase tracking-wide">vibe</span>
                       <div className="flex gap-0.5">
                         {[1, 2, 3, 4, 5].map((w) => (
                           <button
@@ -204,10 +204,10 @@ export default function FoodList({
             >
               {recentPicks.length === 0 ? (
                 <div className="text-center py-8">
-                  <p className="font-cheeky text-xl text-gray-400">
+                  <p className="text-xl text-muted-foreground/70">
                     no picks yet!
                   </p>
-                  <p className="font-cheeky text-gray-300 mt-1">
+                  <p className="text-gray-300 mt-1">
                     spin the wheel to decide~
                   </p>
                 </div>
@@ -218,7 +218,7 @@ export default function FoodList({
                     initial={{ opacity: 0, y: 10 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: index * 0.05 }}
-                    className="flex items-center justify-between p-3 rounded-xl border-2 border-gray-200 bg-gray-50"
+                    className="flex items-center justify-between p-3 rounded-xl border-2 border-border bg-gray-50"
                   >
                     <div className="flex items-center gap-3">
                       {/* Icon */}
@@ -227,7 +227,7 @@ export default function FoodList({
                       </div>
                       <div>
                         <h4 className="font-bold">{pick.foodOptionName}</h4>
-                        <p className="text-sm text-gray-400">
+                        <p className="text-sm text-muted-foreground/70">
                           {getTimeAgo(pick.pickedAt)}
                         </p>
                       </div>
@@ -246,8 +246,8 @@ export default function FoodList({
       </div>
 
       {/* Fun footer message */}
-      <div className="border-t-2 border-gray-100 px-4 py-2">
-        <p className="text-xs text-gray-300 text-center font-cheeky">
+      <div className="border-t-2 border-border/50 px-4 py-2">
+        <p className="text-xs text-gray-300 text-center">
           {activeTab === 'restaurants'
             ? 'higher vibe = more likely to be picked'
             : 'we really be eating out a lot huh'}

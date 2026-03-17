@@ -33,24 +33,23 @@ export default function PasswordGatePage() {
       // Success - redirect to home
       router.push("/");
       router.refresh();
-    } catch (err) {
+    } catch {
       setError("something went wrong. try again?");
       setLoading(false);
     }
   };
 
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center bg-white px-4">
+    <div className="min-h-screen flex flex-col items-center justify-center bg-background px-4">
       <div className="max-w-md w-full text-center space-y-8">
-        {/* Character placeholder */}
         <div className="text-6xl mb-4">🔐</div>
 
         <div className="space-y-2">
-          <h1 className="text-2xl font-bold text-gray-900">
-            One more step to enter the nation...
+          <h1 className="font-heading text-2xl font-semibold text-foreground">
+            one more step to enter the nation...
           </h1>
-          <p className="text-gray-600">
-            Enter the secret code known only to citizens of Meedobeedo.
+          <p className="text-muted-foreground font-body">
+            enter the secret code known only to citizens of meedobeedo
           </p>
         </div>
 
@@ -61,14 +60,14 @@ export default function PasswordGatePage() {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               placeholder="enter secret code"
-              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-gray-900 focus:border-transparent outline-none text-center text-lg"
+              className="w-full px-4 py-3 bg-white border-2 border-candy-sky/30 rounded-2xl focus:ring-2 focus:ring-primary/30 focus:border-primary outline-none text-center text-lg font-body"
               autoFocus
               disabled={loading}
             />
           </div>
 
           {error && (
-            <div className="py-2 px-4 bg-red-50 text-red-800 rounded-lg text-sm">
+            <div className="py-2 px-4 bg-candy-pink/10 text-candy-pink rounded-2xl text-sm font-body font-semibold">
               {error}
             </div>
           )}
@@ -76,23 +75,23 @@ export default function PasswordGatePage() {
           <button
             type="submit"
             disabled={loading || !password}
-            className="w-full py-3 px-4 bg-gray-900 hover:bg-gray-800 text-white rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+            className="w-full py-3 px-4 bg-primary hover:bg-primary/90 text-white rounded-2xl font-heading font-semibold text-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed shadow-md"
           >
-            {loading ? "checking..." : "enter meedobeedo"}
+            {loading ? "checking..." : "enter meedobeedo 🚪"}
           </button>
         </form>
 
         <div className="pt-4">
           <button
             onClick={() => signOut({ callbackUrl: "/" })}
-            className="text-sm text-gray-500 hover:text-gray-700 underline"
+            className="text-sm text-muted-foreground hover:text-foreground underline font-body"
           >
             sign in with a different account
           </button>
         </div>
 
-        <p className="text-xs text-gray-400 pt-4">
-          hint: ask meedo or beedo, they might tell you
+        <p className="text-xs text-muted-foreground pt-4 font-body">
+          hint: ask meedo or beedo, they might tell you 🤫
         </p>
       </div>
     </div>

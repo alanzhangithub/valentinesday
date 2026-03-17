@@ -205,35 +205,35 @@ export default function WishingWell({ onWishSubmit, isSubmitting, currentUser = 
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.3 }}
       >
-        <div className="bg-white/95 backdrop-blur-sm rounded-2xl border-4 border-black p-6 shadow-xl relative overflow-hidden">
+        <div className="bg-card/95 backdrop-blur-sm rounded-2xl border-4 border-black p-6 shadow-xl relative overflow-hidden">
           {/* Decorative corner flourishes */}
-          <div className="absolute top-2 left-2 w-6 h-6 border-t-2 border-l-2 border-gray-200 rounded-tl" />
-          <div className="absolute top-2 right-2 w-6 h-6 border-t-2 border-r-2 border-gray-200 rounded-tr" />
-          <div className="absolute bottom-2 left-2 w-6 h-6 border-b-2 border-l-2 border-gray-200 rounded-bl" />
-          <div className="absolute bottom-2 right-2 w-6 h-6 border-b-2 border-r-2 border-gray-200 rounded-br" />
+          <div className="absolute top-2 left-2 w-6 h-6 border-t-2 border-l-2 border-border rounded-tl" />
+          <div className="absolute top-2 right-2 w-6 h-6 border-t-2 border-r-2 border-border rounded-tr" />
+          <div className="absolute bottom-2 left-2 w-6 h-6 border-b-2 border-l-2 border-border rounded-bl" />
+          <div className="absolute bottom-2 right-2 w-6 h-6 border-b-2 border-r-2 border-border rounded-br" />
 
-          <label className="block font-carrots text-2xl text-center mb-2">
+          <label className="block font-heading text-2xl text-center mb-2">
             Cast Your Wish unto Mod
           </label>
-          <p className="text-center text-gray-400 text-sm font-cheeky mb-4">
+          <p className="text-center text-muted-foreground/70 text-sm mb-4">
             wishing as {currentUser === 'meedo' ? 'Meedo' : 'Beedo'}
           </p>
           <textarea
             value={wishText}
             onChange={(e) => setWishText(e.target.value)}
             placeholder={`Dear Mod, I wish for ${randomTemplate}`}
-            className="w-full h-32 p-4 border-2 border-gray-200 rounded-xl resize-none focus:outline-none focus:border-black focus:ring-2 focus:ring-black/5 transition-all font-cheeky text-lg bg-gray-50/50"
+            className="w-full h-32 p-4 border-2 border-border rounded-xl resize-none focus:outline-none focus:border-black focus:ring-2 focus:ring-black/5 transition-all text-lg bg-gray-50/50"
             maxLength={500}
             disabled={isSubmitting}
           />
           <div className="flex justify-between items-center mt-4">
-            <span className={`text-sm font-cheeky ${wishText.length > 400 ? 'text-amber-500' : 'text-gray-400'}`}>
+            <span className={`text-sm ${wishText.length > 400 ? 'text-amber-500' : 'text-muted-foreground/70'}`}>
               {wishText.length}/500
             </span>
             <motion.button
               type="submit"
               disabled={!wishText.trim() || isSubmitting}
-              className="px-6 py-3 bg-black text-white rounded-xl font-carrots text-lg disabled:opacity-50 disabled:cursor-not-allowed shadow-md hover:shadow-lg transition-shadow"
+              className="px-6 py-3 bg-black text-white rounded-xl font-heading text-lg disabled:opacity-50 disabled:cursor-not-allowed shadow-md hover:shadow-lg transition-shadow"
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
             >
@@ -261,7 +261,7 @@ export default function WishingWell({ onWishSubmit, isSubmitting, currentUser = 
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: 0.5 }}
-        className="mt-4 text-gray-500 font-cheeky text-center italic max-w-sm"
+        className="mt-4 text-gray-500 text-center italic max-w-sm"
       >
         Mod hears all wishes... but grants them at their divine discretion
       </motion.p>

@@ -111,10 +111,10 @@ const BirthdayOverlay: React.FC = () => {
             transition={{ duration: 0.7, delay: 0.2 }}
             className="text-center px-4"
           >
-            <h1 className="font-carrots text-7xl md:text-9xl text-white drop-shadow-lg mb-4">
+            <h1 className="font-heading text-7xl md:text-9xl text-white drop-shadow-lg mb-4">
               Happy Birthday Beedo!
             </h1>
-            <p className="font-cheeky text-3xl md:text-4xl text-white drop-shadow">
+            <p className="text-3xl md:text-4xl text-white drop-shadow">
               Time to celebrate your special day! 🎉
             </p>
           </motion.div>

@@ -4,35 +4,35 @@
 
 @layer base {
   :root {
-    --background: 0 0% 100%;
-    --foreground: 0 0% 0%;
+    --background: 200 60% 94%;
+    --foreground: 230 25% 18%;
 
     --card: 0 0% 100%;
-    --card-foreground: 0 0% 0%;
+    --card-foreground: 230 25% 18%;
 
     --popover: 0 0% 100%;
-    --popover-foreground: 0 0% 0%;
+    --popover-foreground: 230 25% 18%;
 
-    --primary: 0 0% 0%;
+    --primary: 340 75% 58%;
     --primary-foreground: 0 0% 100%;
 
-    --secondary: 0 0% 96%;
-    --secondary-foreground: 0 0% 0%;
+    --secondary: 45 85% 90%;
+    --secondary-foreground: 35 60% 25%;
 
-    --muted: 0 0% 96%;
-    --muted-foreground: 0 0% 45%;
+    --muted: 200 30% 90%;
+    --muted-foreground: 220 15% 46%;
 
-    --accent: 0 0% 96%;
-    --accent-foreground: 0 0% 0%;
+    --accent: 270 55% 92%;
+    --accent-foreground: 270 50% 40%;
 
     --destructive: 0 84% 60%;
     --destructive-foreground: 0 0% 100%;
 
-    --border: 0 0% 90%;
-    --input: 0 0% 90%;
-    --ring: 0 0% 0%;
+    --border: 200 30% 85%;
+    --input: 200 30% 82%;
+    --ring: 340 75% 58%;
 
-    --radius: 0.5rem;
+    --radius: 1rem;
   }
 }
 
@@ -40,21 +40,20 @@
   * {
     @apply border-border;
   }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
   body {
     @apply bg-background text-foreground;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
   }
 }
 
-@font-face {
-  font-family: "Carrots";
-  src: url("/fonts/CARROTS FREE.OTF") format("opentype");
-  font-weight: normal;
-  font-style: normal;
-}
-
-@font-face {
-  font-family: "CheekyRabbit";
-  src: url("/fonts/CHEEKY RABBIT.TTF") format("truetype");
-  font-weight: normal;
-  font-style: normal;
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
 }

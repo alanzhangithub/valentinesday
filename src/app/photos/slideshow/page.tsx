@@ -54,7 +54,7 @@ export default function SlideshowPage() {
           <p className="text-red-400 mb-4">{error}</p>
           <button
             onClick={handleClose}
-            className="px-4 py-2 bg-white text-black rounded-lg hover:bg-gray-200"
+            className="px-4 py-2 bg-card text-black rounded-lg hover:bg-gray-200"
           >
             go back
           </button>
@@ -92,7 +92,7 @@ export default function SlideshowPage() {
             </button>
             <a
               href="/photos/upload"
-              className="px-4 py-2 bg-white text-black rounded-lg hover:bg-gray-200 transition-colors"
+              className="px-4 py-2 bg-card text-black rounded-lg hover:bg-gray-200 transition-colors"
             >
               upload photos
             </a>

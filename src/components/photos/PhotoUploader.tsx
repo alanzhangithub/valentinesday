@@ -275,7 +275,7 @@ export default function PhotoUploader({
                 value={caption}
                 onChange={(e) => setCaption(e.target.value)}
                 placeholder="add a caption (optional)"
-                className="w-full px-4 py-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                className="w-full px-4 py-3 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
               />
             </div>
 

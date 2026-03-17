@@ -173,17 +173,17 @@ const BeedoSpellingMee: React.FC<BeedoSpellingMeeProps> = ({
   return (
     <div className="max-w-3xl mx-auto p-6">
       <div className="text-center mb-6">
-        <h1 className="font-carrots text-5xl md:text-6xl">Spelling Mee</h1>
-        <p className="font-cheeky text-xl text-gray-600 mt-2">help beedo spell in m language!</p>
+        <h1 className="font-heading text-5xl md:text-6xl">Spelling Mee</h1>
+        <p className="text-xl text-gray-600 mt-2">help beedo spell in m language!</p>
       </div>
 
       {/* stats bar */}
       <div className="flex justify-between items-center mb-6">
         <CoinDisplay coins={totalCoins} size="sm" />
         <div className="flex items-center gap-3">
-          <div className="bg-white border-2 border-black rounded-xl px-3 py-2">
-            <span className="font-cheeky text-xs text-gray-500">words</span>
-            <p className="font-carrots text-2xl">{wordsCompleted}</p>
+          <div className="bg-card border-2 border-black rounded-xl px-3 py-2">
+            <span className="text-xs text-gray-500">words</span>
+            <p className="font-heading text-2xl">{wordsCompleted}</p>
           </div>
           {streak > 1 && (
             <motion.div
@@ -191,17 +191,17 @@ const BeedoSpellingMee: React.FC<BeedoSpellingMeeProps> = ({
               animate={{ scale: 1 }}
               className="bg-orange-100 border-2 border-orange-400 rounded-xl px-3 py-2"
             >
-              <span className="font-cheeky text-xs text-orange-600">streak</span>
-              <p className="font-carrots text-2xl text-orange-700">{streak}</p>
+              <span className="text-xs text-orange-600">streak</span>
+              <p className="font-heading text-2xl text-orange-700">{streak}</p>
             </motion.div>
           )}
         </div>
       </div>
 
-      <div className="relative bg-white rounded-3xl border-4 border-black p-8">
+      <div className="relative bg-card rounded-3xl border-4 border-black p-8">
         {/* difficulty badge */}
         <div className="absolute -top-3 left-6">
-          <span className={`font-cheeky text-sm px-3 py-1 rounded-full border-2 ${getDifficultyColor(currentWord.difficulty)}`}>
+          <span className={`text-sm px-3 py-1 rounded-full border-2 ${getDifficultyColor(currentWord.difficulty)}`}>
             {currentWord.difficulty} (+{getCoinsForDifficulty(currentWord.difficulty)} coins)
           </span>
         </div>
@@ -221,13 +221,13 @@ const BeedoSpellingMee: React.FC<BeedoSpellingMeeProps> = ({
                 {getBeedoExpression(nervousness)}
               </span>
             </div>
-            <span className="font-cheeky text-lg text-pink-600">beedo</span>
+            <span className="text-lg text-pink-600">beedo</span>
           </motion.div>
 
           {/* word to translate */}
           <div className="mb-6">
-            <p className="font-cheeky text-lg text-gray-500">translate this to m language:</p>
-            <p className="font-carrots text-4xl mt-2">"{currentWord.original}"</p>
+            <p className="text-lg text-gray-500">translate this to m language:</p>
+            <p className="font-heading text-4xl mt-2">&quot;{currentWord.original}&quot;</p>
           </div>
 
           {/* hint area */}
@@ -239,7 +239,7 @@ const BeedoSpellingMee: React.FC<BeedoSpellingMeeProps> = ({
                 exit={{ opacity: 0, y: -10 }}
                 className="mb-4 p-3 bg-yellow-50 rounded-xl border-2 border-yellow-200"
               >
-                <p className="font-cheeky text-lg text-yellow-800">
+                <p className="text-lg text-yellow-800">
                   hint: {currentWord.hints[currentHintIndex]}
                 </p>
               </motion.div>
@@ -253,15 +253,15 @@ const BeedoSpellingMee: React.FC<BeedoSpellingMeeProps> = ({
               value={userAnswer}
               onChange={handleTyping}
               onKeyDown={(e) => e.key === 'Enter' && handleSubmit()}
-              className="w-full p-4 border-4 border-black rounded-xl font-cheeky text-2xl text-center focus:border-blue-500 focus:outline-none transition-colors"
+              className="w-full p-4 border-4 border-black rounded-xl text-2xl text-center focus:border-blue-500 focus:outline-none transition-colors"
               placeholder="type your answer..."
               disabled={showCelebration}
             />
           </div>
 
           {/* beedo's thought */}
-          <p className="font-cheeky text-lg text-gray-500 italic mb-4">
-            "{getBeedoThought(nervousness)}"
+          <p className="text-lg text-gray-500 italic mb-4">
+            &quot;{getBeedoThought(nervousness)}&quot;
           </p>
 
           {/* buttons */}
@@ -271,7 +271,7 @@ const BeedoSpellingMee: React.FC<BeedoSpellingMeeProps> = ({
               whileTap={{ scale: 0.95 }}
               onClick={handleSubmit}
               disabled={showCelebration || !userAnswer}
-              className="bg-blue-500 text-white font-carrots text-xl px-6 py-3 rounded-xl border-4 border-blue-600 hover:bg-blue-600 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+              className="bg-blue-500 text-white font-heading text-xl px-6 py-3 rounded-xl border-4 border-blue-600 hover:bg-blue-600 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
             >
               Check!
             </motion.button>
@@ -280,7 +280,7 @@ const BeedoSpellingMee: React.FC<BeedoSpellingMeeProps> = ({
               whileTap={{ scale: 0.95 }}
               onClick={skipWord}
               disabled={showCelebration}
-              className="bg-gray-200 text-gray-700 font-cheeky text-lg px-4 py-3 rounded-xl border-2 border-gray-300 hover:bg-gray-300 transition-colors disabled:opacity-50"
+              className="bg-gray-200 text-gray-700 text-lg px-4 py-3 rounded-xl border-2 border-gray-300 hover:bg-gray-300 transition-colors disabled:opacity-50"
             >
               skip
             </motion.button>
@@ -294,7 +294,7 @@ const BeedoSpellingMee: React.FC<BeedoSpellingMeeProps> = ({
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
-              className="absolute inset-0 bg-white/90 rounded-3xl flex items-center justify-center"
+              className="absolute inset-0 bg-card/90 rounded-3xl flex items-center justify-center"
             >
               <motion.div
                 initial={{ scale: 0 }}
@@ -309,11 +309,11 @@ const BeedoSpellingMee: React.FC<BeedoSpellingMeeProps> = ({
                 >
                   🎉
                 </motion.div>
-                <p className="font-carrots text-3xl text-green-600">Correct!</p>
+                <p className="font-heading text-3xl text-green-600">Correct!</p>
                 <motion.p
                   initial={{ scale: 1.5 }}
                   animate={{ scale: 1 }}
-                  className="font-carrots text-4xl text-yellow-600 mt-2"
+                  className="font-heading text-4xl text-yellow-600 mt-2"
                 >
                   +{lastEarned} coins!
                 </motion.p>
@@ -327,7 +327,7 @@ const BeedoSpellingMee: React.FC<BeedoSpellingMeeProps> = ({
       <div className="mt-6 text-center">
         <Link
           href="/games"
-          className="font-cheeky text-lg text-gray-500 hover:text-gray-700 underline"
+          className="text-lg text-gray-500 hover:text-gray-700 underline"
         >
           back to games
         </Link>

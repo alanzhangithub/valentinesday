@@ -1,213 +1,249 @@
 'use client';
 
 import { useState, useEffect, useCallback, useRef } from 'react';
-import CalendarView from '@/components/calendar/CalendarView';
-import EventForm from '@/components/calendar/EventForm';
-import { CalendarEvent, CreateEventInput, User } from '@/types/calendar';
+import {
+  DndContext,
+  DragOverlay,
+  useSensor,
+  useSensors,
+  PointerSensor,
+  TouchSensor,
+  type DragStartEvent,
+  type DragEndEvent,
+} from '@dnd-kit/core';
+import CalendarGrid from '@/components/calendar/CalendarGrid';
+import StampTray from '@/components/calendar/StampTray';
+import StampPill from '@/components/calendar/StampPill';
+import CreateStampForm from '@/components/calendar/CreateStampForm';
+import DayDetail from '@/components/calendar/DayDetail';
+import type { Stamp, DayStamp } from '@/types/calendar';
+import { formatDateKey } from '@/types/calendar';
 
 export default function CalendarPage() {
-  const [events, setEvents] = useState<Partial<CalendarEvent>[]>([]);
+  const [stamps, setStamps] = useState<Stamp[]>([]);
+  const [dayStamps, setDayStamps] = useState<DayStamp[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [currentMonth, setCurrentMonth] = useState(new Date());
 
-  // Form modal state
-  const [isFormOpen, setIsFormOpen] = useState(false);
-  const [selectedEvent, setSelectedEvent] = useState<Partial<CalendarEvent> | null>(null);
-  const [selectedDate, setSelectedDate] = useState<Date | undefined>(undefined);
+  // Drag state
+  const [activeStamp, setActiveStamp] = useState<Stamp | null>(null);
 
-  // track what range we've already fetched to avoid re-fetching
-  const fetchedRangeRef = useRef<{ min: string; max: string } | null>(null);
+  // Modal state
+  const [isCreateOpen, setIsCreateOpen] = useState(false);
+  const [detailDate, setDetailDate] = useState<string | null>(null);
 
-  // TODO: get actual user from auth context
-  const currentUser: User = 'meedo';
+  // Track fetched range
+  const fetchedRangeRef = useRef<{ from: string; to: string } | null>(null);
 
-  // Fetch events for a given month + buffer
-  const fetchEvents = useCallback(async (monthDate: Date, force = false) => {
-    // Get 3 months range (prev month to next month)
-    const timeMin = new Date(monthDate.getFullYear(), monthDate.getMonth() - 1, 1).toISOString();
-    const timeMax = new Date(monthDate.getFullYear(), monthDate.getMonth() + 2, 0).toISOString();
+  // TODO: get from auth
+  const currentUser = 'meedo' as 'meedo' | 'beedo';
 
-    // skip if we already fetched this range (unless forced)
+  // Sensors for drag
+  const sensors = useSensors(
+    useSensor(PointerSensor, { activationConstraint: { distance: 5 } }),
+    useSensor(TouchSensor, { activationConstraint: { delay: 200, tolerance: 5 } })
+  );
+
+  // Fetch stamps
+  const fetchStamps = useCallback(async () => {
+    try {
+      const res = await fetch('/api/calendar/stamps');
+      const json = await res.json();
+      if (json.success) setStamps(json.data);
+    } catch (err) {
+      console.error('failed to fetch stamps:', err);
+    }
+  }, []);
+
+  // Fetch day stamps for a month range
+  const fetchDayStamps = useCallback(async (monthDate: Date, force = false) => {
+    const from = formatDateKey(new Date(monthDate.getFullYear(), monthDate.getMonth() - 1, 1));
+    const to = formatDateKey(new Date(monthDate.getFullYear(), monthDate.getMonth() + 2, 0));
+
     if (!force && fetchedRangeRef.current) {
-      const { min, max } = fetchedRangeRef.current;
-      if (timeMin >= min && timeMax <= max) {
-        return;
-      }
+      const { from: prevFrom, to: prevTo } = fetchedRangeRef.current;
+      if (from >= prevFrom && to <= prevTo) return;
     }
 
     setIsLoading(true);
-    setError(null);
-
     try {
-      const response = await fetch(
-        `/api/calendar?timeMin=${encodeURIComponent(timeMin)}&timeMax=${encodeURIComponent(timeMax)}`
-      );
-
-      if (!response.ok) {
-        throw new Error('failed to fetch events');
+      const res = await fetch(`/api/calendar/days?from=${from}&to=${to}`);
+      const json = await res.json();
+      if (json.success) {
+        setDayStamps(json.data);
+        fetchedRangeRef.current = { from, to };
+      } else {
+        setError(json.error);
       }
-
-      const data = await response.json();
-      setEvents(data.events || []);
-      fetchedRangeRef.current = { min: timeMin, max: timeMax };
     } catch (err) {
-      console.error('fetch error:', err);
-      setError(err instanceof Error ? err.message : 'something went wrong');
+      setError(err instanceof Error ? err.message : 'failed to load stamps');
     } finally {
       setIsLoading(false);
     }
   }, []);
 
-  // initial fetch on mount
+  // Initial load
   useEffect(() => {
-    fetchEvents(new Date());
+    fetchStamps();
+    fetchDayStamps(new Date());
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  // handle month change from calendar
+  // Month change
   const handleMonthChange = useCallback((date: Date) => {
     setCurrentMonth(date);
-    fetchEvents(date);
-  }, [fetchEvents]);
+    fetchDayStamps(date);
+  }, [fetchDayStamps]);
 
-  // Handle event click (open edit form)
-  const handleEventClick = (event: Partial<CalendarEvent>) => {
-    setSelectedEvent(event);
-    setSelectedDate(undefined);
-    setIsFormOpen(true);
-  };
-
-  // Handle date click (open create form for that date)
-  const handleDateClick = (date: Date) => {
-    setSelectedEvent(null);
-    setSelectedDate(date);
-    setIsFormOpen(true);
-  };
-
-  // Handle add event button
-  const handleAddEvent = (date: Date) => {
-    setSelectedEvent(null);
-    setSelectedDate(date);
-    setIsFormOpen(true);
-  };
-
-  // Close the form modal
-  const handleCloseForm = () => {
-    setIsFormOpen(false);
-    setSelectedEvent(null);
-    setSelectedDate(undefined);
-  };
-
-  // Create or update event
-  const handleSubmit = async (data: CreateEventInput) => {
-    if (selectedEvent?.google_event_id) {
-      // Update existing event
-      const response = await fetch('/api/calendar', {
-        method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          id: selectedEvent.google_event_id,
-          ...data,
-        }),
-      });
-
-      if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.error || 'failed to update event');
-      }
-    } else {
-      // Create new event
-      const response = await fetch('/api/calendar', {
+  // Place stamp
+  const handlePlaceStamp = useCallback(async (stampId: string, date: string) => {
+    try {
+      const res = await fetch('/api/calendar/days', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(data),
+        body: JSON.stringify({ stamp_id: stampId, date, placed_by: currentUser }),
       });
-
-      if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.error || 'failed to create event');
+      const json = await res.json();
+      if (json.success) {
+        setDayStamps((prev) => [...prev, json.data]);
+      } else if (res.status === 409) {
+        // already placed, ignore
+      } else {
+        setError(json.error);
       }
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'failed to place stamp');
     }
+  }, [currentUser]);
 
-    // Refresh events after mutation (force refetch)
-    await fetchEvents(currentMonth, true);
-  };
+  // Remove stamp
+  const handleRemoveStamp = useCallback(async (dayStampId: string) => {
+    try {
+      const res = await fetch(`/api/calendar/days/${dayStampId}`, { method: 'DELETE' });
+      const json = await res.json();
+      if (json.success) {
+        setDayStamps((prev) => prev.filter((ds) => ds.id !== dayStampId));
+      }
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'failed to remove stamp');
+    }
+  }, []);
 
-  // Delete event
-  const handleDelete = async (eventId: string) => {
-    const response = await fetch(`/api/calendar?id=${encodeURIComponent(eventId)}`, {
-      method: 'DELETE',
+  // Create stamp
+  const handleCreateStamp = useCallback(async (data: { name: string; emoji: string; color: string }) => {
+    const res = await fetch('/api/calendar/stamps', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ ...data, created_by: currentUser }),
     });
+    const json = await res.json();
+    if (!json.success) throw new Error(json.error);
+    setStamps((prev) => [...prev, json.data]);
+  }, [currentUser]);
 
-    if (!response.ok) {
-      const errorData = await response.json();
-      throw new Error(errorData.error || 'failed to delete event');
+  // Delete stamp
+  const handleDeleteStamp = useCallback(async (stampId: string) => {
+    try {
+      const res = await fetch(`/api/calendar/stamps/${stampId}`, { method: 'DELETE' });
+      const json = await res.json();
+      if (json.success) {
+        setStamps((prev) => prev.filter((s) => s.id !== stampId));
+        setDayStamps((prev) => prev.filter((ds) => ds.stamp_id !== stampId));
+      } else {
+        setError(json.error);
+      }
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'failed to delete stamp');
     }
+  }, []);
 
-    // Refresh events after deletion (force refetch)
-    await fetchEvents(currentMonth, true);
+  // Drag handlers
+  const handleDragStart = (event: DragStartEvent) => {
+    const stamp = event.active.data.current?.stamp as Stamp | undefined;
+    if (stamp) setActiveStamp(stamp);
   };
+
+  const handleDragEnd = (event: DragEndEvent) => {
+    setActiveStamp(null);
+    const { active, over } = event;
+    if (!over) return;
+
+    const stamp = active.data.current?.stamp as Stamp | undefined;
+    const date = over.data.current?.date as string | undefined;
+    if (stamp && date) {
+      handlePlaceStamp(stamp.id, date);
+    }
+  };
+
+  // Day click
+  const handleDayClick = (date: Date) => {
+    setDetailDate(formatDateKey(date));
+  };
+
+  const detailDayStamps = detailDate
+    ? dayStamps.filter((ds) => ds.date === detailDate)
+    : [];
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-background">
       {/* Header */}
-      <div className="bg-white border-b border-gray-200">
+      <div className="bg-card border-b-2 border-border">
         <div className="max-w-4xl mx-auto px-4 py-6">
-          <div className="flex items-center justify-between">
-            <div>
-              <h1 className="text-3xl font-bold text-gray-900">our calendar</h1>
-              <p className="text-gray-500 mt-1">
-                keeping track of hangouts, dates, and time off
-              </p>
-            </div>
-            <button
-              onClick={() => handleAddEvent(new Date())}
-              className="px-4 py-2 bg-gray-900 text-white rounded-lg hover:bg-gray-800 transition-colors flex items-center gap-2"
-            >
-              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
-              </svg>
-              new event
-            </button>
-          </div>
+          <h1 className="text-3xl font-heading font-semibold text-foreground">our calendar</h1>
+          <p className="text-muted-foreground font-body mt-1">stamp your days</p>
         </div>
       </div>
 
-      {/* Main Content */}
-      <div className="max-w-4xl mx-auto px-4 py-8">
+      {/* Main */}
+      <div className="max-w-4xl mx-auto px-4 py-6">
         {error && (
-          <div className="mb-6 p-4 bg-red-50 border border-red-200 rounded-lg text-red-700">
-            <p className="font-medium">oops</p>
-            <p className="text-sm">{error}</p>
-            <button
-              onClick={() => fetchEvents(currentMonth, true)}
-              className="mt-2 text-sm underline hover:no-underline"
-            >
-              try again
+          <div className="mb-4 p-3 bg-red-50 border-2 border-red-200 rounded-2xl text-red-700 text-sm font-body flex items-center justify-between">
+            <span>{error}</span>
+            <button onClick={() => setError(null)} className="text-red-500 hover:text-red-700">
+              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+              </svg>
             </button>
           </div>
         )}
 
-        <CalendarView
-          events={events}
-          onEventClick={handleEventClick}
-          onDateClick={handleDateClick}
-          onAddEvent={handleAddEvent}
-          onMonthChange={handleMonthChange}
-          isLoading={isLoading}
-        />
+        <DndContext
+          sensors={sensors}
+          onDragStart={handleDragStart}
+          onDragEnd={handleDragEnd}
+        >
+          <CalendarGrid
+            currentDate={currentMonth}
+            dayStamps={dayStamps}
+            onDayClick={handleDayClick}
+            onMonthChange={handleMonthChange}
+            isLoading={isLoading}
+          />
+
+          <div className="mt-4 rounded-2xl border-2 border-border overflow-hidden">
+            <StampTray stamps={stamps} onCreateStamp={() => setIsCreateOpen(true)} onDeleteStamp={handleDeleteStamp} />
+          </div>
+
+          <DragOverlay dropAnimation={null}>
+            {activeStamp && <StampPill stamp={activeStamp} />}
+          </DragOverlay>
+        </DndContext>
       </div>
 
-      {/* Event Form Modal */}
-      <EventForm
-        event={selectedEvent}
-        initialDate={selectedDate}
-        onSubmit={handleSubmit}
-        onDelete={handleDelete}
-        onClose={handleCloseForm}
-        isOpen={isFormOpen}
-        currentUser={currentUser}
+      {/* Modals */}
+      <CreateStampForm
+        isOpen={isCreateOpen}
+        onClose={() => setIsCreateOpen(false)}
+        onSubmit={handleCreateStamp}
+      />
+
+      <DayDetail
+        date={detailDate || ''}
+        dayStamps={detailDayStamps}
+        isOpen={!!detailDate}
+        onClose={() => setDetailDate(null)}
+        onRemoveStamp={handleRemoveStamp}
       />
     </div>
   );

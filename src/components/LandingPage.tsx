@@ -13,78 +13,79 @@ const LandingPage = () => {
   };
 
   const activities = [
-    { name: 'Spelling Mee', route: '/spelling-mee' },
-    { name: 'Meedo Memory', route: '/meedo-memory' },
-    { name: 'Shop', route: '/shop' }
+    { name: 'Spelling Mee', route: '/spelling-mee', emoji: '📝' },
+    { name: 'Meedo Memory', route: '/meedo-memory', emoji: '🧠' },
+    { name: 'Shop', route: '/shop', emoji: '🛍️' }
   ];
 
   return (
-    <div className="min-h-screen bg-white py-12 px-4">
+    <div className="min-h-screen bg-background py-12 px-4">
       {/* Header Section */}
       <div className="text-center mb-12">
-        <h1 className="font-carrots text-6xl mb-4">Meedo & Beedo World</h1>
-        <p className="font-cheeky text-2xl mb-8">Where love and mischief come together!</p>
-        <div className="max-w-4xl mx-auto text-lg text-gray-600">
-          <p>Welcome to our little corner of the internet! This is where Meedo and Beedo share their adventures, 
-          precious memories, and all the fun they have together. Stay a while and explore our world!</p>
+        <h1 className="font-heading text-5xl md:text-6xl font-semibold mb-4 text-foreground">meedo & beedo world</h1>
+        <p className="text-xl md:text-2xl mb-8 font-body text-muted-foreground">where love and mischief come together! 💕</p>
+        <div className="max-w-4xl mx-auto text-lg text-muted-foreground font-body">
+          <p>welcome to our little corner of the internet! this is where meedo and beedo share their adventures,
+          precious memories, and all the fun they have together. stay a while and explore our world!</p>
         </div>
       </div>
 
       {/* Character Cards */}
-      <div className="font-carrots grid md:grid-cols-2 gap-8 max-w-4xl mx-auto mb-12">
+      <div className="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto mb-12">
         <motion.div
           initial={{ opacity: 0, x: -50 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.8, delay: 0.2 }}
-          className="bg-white rounded-3xl border-4 border-black p-6 transform hover:scale-105 transition-transform duration-300"
+          className="bg-white rounded-[24px] border-4 border-candy-pink p-6 shadow-lg hover:shadow-xl transition-shadow duration-300"
         >
-          <div className="h-64 bg-gray-50 rounded-2xl mb-4 flex items-center justify-center border-2 border-black relative">
-            <Image 
-              src="/meedo.png" 
-              alt="Meedo" 
+          <div className="h-64 bg-candy-pink/10 rounded-2xl mb-4 flex items-center justify-center relative">
+            <Image
+              src="/meedo.png"
+              alt="Meedo"
               fill
               className="object-contain"
             />
           </div>
-          <h2 className="text-2xl font-bold text-black mb-2">Meedo</h2>
-          <p className="text-gray-600">The loving, playful creator of all things mice!</p>
+          <h2 className="font-heading text-2xl font-semibold text-foreground mb-2">meedo</h2>
+          <p className="text-muted-foreground font-body">the loving, playful creator of all things mice!</p>
         </motion.div>
-        
+
         <motion.div
           initial={{ opacity: 0, x: 50 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.8, delay: 0.4 }}
-          className="bg-white rounded-3xl border-4 border-black p-6 transform hover:scale-105 transition-transform duration-300"
+          className="bg-white rounded-[24px] border-4 border-candy-lavender p-6 shadow-lg hover:shadow-xl transition-shadow duration-300"
         >
-          <div className="h-64 bg-gray-50 rounded-2xl mb-4 flex items-center justify-center border-2 border-black relative">
-            <Image 
-              src="/beedo.png" 
-              alt="Beedo" 
+          <div className="h-64 bg-candy-lavender/10 rounded-2xl mb-4 flex items-center justify-center relative">
+            <Image
+              src="/beedo.png"
+              alt="Beedo"
               fill
               className="object-contain"
             />
           </div>
-          <h2 className="text-2xl font-bold text-black mb-2">Beedo</h2>
-          <p className="text-gray-600">The mischievous Baby Meedo, full of curiosity!</p>
+          <h2 className="font-heading text-2xl font-semibold text-foreground mb-2">beedo</h2>
+          <p className="text-muted-foreground font-body">the mischievous baby meedo, full of curiosity!</p>
         </motion.div>
       </div>
 
       {/* Activities Section */}
       <div className="text-center mb-8">
-        <h2 className="font-carrots text-4xl mb-4">Fun Activities</h2>
-        <p className="font-cheeky text-xl mb-6">Pick an adventure!</p>
+        <h2 className="font-heading text-3xl md:text-4xl font-semibold mb-4 text-foreground">fun activities 🎉</h2>
+        <p className="text-xl mb-6 font-body text-muted-foreground">pick an adventure!</p>
       </div>
 
       {/* Activity Buttons */}
-      <div className="flex justify-center gap-6">
+      <div className="flex flex-wrap justify-center gap-4">
         {activities.map((activity) => (
           <motion.button
             key={activity.route}
             onClick={() => handleActivityClick(activity.route)}
-            className="bg-white rounded-xl border-4 border-black px-6 py-3 font-carrots text-xl hover:scale-105 transition-transform duration-300"
+            className="bg-white rounded-2xl border-3 border-candy-sky px-6 py-3 font-heading text-lg font-semibold shadow-md hover:shadow-lg transition-shadow duration-300"
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
           >
+            <span className="mr-2">{activity.emoji}</span>
             {activity.name}
           </motion.button>
         ))}

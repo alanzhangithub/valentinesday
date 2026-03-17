@@ -2,7 +2,6 @@
 
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import type { NewsHeadline } from '@/types/database';
 
 interface NewsTickerProps {
   speed?: number; // pixels per second
@@ -22,8 +21,8 @@ const fallbackHeadlines = [
 ];
 
 const NewsTicker: React.FC<NewsTickerProps> = ({ speed = 50, className = '' }) => {
-  const [headlines, setHeadlines] = useState<string[]>(fallbackHeadlines);
-  const [loading, setLoading] = useState(true);
+  const [headlines] = useState<string[]>(fallbackHeadlines);
+  const [, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchHeadlines = async () => {
@@ -74,7 +73,7 @@ const NewsTicker: React.FC<NewsTickerProps> = ({ speed = 50, className = '' }) =
             }}
           >
             {tickerContent.map((headline, index) => (
-              <span key={index} className="mx-8 font-cheeky text-sm inline-flex items-center">
+              <span key={index} className="mx-8 text-sm inline-flex items-center">
                 <span className="w-2 h-2 bg-red-500 rounded-full mr-3 animate-pulse" />
                 {headline}
               </span>

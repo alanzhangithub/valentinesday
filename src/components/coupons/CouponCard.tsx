@@ -11,7 +11,7 @@ interface CouponCardProps {
   currentUser: 'meedo' | 'beedo';
 }
 
-const CouponCard: React.FC<CouponCardProps> = ({ coupon, onRedeem, currentUser }) => {
+const CouponCard: React.FC<CouponCardProps> = ({ coupon, onRedeem }) => {
   const isExpired = coupon.expires_at && new Date(coupon.expires_at) < new Date();
   const isRedeemed = coupon.redeemed;
   const canRedeem = !isExpired && !isRedeemed;
@@ -59,7 +59,7 @@ const CouponCard: React.FC<CouponCardProps> = ({ coupon, onRedeem, currentUser }
       animate={{ opacity: 1, y: 0 }}
       whileHover={canRedeem ? { scale: 1.02, y: -4 } : {}}
       transition={{ type: 'spring', stiffness: 300, damping: 20 }}
-      className={`relative bg-white rounded-2xl border-4 border-black p-5 shadow-lg ${
+      className={`relative bg-card rounded-2xl border-4 border-black p-5 shadow-lg ${
         isRedeemed || isExpired ? 'opacity-60' : ''
       }`}
     >
@@ -87,7 +87,7 @@ const CouponCard: React.FC<CouponCardProps> = ({ coupon, onRedeem, currentUser }
               className="object-contain"
             />
           </div>
-          <span className="text-gray-400 text-lg">&#8595;</span>
+          <span className="text-muted-foreground/70 text-lg">&#8595;</span>
           <div className="w-10 h-10 relative opacity-60">
             <Image
               src={recipientImage}
@@ -99,7 +99,7 @@ const CouponCard: React.FC<CouponCardProps> = ({ coupon, onRedeem, currentUser }
         </div>
 
         <div className="flex-1 min-w-0">
-          <h3 className="font-carrots text-xl truncate pr-20">{coupon.title}</h3>
+          <h3 className="font-heading text-xl truncate pr-20">{coupon.title}</h3>
           <p className="text-gray-600 text-sm mt-1 line-clamp-2">{coupon.description}</p>
 
           <div className="mt-3 flex items-center gap-2 text-xs text-gray-500">
@@ -129,7 +129,7 @@ const CouponCard: React.FC<CouponCardProps> = ({ coupon, onRedeem, currentUser }
           whileHover={{ scale: 1.02 }}
           whileTap={{ scale: 0.98 }}
           onClick={() => onRedeem(coupon.id)}
-          className="mt-4 w-full bg-black text-white font-carrots py-3 rounded-xl hover:bg-gray-800 transition-colors flex items-center justify-center gap-2"
+          className="mt-4 w-full bg-black text-white font-heading py-3 rounded-xl hover:bg-gray-800 transition-colors flex items-center justify-center gap-2"
         >
           <span>Redeem This Coupon</span>
           <span>&#10084;</span>

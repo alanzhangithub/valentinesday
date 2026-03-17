@@ -10,20 +10,9 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        // Primary - Black & White (matching Meedo/Beedo characters)
         background: "hsl(var(--background))",
         foreground: "hsl(var(--foreground))",
 
-        // Soft pastel accents
-        pastel: {
-          pink: "#FFE4EC",
-          blue: "#E4F0FF",
-          yellow: "#FFF9E4",
-          green: "#E4FFE9",
-          purple: "#F0E4FF",
-        },
-
-        // shadcn-style semantic colors
         card: {
           DEFAULT: "hsl(var(--card))",
           foreground: "hsl(var(--card-foreground))",
@@ -55,15 +44,28 @@ const config: Config = {
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
         ring: "hsl(var(--ring))",
+
+        // Playful accent palette
+        candy: {
+          pink: "#FF6B8A",
+          yellow: "#FFD93D",
+          mint: "#6BCB77",
+          sky: "#4FC3F7",
+          lavender: "#B388FF",
+          coral: "#FF8A65",
+          peach: "#FFAB91",
+          lime: "#AED581",
+        },
       },
       fontFamily: {
-        carrots: ["Carrots", "sans-serif"],
-        cheeky: ["CheekyRabbit", "sans-serif"],
+        heading: ["var(--font-fredoka)", "system-ui", "sans-serif"],
+        body: ["var(--font-nunito)", "system-ui", "sans-serif"],
       },
       borderRadius: {
         lg: "var(--radius)",
         md: "calc(var(--radius) - 2px)",
         sm: "calc(var(--radius) - 4px)",
+        bubble: "1.5rem",
       },
       keyframes: {
         "accordion-down": {
@@ -74,10 +76,30 @@ const config: Config = {
           from: { height: "var(--radix-accordion-content-height)" },
           to: { height: "0" },
         },
+        wiggle: {
+          "0%, 100%": { transform: "rotate(-2deg)" },
+          "50%": { transform: "rotate(2deg)" },
+        },
+        "bounce-soft": {
+          "0%, 100%": { transform: "translateY(0)" },
+          "50%": { transform: "translateY(-6px)" },
+        },
+        "float": {
+          "0%, 100%": { transform: "translateY(-4px)" },
+          "50%": { transform: "translateY(4px)" },
+        },
+        "float-delayed": {
+          "0%, 100%": { transform: "translateY(4px)" },
+          "50%": { transform: "translateY(-4px)" },
+        },
       },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
+        wiggle: "wiggle 0.4s ease-in-out",
+        "bounce-soft": "bounce-soft 2s ease-in-out infinite",
+        "float": "float 3s ease-in-out infinite",
+        "float-delayed": "float-delayed 3s ease-in-out infinite",
       },
     },
   },

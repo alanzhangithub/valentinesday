@@ -53,7 +53,7 @@ export default function PhotoGrid({
           </svg>
         </div>
         <p className="text-lg font-medium text-gray-700">no memories yet</p>
-        <p className="text-sm mt-1 text-gray-400">
+        <p className="text-sm mt-1 text-muted-foreground/70">
           upload some pics to get started
         </p>
         <a
@@ -82,7 +82,7 @@ export default function PhotoGrid({
             onMouseLeave={() => setHoveredId(null)}
             onClick={() => onPhotoClick?.(photo, index)}
           >
-            <div className="w-full h-full rounded-lg overflow-hidden relative border border-gray-100">
+            <div className="w-full h-full rounded-lg overflow-hidden relative border border-border/50">
               <Image
                 src={photo.url}
                 alt={photo.caption || 'meedo and beedo memory'}

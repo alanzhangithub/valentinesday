@@ -59,7 +59,7 @@ const BadgeDisplay: React.FC<BadgeDisplayProps> = ({ userRole, compact = false }
           <motion.div
             key={badge.id}
             whileHover={{ scale: 1.1 }}
-            className="w-10 h-10 rounded-full bg-white border-2 border-black flex items-center justify-center text-lg cursor-pointer"
+            className="w-10 h-10 rounded-full bg-card border-2 border-black flex items-center justify-center text-lg cursor-pointer"
             onClick={() => setSelectedBadge(badge)}
             title={badge.name}
           >
@@ -79,16 +79,16 @@ const BadgeDisplay: React.FC<BadgeDisplayProps> = ({ userRole, compact = false }
   }
 
   return (
-    <div className="bg-white rounded-2xl border-4 border-black p-6">
-      <h2 className="font-carrots text-2xl mb-4">
+    <div className="bg-card rounded-2xl border-4 border-black p-6">
+      <h2 className="font-heading text-2xl mb-4">
         {userRole === 'meedo' ? "Meedo's" : "Beedo's"} Achievements
       </h2>
 
       {/* Earned Badges */}
       <div className="mb-6">
-        <h3 className="font-cheeky text-lg mb-3 text-gray-600">Earned ({earnedBadges.length})</h3>
+        <h3 className="text-lg mb-3 text-gray-600">Earned ({earnedBadges.length})</h3>
         {earnedBadges.length === 0 ? (
-          <p className="text-gray-400 text-sm">no badges yet - get out there and do stuff!</p>
+          <p className="text-muted-foreground/70 text-sm">no badges yet - get out there and do stuff!</p>
         ) : (
           <div className="grid grid-cols-4 sm:grid-cols-6 md:grid-cols-8 gap-3">
             {earnedBadges.map((badge) => (
@@ -115,9 +115,9 @@ const BadgeDisplay: React.FC<BadgeDisplayProps> = ({ userRole, compact = false }
 
       {/* Locked Badges */}
       <div>
-        <h3 className="font-cheeky text-lg mb-3 text-gray-600">Locked ({unearnedBadges.length})</h3>
+        <h3 className="text-lg mb-3 text-gray-600">Locked ({unearnedBadges.length})</h3>
         {unearnedBadges.length === 0 ? (
-          <p className="text-gray-400 text-sm">wow you got em all. absolute legend.</p>
+          <p className="text-muted-foreground/70 text-sm">wow you got em all. absolute legend.</p>
         ) : (
           <div className="grid grid-cols-4 sm:grid-cols-6 md:grid-cols-8 gap-3">
             {unearnedBadges.map((badge) => (
@@ -150,27 +150,27 @@ const BadgeDisplay: React.FC<BadgeDisplayProps> = ({ userRole, compact = false }
               initial={{ scale: 0.8, y: 20 }}
               animate={{ scale: 1, y: 0 }}
               exit={{ scale: 0.8, y: 20 }}
-              className="bg-white rounded-2xl border-4 border-black p-6 max-w-sm w-full"
+              className="bg-card rounded-2xl border-4 border-black p-6 max-w-sm w-full"
               onClick={(e) => e.stopPropagation()}
             >
               <div className="text-center">
                 <div className={`w-20 h-20 mx-auto rounded-2xl ${selectedBadge.earned ? 'bg-gradient-to-br from-yellow-100 to-yellow-200' : 'bg-gray-200 grayscale'} border-4 border-black flex items-center justify-center text-4xl mb-4`}>
                   {selectedBadge.icon || (selectedBadge.earned ? '🏆' : '🔒')}
                 </div>
-                <h3 className="font-carrots text-2xl mb-2">{selectedBadge.name}</h3>
+                <h3 className="font-heading text-2xl mb-2">{selectedBadge.name}</h3>
                 <p className="text-gray-600 mb-4">{selectedBadge.description || 'a mysterious badge...'}</p>
                 {selectedBadge.earned && selectedBadge.earned_at && (
-                  <p className="text-sm text-gray-400">
+                  <p className="text-sm text-muted-foreground/70">
                     earned on {new Date(selectedBadge.earned_at).toLocaleDateString()}
                   </p>
                 )}
                 {!selectedBadge.earned && (
-                  <p className="text-sm text-gray-400 italic">keep grinding to unlock this one</p>
+                  <p className="text-sm text-muted-foreground/70 italic">keep grinding to unlock this one</p>
                 )}
               </div>
               <button
                 onClick={() => setSelectedBadge(null)}
-                className="mt-4 w-full py-2 bg-black text-white rounded-xl font-cheeky text-lg hover:bg-gray-800 transition-colors"
+                className="mt-4 w-full py-2 bg-black text-white rounded-xl text-lg hover:bg-gray-800 transition-colors"
               >
                 close
               </button>

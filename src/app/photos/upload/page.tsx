@@ -41,12 +41,12 @@ export default function UploadPage() {
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Header */}
-      <header className="bg-white border-b border-gray-100">
+      <header className="bg-card border-b border-border/50">
         <div className="max-w-2xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
           <Link href="/photos" className="text-sm text-gray-500 hover:text-gray-700">
             ← back to gallery
           </Link>
-          <h1 className="text-2xl font-bold text-gray-900 mt-1">upload memories</h1>
+          <h1 className="text-2xl font-bold text-foreground mt-1">upload memories</h1>
           <p className="text-gray-500 text-sm">add some new pics to your collection</p>
         </div>
       </header>
@@ -56,7 +56,7 @@ export default function UploadPage() {
         {/* Role selector */}
         <div className="mb-8">
           <label className="block text-sm font-medium text-gray-700 mb-2">
-            who's uploading?
+            who&apos;s uploading?
           </label>
           <div className="flex gap-3">
             <button
@@ -64,7 +64,7 @@ export default function UploadPage() {
               className={`flex-1 py-4 rounded-xl border-2 transition-all ${
                 userRole === 'meedo'
                   ? 'border-blue-500 bg-blue-50 text-blue-700'
-                  : 'border-gray-200 bg-white text-gray-600 hover:border-gray-300'
+                  : 'border-border bg-card text-gray-600 hover:border-gray-300'
               }`}
             >
               <span className="text-3xl block mb-1">M</span>
@@ -75,7 +75,7 @@ export default function UploadPage() {
               className={`flex-1 py-4 rounded-xl border-2 transition-all ${
                 userRole === 'beedo'
                   ? 'border-pink-500 bg-pink-50 text-pink-700'
-                  : 'border-gray-200 bg-white text-gray-600 hover:border-gray-300'
+                  : 'border-border bg-card text-gray-600 hover:border-gray-300'
               }`}
             >
               <span className="text-3xl block mb-1">B</span>

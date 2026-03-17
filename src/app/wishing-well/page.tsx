@@ -3,13 +3,13 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { motion } from 'framer-motion';
 import Link from 'next/link';
-import Image from 'next/image';
+
 import WishingWell from '@/components/wishing-well/WishingWell';
 import WishList from '@/components/wishing-well/WishList';
 import { Wish } from '@/types/wish';
 
 // TODO: Replace with actual auth check
-const MOCK_USER: 'meedo' | 'beedo' = 'beedo';
+const MOCK_USER = 'beedo' as 'meedo' | 'beedo';
 const IS_ADMIN = MOCK_USER === 'meedo'; // meedo is the admin/mod
 
 export default function WishingWellPage() {
@@ -120,16 +120,7 @@ export default function WishingWellPage() {
         className="absolute top-20 left-4 w-16 h-16 md:w-24 md:h-24 opacity-20"
         animate={{ y: [0, -10, 0], rotate: [-5, 5, -5] }}
         transition={{ duration: 4, repeat: Infinity }}
-      >
-        <Image src="/stickers/meedo-waving.svg" alt="" fill className="object-contain" />
-      </motion.div>
-      <motion.div
-        className="absolute top-40 right-4 w-16 h-16 md:w-24 md:h-24 opacity-20"
-        animate={{ y: [0, 10, 0], rotate: [5, -5, 5] }}
-        transition={{ duration: 5, repeat: Infinity }}
-      >
-        <Image src="/stickers/beedo-waving.svg" alt="" fill className="object-contain" />
-      </motion.div>
+      ></motion.div>
 
       {/* Header */}
       <div className="max-w-4xl mx-auto relative z-10">
@@ -138,7 +129,7 @@ export default function WishingWellPage() {
           className="inline-flex items-center gap-2 text-gray-500 hover:text-black transition-colors mb-6"
         >
           <span>&larr;</span>
-          <span className="font-cheeky">Back to Meedobeedo</span>
+          <span className="">Back to Meedobeedo</span>
         </Link>
 
         <motion.div
@@ -146,17 +137,17 @@ export default function WishingWellPage() {
           animate={{ opacity: 1, y: 0 }}
           className="text-center mb-8"
         >
-          <h1 className="font-carrots text-5xl md:text-6xl mb-2 text-gray-900">The Wishing Well</h1>
-          <p className="font-cheeky text-xl text-gray-600">
+          <h1 className="font-heading text-5xl md:text-6xl mb-2 text-foreground">The Wishing Well</h1>
+          <p className="text-xl text-gray-600">
             Where dreams float up to Mod
           </p>
 
           {/* Stats badges */}
           <div className="flex justify-center gap-4 mt-4">
-            <div className="bg-white/80 backdrop-blur-sm px-4 py-2 rounded-full border-2 border-black/10 font-cheeky text-sm">
+            <div className="bg-card/80 backdrop-blur-sm px-4 py-2 rounded-full border-2 border-black/10 text-sm">
               <span className="text-amber-600 font-bold">{pendingCount}</span> awaiting judgment
             </div>
-            <div className="bg-white/80 backdrop-blur-sm px-4 py-2 rounded-full border-2 border-black/10 font-cheeky text-sm">
+            <div className="bg-card/80 backdrop-blur-sm px-4 py-2 rounded-full border-2 border-black/10 text-sm">
               <span className="text-green-600 font-bold">{grantedCount}</span> wishes granted
             </div>
           </div>
@@ -166,10 +157,10 @@ export default function WishingWellPage() {
         <div className="flex justify-center gap-4 mb-8">
           <motion.button
             onClick={() => setActiveTab('well')}
-            className={`px-6 py-3 rounded-xl font-carrots text-lg border-2 transition-all shadow-md ${
+            className={`px-6 py-3 rounded-xl font-heading text-lg border-2 transition-all shadow-md ${
               activeTab === 'well'
                 ? 'bg-black text-white border-black'
-                : 'bg-white text-black border-gray-300 hover:border-black hover:shadow-lg'
+                : 'bg-card text-black border-gray-300 hover:border-black hover:shadow-lg'
             }`}
             whileHover={{ scale: 1.02 }}
             whileTap={{ scale: 0.98 }}
@@ -178,10 +169,10 @@ export default function WishingWellPage() {
           </motion.button>
           <motion.button
             onClick={() => setActiveTab('history')}
-            className={`px-6 py-3 rounded-xl font-carrots text-lg border-2 transition-all relative shadow-md ${
+            className={`px-6 py-3 rounded-xl font-heading text-lg border-2 transition-all relative shadow-md ${
               activeTab === 'history'
                 ? 'bg-black text-white border-black'
-                : 'bg-white text-black border-gray-300 hover:border-black hover:shadow-lg'
+                : 'bg-card text-black border-gray-300 hover:border-black hover:shadow-lg'
             }`}
             whileHover={{ scale: 1.02 }}
             whileTap={{ scale: 0.98 }}
@@ -209,14 +200,14 @@ export default function WishingWellPage() {
           {activeTab === 'well' ? (
             <WishingWell onWishSubmit={handleWishSubmit} isSubmitting={isSubmitting} currentUser={MOCK_USER} />
           ) : (
-            <div className="bg-white/90 backdrop-blur-sm rounded-2xl border-4 border-black p-6 shadow-xl">
+            <div className="bg-card/90 backdrop-blur-sm rounded-2xl border-4 border-black p-6 shadow-xl">
               {/* Filter tabs for history */}
               <div className="flex justify-center gap-2 mb-6">
                 {(['all', 'pending', 'resolved'] as const).map((filter) => (
                   <button
                     key={filter}
                     onClick={() => setHistoryFilter(filter)}
-                    className={`px-4 py-2 rounded-lg font-cheeky text-sm transition-all ${
+                    className={`px-4 py-2 rounded-lg text-sm transition-all ${
                       historyFilter === filter
                         ? 'bg-black text-white'
                         : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
@@ -245,7 +236,7 @@ export default function WishingWellPage() {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.5 }}
-          className="text-center mt-12 text-gray-400 font-cheeky text-sm space-y-1"
+          className="text-center mt-12 text-muted-foreground/70 text-sm space-y-1"
         >
           <p>The Wishing Well has been here since the founding of Meedobeedo</p>
           <p>Legend says Mod checks it every day at midnight</p>

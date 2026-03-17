@@ -58,16 +58,16 @@ export default function FoodOptionForm({ onSubmit, onCancel }: FoodOptionFormPro
   return (
     <motion.form
       onSubmit={handleSubmit}
-      className="bg-white rounded-2xl border-4 border-black p-6 shadow-lg"
+      className="bg-card rounded-2xl border-4 border-black p-6 shadow-lg"
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
     >
-      <h3 className="font-carrots text-2xl mb-4">add a new spot</h3>
+      <h3 className="font-heading text-2xl mb-4">add a new spot</h3>
 
       <div className="space-y-4">
         {/* Name */}
         <div>
-          <label className="font-cheeky text-lg block mb-1">whats it called? *</label>
+          <label className="text-lg block mb-1">whats it called? *</label>
           <input
             type="text"
             value={name}
@@ -81,7 +81,7 @@ export default function FoodOptionForm({ onSubmit, onCancel }: FoodOptionFormPro
 
         {/* Cuisine */}
         <div>
-          <label className="font-cheeky text-lg block mb-1">type of food</label>
+          <label className="text-lg block mb-1">type of food</label>
           <select
             value={cuisine}
             onChange={(e) => setCuisine(e.target.value)}
@@ -98,7 +98,7 @@ export default function FoodOptionForm({ onSubmit, onCancel }: FoodOptionFormPro
 
         {/* Price Range */}
         <div>
-          <label className="font-cheeky text-lg block mb-2">how expensive</label>
+          <label className="text-lg block mb-2">how expensive</label>
           <div className="flex gap-3">
             {(['$', '$$', '$$$'] as PriceRange[]).map((price) => (
               <motion.button
@@ -108,7 +108,7 @@ export default function FoodOptionForm({ onSubmit, onCancel }: FoodOptionFormPro
                 className={`flex-1 px-4 py-3 rounded-xl border-2 border-black transition-colors font-medium ${
                   priceRange === price
                     ? 'bg-black text-white'
-                    : 'bg-white text-black hover:bg-gray-100'
+                    : 'bg-card text-black hover:bg-gray-100'
                 }`}
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
@@ -124,7 +124,7 @@ export default function FoodOptionForm({ onSubmit, onCancel }: FoodOptionFormPro
 
         {/* Location */}
         <div>
-          <label className="font-cheeky text-lg block mb-1">where is it? (optional)</label>
+          <label className="text-lg block mb-1">where is it? (optional)</label>
           <input
             type="text"
             value={location}
@@ -136,7 +136,7 @@ export default function FoodOptionForm({ onSubmit, onCancel }: FoodOptionFormPro
 
         {/* Weight (Preference) */}
         <div>
-          <label className="font-cheeky text-lg block mb-2">
+          <label className="text-lg block mb-2">
             how much do we love it?
           </label>
           <div className="flex items-center gap-4">
@@ -163,7 +163,7 @@ export default function FoodOptionForm({ onSubmit, onCancel }: FoodOptionFormPro
               ))}
             </div>
           </div>
-          <div className="flex justify-between text-xs text-gray-400 mt-1">
+          <div className="flex justify-between text-xs text-muted-foreground/70 mt-1">
             <span>its aight</span>
             <span>obsessed</span>
           </div>
@@ -176,7 +176,7 @@ export default function FoodOptionForm({ onSubmit, onCancel }: FoodOptionFormPro
           <motion.button
             type="button"
             onClick={onCancel}
-            className="flex-1 font-carrots text-xl px-4 py-3 rounded-xl border-2 border-black bg-white hover:bg-gray-100 transition-colors"
+            className="flex-1 font-heading text-xl px-4 py-3 rounded-xl border-2 border-black bg-card hover:bg-gray-100 transition-colors"
             whileHover={{ scale: 1.02 }}
             whileTap={{ scale: 0.98 }}
           >
@@ -185,7 +185,7 @@ export default function FoodOptionForm({ onSubmit, onCancel }: FoodOptionFormPro
         )}
         <motion.button
           type="submit"
-          className="flex-1 font-carrots text-xl px-4 py-3 rounded-xl border-2 border-black bg-black text-white"
+          className="flex-1 font-heading text-xl px-4 py-3 rounded-xl border-2 border-black bg-black text-white"
           whileHover={{ scale: 1.02 }}
           whileTap={{ scale: 0.98 }}
         >

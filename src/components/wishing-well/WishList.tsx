@@ -2,7 +2,6 @@
 
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import Image from 'next/image';
 import { Wish, WishStatus } from '@/types/wish';
 
 interface WishListProps {
@@ -88,7 +87,7 @@ export default function WishList({ wishes, isAdmin = false, onGrantWish, isLoadi
           transition={{ duration: 2, repeat: Infinity, ease: 'linear' }}
           className="w-10 h-10 border-4 border-black border-t-transparent rounded-full"
         />
-        <p className="font-cheeky text-gray-500">consulting the ancient scrolls...</p>
+        <p className="text-gray-500">consulting the ancient scrolls...</p>
       </div>
     );
   }
@@ -99,14 +98,14 @@ export default function WishList({ wishes, isAdmin = false, onGrantWish, isLoadi
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          className="relative w-24 h-24 mx-auto mb-6 opacity-30"
+          className="text-4xl mx-auto mb-6 opacity-30"
         >
-          <Image src="/stickers/beedo-default.svg" alt="" fill className="object-contain" />
+          ✨
         </motion.div>
-        <p className="font-carrots text-2xl text-gray-400 mb-2">
+        <p className="font-heading text-2xl text-muted-foreground/70 mb-2">
           No wishes here yet...
         </p>
-        <p className="font-cheeky text-lg text-gray-400">
+        <p className="text-lg text-muted-foreground/70">
           The well awaits your deepest desires
         </p>
       </div>
@@ -115,7 +114,7 @@ export default function WishList({ wishes, isAdmin = false, onGrantWish, isLoadi
 
   return (
     <div className="space-y-4">
-      <h2 className="font-carrots text-3xl text-center mb-6">Wish Chronicle</h2>
+      <h2 className="font-heading text-3xl text-center mb-6">Wish Chronicle</h2>
 
       <div className="grid gap-4">
         <AnimatePresence mode="popLayout">
@@ -137,7 +136,7 @@ export default function WishList({ wishes, isAdmin = false, onGrantWish, isLoadi
                 <div className="flex justify-between items-start gap-4">
                   <div className="flex-1">
                     {/* Wish text */}
-                    <p className="font-cheeky text-lg text-gray-800 leading-relaxed">
+                    <p className="text-lg text-gray-800 leading-relaxed">
                       &quot;{wish.text}&quot;
                     </p>
 
@@ -148,7 +147,7 @@ export default function WishList({ wishes, isAdmin = false, onGrantWish, isLoadi
                         {isOwnWish && ' (you)'}
                       </span>
                       <span className="text-gray-300">|</span>
-                      <span className="text-gray-400">
+                      <span className="text-muted-foreground/70">
                         {getTimeAgo(wish.wished_at)}
                       </span>
                     </div>
@@ -158,9 +157,9 @@ export default function WishList({ wishes, isAdmin = false, onGrantWish, isLoadi
                       <motion.div
                         initial={{ opacity: 0, y: -10 }}
                         animate={{ opacity: 1, y: 0 }}
-                        className="mt-3 p-3 bg-white/60 rounded-lg border border-gray-200"
+                        className="mt-3 p-3 bg-card/60 rounded-lg border border-border"
                       >
-                        <p className="text-sm font-cheeky text-gray-600">
+                        <p className="text-sm text-gray-600">
                           <span className="font-bold text-gray-700">Mod says:</span> &quot;{wish.status_note}&quot;
                         </p>
                       </motion.div>
@@ -172,7 +171,7 @@ export default function WishList({ wishes, isAdmin = false, onGrantWish, isLoadi
                     <motion.span
                       initial={{ scale: 0 }}
                       animate={{ scale: 1 }}
-                      className={`px-3 py-1.5 rounded-full text-sm font-bold ${config.color} bg-white/80 border ${config.border} shadow-sm`}
+                      className={`px-3 py-1.5 rounded-full text-sm font-bold ${config.color} bg-card/80 border ${config.border} shadow-sm`}
                     >
                       <span className="mr-1">{config.icon}</span>
                       {config.label}
@@ -182,7 +181,7 @@ export default function WishList({ wishes, isAdmin = false, onGrantWish, isLoadi
                     {isAdmin && wish.status === 'pending' && (
                       <motion.button
                         onClick={() => setExpandedWish(isExpanded ? null : wish.id)}
-                        className="text-sm font-cheeky text-gray-500 hover:text-black transition-colors underline-offset-2 hover:underline"
+                        className="text-sm text-gray-500 hover:text-black transition-colors underline-offset-2 hover:underline"
                         whileHover={{ scale: 1.05 }}
                       >
                         {isExpanded ? 'cancel' : 'judge this wish'}
@@ -201,13 +200,13 @@ export default function WishList({ wishes, isAdmin = false, onGrantWish, isLoadi
                       className="overflow-hidden"
                     >
                       <div className="mt-4 pt-4 border-t border-gray-300/50">
-                        <p className="text-xs font-cheeky text-gray-500 mb-2">Quick responses:</p>
+                        <p className="text-xs text-gray-500 mb-2">Quick responses:</p>
                         <div className="flex flex-wrap gap-2 mb-3">
                           {quickResponses.map((response, i) => (
                             <button
                               key={i}
                               onClick={() => setStatusNote(response)}
-                              className="text-xs px-2 py-1 bg-white/80 border border-gray-200 rounded-full hover:border-black transition-colors font-cheeky"
+                              className="text-xs px-2 py-1 bg-card/80 border border-border rounded-full hover:border-black transition-colors"
                             >
                               {response}
                             </button>
@@ -218,7 +217,7 @@ export default function WishList({ wishes, isAdmin = false, onGrantWish, isLoadi
                           value={statusNote}
                           onChange={(e) => setStatusNote(e.target.value)}
                           placeholder="Add a divine message (optional)..."
-                          className="w-full p-3 border-2 border-gray-200 rounded-lg resize-none focus:outline-none focus:border-black transition-colors text-sm font-cheeky bg-white/80"
+                          className="w-full p-3 border-2 border-border rounded-lg resize-none focus:outline-none focus:border-black transition-colors text-sm bg-card/80"
                           rows={2}
                         />
 
@@ -226,7 +225,7 @@ export default function WishList({ wishes, isAdmin = false, onGrantWish, isLoadi
                           <motion.button
                             onClick={() => handleGrant(wish.id, 'granted')}
                             disabled={grantingId === wish.id}
-                            className="flex-1 py-2.5 px-4 bg-green-500 hover:bg-green-600 text-white rounded-lg font-carrots disabled:opacity-50 shadow-md hover:shadow-lg transition-all"
+                            className="flex-1 py-2.5 px-4 bg-green-500 hover:bg-green-600 text-white rounded-lg font-heading disabled:opacity-50 shadow-md hover:shadow-lg transition-all"
                             whileHover={{ scale: 1.02 }}
                             whileTap={{ scale: 0.98 }}
                           >
@@ -240,7 +239,7 @@ export default function WishList({ wishes, isAdmin = false, onGrantWish, isLoadi
                               handleGrant(wish.id, 'denied');
                             }}
                             disabled={grantingId === wish.id}
-                            className="flex-1 py-2.5 px-4 bg-red-500 hover:bg-red-600 text-white rounded-lg font-carrots disabled:opacity-50 shadow-md hover:shadow-lg transition-all"
+                            className="flex-1 py-2.5 px-4 bg-red-500 hover:bg-red-600 text-white rounded-lg font-heading disabled:opacity-50 shadow-md hover:shadow-lg transition-all"
                             whileHover={{ scale: 1.02 }}
                             whileTap={{ scale: 0.98 }}
                           >

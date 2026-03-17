@@ -21,7 +21,6 @@ export default function DraggableSticker({
   onSelect,
   onUpdate,
   onDelete,
-  containerRef,
   zoom,
 }: DraggableStickerProps) {
   const stickerRef = useRef<HTMLDivElement>(null);

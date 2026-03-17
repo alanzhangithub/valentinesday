@@ -48,7 +48,7 @@ export default function ShopItem({ item, userBalance, onPurchase, disabled = fal
     setShowConfirm(false);
   };
 
-  const cardBg = item.tier ? tierColors[item.tier] : (item.type === 'coupon' ? 'bg-gradient-to-br from-pink-50 to-pink-100 border-pink-300' : 'bg-white border-gray-200');
+  const cardBg = item.tier ? tierColors[item.tier] : (item.type === 'coupon' ? 'bg-gradient-to-br from-pink-50 to-pink-100 border-pink-300' : 'bg-card border-border');
 
   return (
     <>
@@ -82,7 +82,7 @@ export default function ShopItem({ item, userBalance, onPurchase, disabled = fal
         </div>
 
         {/* Item name */}
-        <h3 className="font-carrots text-xl mb-2 text-gray-900">{item.name}</h3>
+        <h3 className="font-heading text-xl mb-2 text-foreground">{item.name}</h3>
 
         {/* Description */}
         <p className="text-gray-600 text-sm mb-4 min-h-[48px] leading-relaxed">{item.description}</p>
@@ -93,7 +93,7 @@ export default function ShopItem({ item, userBalance, onPurchase, disabled = fal
             <div className="w-7 h-7 rounded-full bg-gradient-to-br from-yellow-300 to-yellow-500 border-2 border-yellow-600 flex items-center justify-center shadow-sm">
               <span className="text-yellow-800 font-bold text-xs">M</span>
             </div>
-            <span className="font-bold text-lg text-gray-900">{item.price.toLocaleString()}</span>
+            <span className="font-bold text-lg text-foreground">{item.price.toLocaleString()}</span>
           </div>
 
           <motion.button
@@ -101,7 +101,7 @@ export default function ShopItem({ item, userBalance, onPurchase, disabled = fal
             className={`px-5 py-2 rounded-xl font-bold text-sm transition-all ${
               canAfford && !disabled
                 ? 'bg-gray-900 text-white hover:bg-gray-800 shadow-sm'
-                : 'bg-gray-200 text-gray-400 cursor-not-allowed'
+                : 'bg-gray-200 text-muted-foreground/70 cursor-not-allowed'
             }`}
             whileHover={canAfford && !disabled ? { scale: 1.02 } : {}}
             whileTap={canAfford && !disabled ? { scale: 0.98 } : {}}
@@ -139,12 +139,12 @@ export default function ShopItem({ item, userBalance, onPurchase, disabled = fal
 
             {/* Modal */}
             <motion.div
-              className="relative bg-white rounded-2xl p-6 max-w-sm w-full shadow-2xl border-2 border-gray-100"
+              className="relative bg-card rounded-2xl p-6 max-w-sm w-full shadow-2xl border-2 border-border/50"
               initial={{ scale: 0.9, opacity: 0, y: 20 }}
               animate={{ scale: 1, opacity: 1, y: 0 }}
               exit={{ scale: 0.9, opacity: 0, y: 20 }}
             >
-              <h3 className="font-carrots text-2xl mb-2 text-center">confirm purchase?</h3>
+              <h3 className="font-heading text-2xl mb-2 text-center">confirm purchase?</h3>
               <p className="text-gray-600 text-center mb-4">
                 you&apos;re about to buy <span className="font-bold">{item.name}</span>
               </p>
@@ -154,7 +154,7 @@ export default function ShopItem({ item, userBalance, onPurchase, disabled = fal
                   <span className="text-yellow-800 font-bold text-xs">M</span>
                 </div>
                 <span className="font-bold text-xl">{item.price}</span>
-                <span className="text-gray-400">coins</span>
+                <span className="text-muted-foreground/70">coins</span>
               </div>
 
               <div className="flex gap-3">
@@ -176,7 +176,7 @@ export default function ShopItem({ item, userBalance, onPurchase, disabled = fal
                 </motion.button>
               </div>
 
-              <p className="text-gray-400 text-xs text-center mt-4">
+              <p className="text-muted-foreground/70 text-xs text-center mt-4">
                 balance after: {(userBalance - item.price).toLocaleString()} coins
               </p>
             </motion.div>

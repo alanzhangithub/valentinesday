@@ -132,7 +132,7 @@ const TapTheBeedo: React.FC<TapTheBeedoProps> = ({
         cells.push(
           <div
             key={`${row}-${col}`}
-            className="aspect-square bg-gray-100 rounded-xl border-4 border-gray-200 flex items-center justify-center relative overflow-hidden"
+            className="aspect-square bg-gray-100 rounded-xl border-4 border-border flex items-center justify-center relative overflow-hidden"
           >
             <AnimatePresence>
               {beedo && (
@@ -146,7 +146,7 @@ const TapTheBeedo: React.FC<TapTheBeedoProps> = ({
                   className="absolute inset-2 bg-pink-100 rounded-xl border-4 border-pink-300 flex flex-col items-center justify-center cursor-pointer hover:bg-pink-200 active:scale-95 transition-colors"
                 >
                   <span className="text-4xl md:text-5xl">🎀</span>
-                  <span className="font-cheeky text-sm text-pink-600">beedo!</span>
+                  <span className="text-sm text-pink-600">beedo!</span>
                 </motion.button>
               )}
             </AnimatePresence>
@@ -164,8 +164,8 @@ const TapTheBeedo: React.FC<TapTheBeedoProps> = ({
     <div className="max-w-lg mx-auto p-4">
       {/* header */}
       <div className="text-center mb-6">
-        <h1 className="font-carrots text-5xl md:text-6xl">Tap the Beedo!</h1>
-        <p className="font-cheeky text-xl text-gray-600 mt-2">
+        <h1 className="font-heading text-5xl md:text-6xl">Tap the Beedo!</h1>
+        <p className="text-xl text-gray-600 mt-2">
           catch beedo before she escapes!
         </p>
       </div>
@@ -174,18 +174,18 @@ const TapTheBeedo: React.FC<TapTheBeedoProps> = ({
       <div className="flex justify-between items-center mb-6">
         <CoinDisplay coins={initialCoins + coinsEarned} size="sm" />
         <div className="flex items-center gap-4">
-          <div className="bg-white border-2 border-black rounded-xl px-4 py-2">
-            <span className="font-cheeky text-sm text-gray-500">score</span>
-            <p className="font-carrots text-3xl">{score}</p>
+          <div className="bg-card border-2 border-black rounded-xl px-4 py-2">
+            <span className="text-sm text-gray-500">score</span>
+            <p className="font-heading text-3xl">{score}</p>
           </div>
           <div
-            className={`bg-white border-2 rounded-xl px-4 py-2 ${
+            className={`bg-card border-2 rounded-xl px-4 py-2 ${
               timeLeft <= 10 ? 'border-red-500 bg-red-50' : 'border-black'
             }`}
           >
-            <span className="font-cheeky text-sm text-gray-500">time</span>
+            <span className="text-sm text-gray-500">time</span>
             <p
-              className={`font-carrots text-3xl ${
+              className={`font-heading text-3xl ${
                 timeLeft <= 10 ? 'text-red-500' : ''
               }`}
             >
@@ -196,7 +196,7 @@ const TapTheBeedo: React.FC<TapTheBeedoProps> = ({
       </div>
 
       {/* game area */}
-      <div className="bg-white rounded-3xl border-4 border-black p-6 relative">
+      <div className="bg-card rounded-3xl border-4 border-black p-6 relative">
         {gameState === 'idle' && (
           <div className="text-center py-12">
             <motion.div
@@ -206,14 +206,14 @@ const TapTheBeedo: React.FC<TapTheBeedoProps> = ({
             >
               🎀
             </motion.div>
-            <p className="font-cheeky text-xl text-gray-600 mb-6">
+            <p className="text-xl text-gray-600 mb-6">
               beedo is hiding... can you find her?
             </p>
             <motion.button
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
               onClick={startGame}
-              className="bg-pink-500 text-white font-carrots text-2xl px-8 py-4 rounded-xl border-4 border-pink-600 hover:bg-pink-600 transition-colors"
+              className="bg-pink-500 text-white font-heading text-2xl px-8 py-4 rounded-xl border-4 border-pink-600 hover:bg-pink-600 transition-colors"
             >
               Start Game!
             </motion.button>
@@ -231,22 +231,22 @@ const TapTheBeedo: React.FC<TapTheBeedoProps> = ({
               animate={{ scale: 1 }}
               transition={{ type: 'spring', stiffness: 300 }}
             >
-              <p className="font-carrots text-4xl mb-2">Times Up!</p>
-              <p className="font-cheeky text-xl text-gray-600 mb-4">
+              <p className="font-heading text-4xl mb-2">Times Up!</p>
+              <p className="text-xl text-gray-600 mb-4">
                 you caught beedo {score} times!
               </p>
 
               <div className="bg-yellow-50 border-2 border-yellow-400 rounded-xl p-4 mb-6 inline-block">
-                <p className="font-cheeky text-lg text-yellow-700">you earned</p>
+                <p className="text-lg text-yellow-700">you earned</p>
                 <motion.p
                   initial={{ scale: 0 }}
                   animate={{ scale: 1 }}
                   transition={{ delay: 0.3, type: 'spring' }}
-                  className="font-carrots text-5xl text-yellow-800"
+                  className="font-heading text-5xl text-yellow-800"
                 >
                   +{coinsEarned}
                 </motion.p>
-                <p className="font-cheeky text-sm text-yellow-600">meedo coins!</p>
+                <p className="text-sm text-yellow-600">meedo coins!</p>
               </div>
 
               <div className="flex flex-col gap-3">
@@ -254,13 +254,13 @@ const TapTheBeedo: React.FC<TapTheBeedoProps> = ({
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
                   onClick={startGame}
-                  className="bg-pink-500 text-white font-carrots text-xl px-6 py-3 rounded-xl border-4 border-pink-600 hover:bg-pink-600 transition-colors"
+                  className="bg-pink-500 text-white font-heading text-xl px-6 py-3 rounded-xl border-4 border-pink-600 hover:bg-pink-600 transition-colors"
                 >
                   Play Again!
                 </motion.button>
                 <a
                   href="/games"
-                  className="font-cheeky text-lg text-gray-500 hover:text-gray-700 underline"
+                  className="text-lg text-gray-500 hover:text-gray-700 underline"
                 >
                   back to games
                 </a>
@@ -278,7 +278,7 @@ const TapTheBeedo: React.FC<TapTheBeedoProps> = ({
             initial={{ opacity: 1, y: 0, x: effect.x - 20, position: 'fixed', top: effect.y }}
             animate={{ opacity: 0, y: -50 }}
             exit={{ opacity: 0 }}
-            className="font-carrots text-2xl text-green-500 pointer-events-none"
+            className="font-heading text-2xl text-green-500 pointer-events-none"
             style={{ left: effect.x - 20, position: 'fixed', top: effect.y }}
           >
             +1

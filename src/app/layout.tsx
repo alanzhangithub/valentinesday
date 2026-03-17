@@ -1,11 +1,19 @@
 import type { Metadata } from "next";
-import { Geist } from "next/font/google";
+import { Fredoka, Nunito } from "next/font/google";
 import "./globals.css";
 import Providers from "../components/Providers";
 import Navigation from "../components/layout/Navigation";
 
-const geist = Geist({
+const fredoka = Fredoka({
   subsets: ["latin"],
+  variable: "--font-fredoka",
+  display: "swap",
+});
+
+const nunito = Nunito({
+  subsets: ["latin"],
+  variable: "--font-nunito",
+  display: "swap",
 });
 
 export const metadata: Metadata = {
@@ -19,8 +27,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className={geist.className}>
-      <body className="bg-white min-h-screen">
+    <html lang="en" className={`${fredoka.variable} ${nunito.variable}`}>
+      <body className="min-h-screen font-body">
         <Providers>
           <Navigation />
           <main>{children}</main>

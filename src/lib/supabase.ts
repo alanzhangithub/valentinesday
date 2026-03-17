@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/ban-ts-comment */
+// @ts-nocheck — supabase-js v2.49 type resolution issue with hand-written Database types
 import { createClient } from '@supabase/supabase-js';
 import type { Database } from '@/types/database';
 

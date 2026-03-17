@@ -66,7 +66,7 @@ export default function PhotosPage() {
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Header */}
-      <header className="bg-white border-b border-gray-100 sticky top-0 z-10">
+      <header className="bg-card border-b border-border/50 sticky top-0 z-10">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
           {/* Top row - back link and actions */}
           <div className="flex items-center justify-between mb-3">
@@ -99,7 +99,7 @@ export default function PhotosPage() {
           {/* Title row */}
           <div className="flex items-end justify-between">
             <div>
-              <h1 className="text-2xl font-bold text-gray-900">our memories</h1>
+              <h1 className="text-2xl font-bold text-foreground">our memories</h1>
               <p className="text-gray-500 text-sm">
                 {photos.length} photo{photos.length !== 1 ? 's' : ''} of meedo and beedo
               </p>
@@ -113,8 +113,8 @@ export default function PhotosPage() {
                   onClick={() => setFilter(f)}
                   className={`px-3 py-1.5 rounded-md text-sm font-medium transition-colors ${
                     filter === f
-                      ? 'bg-white text-gray-900 shadow-sm'
-                      : 'text-gray-600 hover:text-gray-900'
+                      ? 'bg-card text-foreground shadow-sm'
+                      : 'text-gray-600 hover:text-foreground'
                   }`}
                 >
                   {f === 'all' ? 'all' : f === 'meedo' ? 'M' : 'B'}

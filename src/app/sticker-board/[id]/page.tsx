@@ -147,7 +147,7 @@ export default function BoardPage({ params }: BoardPageProps) {
   return (
     <div className="min-h-screen bg-gray-50 flex flex-col">
       {/* Header */}
-      <header className="bg-white border-b px-4 py-3 flex items-center justify-between z-30 relative">
+      <header className="bg-card border-b px-4 py-3 flex items-center justify-between z-30 relative">
         <div className="flex items-center gap-4">
           <Link
             href="/sticker-board"
@@ -158,7 +158,7 @@ export default function BoardPage({ params }: BoardPageProps) {
             </svg>
           </Link>
           <div>
-            <h1 className="font-semibold text-gray-900">{board.name}</h1>
+            <h1 className="font-semibold text-foreground">{board.name}</h1>
             <p className="text-xs text-gray-500">
               {board.canvas_data.stickers.length} sticker{board.canvas_data.stickers.length !== 1 ? 's' : ''}
             </p>

@@ -163,9 +163,9 @@ export const defaultShopItems: ShopItem[] = [
 ];
 
 // In-memory storage (replace with Supabase in production)
-let shopItems: ShopItem[] = [...defaultShopItems];
-let purchases: Purchase[] = [];
-let balances: UserBalance[] = [
+const shopItems: ShopItem[] = [...defaultShopItems];
+const purchases: Purchase[] = [];
+const balances: UserBalance[] = [
   { user: 'meedo', coins: 500 },
   { user: 'beedo', coins: 500 },
 ];

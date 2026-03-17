@@ -1,8 +1,5 @@
 // Email utilities - stubbed out for now (install resend package to enable)
 
-const FROM_EMAIL = process.env.EMAIL_FROM || 'Meedobeedo <noreply@meedobeedo.com>';
-const ADMIN_EMAIL = process.env.ADMIN_EMAIL || '';
-
 export type EmailTemplate =
   | 'wish-submitted'
   | 'wish-granted'
@@ -35,7 +32,8 @@ export async function sendEmail(options: SendEmailOptions): Promise<SendEmailRes
 /**
  * send email to admin
  */
-export async function sendAdminEmail(subject: string, html: string): Promise<SendEmailResult> {
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+export async function sendAdminEmail(subject: string, _html: string): Promise<SendEmailResult> {
   console.log('[email] stubbed admin email:', subject);
   return { success: true, data: { id: 'stub' } };
 }
@@ -73,17 +71,17 @@ export async function sendWishStatusEmail(data: WishGrantedEmailData): Promise<b
 }
 
 // Shop email functions
-export async function sendPurchaseConfirmation(purchase: any, item: any, user: string): Promise<boolean> {
+export async function sendPurchaseConfirmation(purchase: unknown, item: unknown, user: string): Promise<boolean> {
   console.log('[email] stubbed purchase confirmation for:', user);
   return true;
 }
 
-export async function sendAdminNotification(purchase: any, item: any, user: string): Promise<boolean> {
+export async function sendAdminNotification(purchase: unknown, item: unknown, user: string): Promise<boolean> {
   console.log('[email] stubbed admin notification for purchase by:', user);
   return true;
 }
 
-export async function sendFulfillmentNotification(purchase: any, item: any, user: string): Promise<boolean> {
+export async function sendFulfillmentNotification(purchase: unknown, item: unknown, user: string): Promise<boolean> {
   console.log('[email] stubbed fulfillment notification for:', user);
   return true;
 }

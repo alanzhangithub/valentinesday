@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import Link from 'next/link';
-import Image from 'next/image';
+
 import { ShopItem as ShopItemType, Purchase } from '@/types/shop';
 import ShopItemCard from '@/components/shop/ShopItem';
 import CoinBalance from '@/components/shop/CoinBalance';
@@ -149,12 +149,12 @@ export default function ShopPage() {
       </AnimatePresence>
 
       {/* Header */}
-      <header className="sticky top-0 z-40 bg-white/80 backdrop-blur-md border-b border-gray-100">
+      <header className="sticky top-0 z-40 bg-card/80 backdrop-blur-md border-b border-border/50">
         <div className="max-w-6xl mx-auto px-4 py-4">
           <div className="flex items-center justify-between">
             <Link href="/">
               <motion.button
-                className="flex items-center gap-2 px-4 py-2 text-gray-600 hover:text-gray-900 transition-colors"
+                className="flex items-center gap-2 px-4 py-2 text-gray-600 hover:text-foreground transition-colors"
                 whileHover={{ x: -4 }}
                 whileTap={{ scale: 0.98 }}
               >
@@ -173,30 +173,14 @@ export default function ShopPage() {
       <main className="max-w-6xl mx-auto px-4 py-8">
         {/* Hero Section */}
         <div className="text-center mb-12">
-          <div className="flex items-center justify-center gap-4 mb-4">
-            <Image
-              src="/stickers/meedo-waving.svg"
-              alt="Meedo"
-              width={64}
-              height={64}
-              className="w-16 h-16"
-            />
-            <h1 className="font-carrots text-5xl md:text-6xl text-gray-900">the meedo shop</h1>
-            <Image
-              src="/stickers/beedo-waving.svg"
-              alt="Beedo"
-              width={64}
-              height={64}
-              className="w-16 h-16"
-            />
-          </div>
+          <div className="flex items-center justify-center gap-4 mb-4"><h1 className="font-heading text-5xl md:text-6xl text-foreground">the meedo shop</h1></div>
           <p className="text-gray-500 text-lg max-w-md mx-auto">
             spend those hard-earned coins on perks and treats
           </p>
         </div>
 
         {/* Controls Bar */}
-        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-8 p-4 bg-white rounded-2xl border border-gray-100 shadow-sm">
+        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-8 p-4 bg-card rounded-2xl border border-border/50 shadow-sm">
           {/* Filters */}
           <div className="flex flex-wrap gap-2">
             {(['all', 'coupon', 'reward'] as FilterType[]).map(f => (
@@ -223,7 +207,7 @@ export default function ShopPage() {
                 id="sort"
                 value={sort}
                 onChange={e => setSort(e.target.value as SortType)}
-                className="px-3 py-2 rounded-xl border border-gray-200 text-sm font-medium bg-white focus:outline-none focus:ring-2 focus:ring-gray-200"
+                className="px-3 py-2 rounded-xl border border-border text-sm font-medium bg-card focus:outline-none focus:ring-2 focus:ring-gray-200"
               >
                 <option value="price-low">price: low to high</option>
                 <option value="price-high">price: high to low</option>
@@ -260,7 +244,7 @@ export default function ShopPage() {
               transition={{ duration: 0.3 }}
             >
               <div className="p-6 bg-gradient-to-br from-purple-50 to-indigo-50 rounded-2xl border border-purple-100">
-                <h2 className="font-carrots text-2xl mb-4 text-purple-900">your purchases</h2>
+                <h2 className="font-heading text-2xl mb-4 text-purple-900">your purchases</h2>
 
                 {purchases.length === 0 ? (
                   <div className="text-center py-8">
@@ -282,7 +266,7 @@ export default function ShopPage() {
                           {pendingPurchases.map(purchase => (
                             <motion.div
                               key={purchase.id}
-                              className="flex items-center justify-between bg-white p-4 rounded-xl border border-purple-200 shadow-sm"
+                              className="flex items-center justify-between bg-card p-4 rounded-xl border border-purple-200 shadow-sm"
                               initial={{ opacity: 0, y: -10 }}
                               animate={{ opacity: 1, y: 0 }}
                             >
@@ -293,8 +277,8 @@ export default function ShopPage() {
                                   </span>
                                 </div>
                                 <div>
-                                  <span className="font-semibold text-gray-900">{purchase.item?.name}</span>
-                                  <p className="text-gray-400 text-xs">
+                                  <span className="font-semibold text-foreground">{purchase.item?.name}</span>
+                                  <p className="text-muted-foreground/70 text-xs">
                                     {new Date(purchase.purchased_at).toLocaleDateString('en-US', {
                                       month: 'short',
                                       day: 'numeric',
@@ -315,16 +299,16 @@ export default function ShopPage() {
                     {/* Fulfilled section */}
                     {fulfilledPurchases.length > 0 && (
                       <div>
-                        <h3 className="text-sm font-semibold text-gray-400 uppercase tracking-wide mb-2">already claimed</h3>
+                        <h3 className="text-sm font-semibold text-muted-foreground/70 uppercase tracking-wide mb-2">already claimed</h3>
                         <div className="space-y-2">
                           {fulfilledPurchases.map(purchase => (
                             <div
                               key={purchase.id}
-                              className="flex items-center justify-between bg-white/50 p-4 rounded-xl border border-gray-100"
+                              className="flex items-center justify-between bg-card/50 p-4 rounded-xl border border-border/50"
                             >
                               <div className="flex items-center gap-3">
                                 <div className="w-10 h-10 bg-gray-100 rounded-full flex items-center justify-center">
-                                  <span className="text-gray-400 text-lg">
+                                  <span className="text-muted-foreground/70 text-lg">
                                     {purchase.item?.type === 'coupon' ? '🎟' : '🎁'}
                                   </span>
                                 </div>
@@ -361,8 +345,8 @@ export default function ShopPage() {
                     <span className="text-xl">🎟</span>
                   </div>
                   <div>
-                    <h2 className="font-carrots text-2xl text-gray-900">coupons</h2>
-                    <p className="text-gray-400 text-sm">perks and privileges</p>
+                    <h2 className="font-heading text-2xl text-foreground">coupons</h2>
+                    <p className="text-muted-foreground/70 text-sm">perks and privileges</p>
                   </div>
                 </div>
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
@@ -392,8 +376,8 @@ export default function ShopPage() {
                     <span className="text-xl">🍬</span>
                   </div>
                   <div>
-                    <h2 className="font-carrots text-2xl text-gray-900">small treats</h2>
-                    <p className="text-gray-400 text-sm">100-200 coins</p>
+                    <h2 className="font-heading text-2xl text-foreground">small treats</h2>
+                    <p className="text-muted-foreground/70 text-sm">100-200 coins</p>
                   </div>
                 </div>
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
@@ -423,8 +407,8 @@ export default function ShopPage() {
                     <span className="text-xl">🎁</span>
                   </div>
                   <div>
-                    <h2 className="font-carrots text-2xl text-gray-900">medium treats</h2>
-                    <p className="text-gray-400 text-sm">300-500 coins</p>
+                    <h2 className="font-heading text-2xl text-foreground">medium treats</h2>
+                    <p className="text-muted-foreground/70 text-sm">300-500 coins</p>
                   </div>
                 </div>
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
@@ -454,8 +438,8 @@ export default function ShopPage() {
                     <span className="text-xl">✨</span>
                   </div>
                   <div>
-                    <h2 className="font-carrots text-2xl text-gray-900">big treats</h2>
-                    <p className="text-gray-400 text-sm">1000+ coins - worth the grind</p>
+                    <h2 className="font-heading text-2xl text-foreground">big treats</h2>
+                    <p className="text-muted-foreground/70 text-sm">1000+ coins - worth the grind</p>
                   </div>
                 </div>
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
@@ -506,13 +490,13 @@ export default function ShopPage() {
               </svg>
             </div>
             <p className="text-gray-500 text-lg font-medium">no items found</p>
-            <p className="text-gray-400 text-sm">try a different filter</p>
+            <p className="text-muted-foreground/70 text-sm">try a different filter</p>
           </div>
         )}
 
         {/* Footer */}
         <footer className="mt-16 pb-8 text-center">
-          <div className="inline-flex items-center gap-2 px-4 py-2 bg-gray-50 rounded-full text-gray-400 text-sm">
+          <div className="inline-flex items-center gap-2 px-4 py-2 bg-gray-50 rounded-full text-muted-foreground/70 text-sm">
             <span>earn coins by playing games</span>
             <span>|</span>
             <span>purchases fulfilled by meedo (or mod)</span>

@@ -2,7 +2,6 @@
 
 import React, { useState, useCallback, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import Image from 'next/image';
 import { FoodOption } from '@/types/food';
 
 interface SpinWheelProps {
@@ -121,18 +120,10 @@ export default function SpinWheel({ options, onResult }: SpinWheelProps) {
 
   if (options.length === 0) {
     return (
-      <div className="bg-white rounded-2xl border-4 border-black p-8 text-center">
-        <Image
-          src="/stickers/beedo-default.svg"
-          alt="beedo"
-          width={100}
-          height={100}
-          className="mx-auto mb-4 opacity-50"
-        />
-        <p className="font-cheeky text-xl text-gray-500">
+      <div className="bg-card rounded-2xl border-4 border-black p-8 text-center"><p className="text-xl text-gray-500">
           no restaurants yet!
         </p>
-        <p className="font-cheeky text-lg text-gray-400 mt-1">
+        <p className="text-lg text-muted-foreground/70 mt-1">
           add some spots below~
         </p>
       </div>
@@ -175,20 +166,13 @@ export default function SpinWheel({ options, onResult }: SpinWheelProps) {
       </AnimatePresence>
 
       {/* Wheel Container */}
-      <div className="relative bg-white p-4 rounded-3xl border-4 border-black shadow-lg">
+      <div className="relative bg-card p-4 rounded-3xl border-4 border-black shadow-lg">
         {/* Meedo watching from the side */}
         <motion.div
           className="absolute -left-16 top-1/2 -translate-y-1/2 hidden lg:block"
           animate={isSpinning ? { y: [0, -5, 0], rotate: [-5, 5, -5] } : {}}
           transition={{ duration: 0.3, repeat: isSpinning ? Infinity : 0 }}
-        >
-          <Image
-            src="/stickers/meedo-default.svg"
-            alt="meedo watching"
-            width={60}
-            height={60}
-          />
-        </motion.div>
+        ></motion.div>
 
         {/* Arrow pointer */}
         <div className="absolute top-2 left-1/2 -translate-x-1/2 z-10">
@@ -254,7 +238,7 @@ export default function SpinWheel({ options, onResult }: SpinWheelProps) {
               y={radius}
               textAnchor="middle"
               dominantBaseline="middle"
-              className="text-lg font-carrots fill-black"
+              className="text-lg font-heading fill-black"
               style={{ fontSize: '16px' }}
             >
               yum
@@ -267,21 +251,14 @@ export default function SpinWheel({ options, onResult }: SpinWheelProps) {
           className="absolute -right-16 top-1/2 -translate-y-1/2 hidden lg:block"
           animate={isSpinning ? { y: [0, -5, 0], rotate: [5, -5, 5] } : {}}
           transition={{ duration: 0.3, repeat: isSpinning ? Infinity : 0 }}
-        >
-          <Image
-            src="/stickers/beedo-default.svg"
-            alt="beedo watching"
-            width={60}
-            height={60}
-          />
-        </motion.div>
+        ></motion.div>
       </div>
 
       {/* Spin Button */}
       <motion.button
         onClick={() => spin(false)}
         disabled={isSpinning}
-        className="bg-black text-white font-carrots text-2xl px-10 py-4 rounded-2xl border-4 border-black disabled:opacity-50 disabled:cursor-not-allowed shadow-lg"
+        className="bg-black text-white font-heading text-2xl px-10 py-4 rounded-2xl border-4 border-black disabled:opacity-50 disabled:cursor-not-allowed shadow-lg"
         whileHover={{ scale: isSpinning ? 1 : 1.05, y: isSpinning ? 0 : -2 }}
         whileTap={{ scale: isSpinning ? 1 : 0.95 }}
       >
@@ -289,7 +266,7 @@ export default function SpinWheel({ options, onResult }: SpinWheelProps) {
       </motion.button>
 
       {/* Hungry subtext */}
-      <p className="font-cheeky text-gray-400 text-sm">
+      <p className="text-muted-foreground/70 text-sm">
         {isSpinning ? 'where will fate take us...' : 'let the wheel decide our fate'}
       </p>
 
@@ -304,7 +281,7 @@ export default function SpinWheel({ options, onResult }: SpinWheelProps) {
             onClick={() => setShowResult(false)}
           >
             <motion.div
-              className="bg-white rounded-3xl border-4 border-black p-8 max-w-sm w-full text-center relative overflow-hidden"
+              className="bg-card rounded-3xl border-4 border-black p-8 max-w-sm w-full text-center relative overflow-hidden"
               onClick={(e) => e.stopPropagation()}
               initial={{ scale: 0.8, y: 50 }}
               animate={{ scale: 1, y: 0 }}
@@ -325,12 +302,12 @@ export default function SpinWheel({ options, onResult }: SpinWheelProps) {
                 animate={{ y: 0, opacity: 1 }}
                 transition={{ delay: 0.1 }}
               >
-                <h2 className="font-carrots text-3xl mb-2">
+                <h2 className="font-heading text-3xl mb-2">
                   {wasReroll ? 'fine, how about...' : 'the wheel has spoken!'}
                 </h2>
 
                 <motion.p
-                  className="font-cheeky text-5xl mb-4 text-black"
+                  className="text-5xl mb-4 text-black"
                   initial={{ scale: 0.5 }}
                   animate={{ scale: 1 }}
                   transition={{ type: 'spring', damping: 10, delay: 0.2 }}
@@ -353,7 +330,7 @@ export default function SpinWheel({ options, onResult }: SpinWheelProps) {
                 <div className="flex gap-4 justify-center">
                   <motion.button
                     onClick={handleReroll}
-                    className="bg-white font-carrots text-xl px-6 py-3 rounded-xl border-4 border-black"
+                    className="bg-card font-heading text-xl px-6 py-3 rounded-xl border-4 border-black"
                     whileHover={{ scale: 1.05 }}
                     whileTap={{ scale: 0.95 }}
                   >
@@ -361,7 +338,7 @@ export default function SpinWheel({ options, onResult }: SpinWheelProps) {
                   </motion.button>
                   <motion.button
                     onClick={() => setShowResult(false)}
-                    className="bg-black text-white font-carrots text-xl px-6 py-3 rounded-xl border-4 border-black"
+                    className="bg-black text-white font-heading text-xl px-6 py-3 rounded-xl border-4 border-black"
                     whileHover={{ scale: 1.05 }}
                     whileTap={{ scale: 0.95 }}
                   >
@@ -371,14 +348,7 @@ export default function SpinWheel({ options, onResult }: SpinWheelProps) {
               </motion.div>
 
               {/* Little characters in the corner */}
-              <div className="absolute -bottom-2 -right-2 opacity-30">
-                <Image
-                  src="/stickers/meedo-waving.svg"
-                  alt=""
-                  width={60}
-                  height={60}
-                />
-              </div>
+              <div className="absolute -bottom-2 -right-2 opacity-30"></div>
             </motion.div>
           </motion.div>
         )}

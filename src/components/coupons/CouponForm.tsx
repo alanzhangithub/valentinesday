@@ -67,11 +67,11 @@ const CouponForm: React.FC<CouponFormProps> = ({ currentUser, onSubmit, onCancel
     <motion.div
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
-      className="bg-white rounded-2xl border-4 border-black p-6 shadow-lg"
+      className="bg-card rounded-2xl border-4 border-black p-6 shadow-lg"
     >
       {/* dashed inner border for coupon feel */}
       <div className="relative">
-        <div className="absolute -inset-2 border-2 border-dashed border-gray-200 rounded-xl pointer-events-none" />
+        <div className="absolute -inset-2 border-2 border-dashed border-border rounded-xl pointer-events-none" />
 
         <div className="flex items-center gap-4 mb-6">
           <motion.div
@@ -87,7 +87,7 @@ const CouponForm: React.FC<CouponFormProps> = ({ currentUser, onSubmit, onCancel
             />
           </motion.div>
           <div>
-            <h2 className="font-carrots text-2xl">Create a Coupon</h2>
+            <h2 className="font-heading text-2xl">Create a Coupon</h2>
             <p className="text-gray-600 text-sm">
               make something nice for {recipientName}
             </p>
@@ -115,11 +115,11 @@ const CouponForm: React.FC<CouponFormProps> = ({ currentUser, onSubmit, onCancel
               value={title}
               onChange={(e) => setTitle(e.target.value)}
               placeholder="eg. Movie Night Pick"
-              className="w-full px-4 py-3 rounded-xl border-2 border-gray-200 focus:border-black focus:outline-none transition-colors"
+              className="w-full px-4 py-3 rounded-xl border-2 border-border focus:border-black focus:outline-none transition-colors"
               maxLength={50}
               required
             />
-            <p className="text-xs text-gray-400 mt-1 text-right">{title.length}/50</p>
+            <p className="text-xs text-muted-foreground/70 mt-1 text-right">{title.length}/50</p>
           </div>
 
           <div>
@@ -132,11 +132,11 @@ const CouponForm: React.FC<CouponFormProps> = ({ currentUser, onSubmit, onCancel
               onChange={(e) => setDescription(e.target.value)}
               placeholder="what does this coupon get them?"
               rows={3}
-              className="w-full px-4 py-3 rounded-xl border-2 border-gray-200 focus:border-black focus:outline-none resize-none transition-colors"
+              className="w-full px-4 py-3 rounded-xl border-2 border-border focus:border-black focus:outline-none resize-none transition-colors"
               maxLength={200}
               required
             />
-            <p className="text-xs text-gray-400 mt-1 text-right">{description.length}/200</p>
+            <p className="text-xs text-muted-foreground/70 mt-1 text-right">{description.length}/200</p>
           </div>
 
           <div className="flex items-center gap-3 p-3 bg-gray-50 rounded-xl">
@@ -167,7 +167,7 @@ const CouponForm: React.FC<CouponFormProps> = ({ currentUser, onSubmit, onCancel
                 value={expiryDate}
                 onChange={(e) => setExpiryDate(e.target.value)}
                 min={new Date().toISOString().split('T')[0]}
-                className="w-full px-4 py-3 rounded-xl border-2 border-gray-200 focus:border-black focus:outline-none transition-colors"
+                className="w-full px-4 py-3 rounded-xl border-2 border-border focus:border-black focus:outline-none transition-colors"
                 required={hasExpiry}
               />
             </motion.div>
@@ -180,7 +180,7 @@ const CouponForm: React.FC<CouponFormProps> = ({ currentUser, onSubmit, onCancel
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
                 onClick={onCancel}
-                className="flex-1 py-3 rounded-xl border-2 border-black font-carrots hover:bg-gray-100 transition-colors"
+                className="flex-1 py-3 rounded-xl border-2 border-black font-heading hover:bg-gray-100 transition-colors"
               >
                 Cancel
               </motion.button>
@@ -190,7 +190,7 @@ const CouponForm: React.FC<CouponFormProps> = ({ currentUser, onSubmit, onCancel
               whileHover={{ scale: 1.02 }}
               whileTap={{ scale: 0.98 }}
               disabled={isSubmitting || !title.trim() || !description.trim()}
-              className="flex-1 py-3 rounded-xl bg-black text-white font-carrots hover:bg-gray-800 transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+              className="flex-1 py-3 rounded-xl bg-black text-white font-heading hover:bg-gray-800 transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
             >
               {isSubmitting ? (
                 <>
@@ -213,7 +213,7 @@ const CouponForm: React.FC<CouponFormProps> = ({ currentUser, onSubmit, onCancel
       </div>
 
       {/* suggestions */}
-      <div className="mt-6 pt-6 border-t-2 border-gray-100">
+      <div className="mt-6 pt-6 border-t-2 border-border/50">
         <p className="text-sm text-gray-500 mb-3">need ideas? try one of these:</p>
         <div className="flex flex-wrap gap-2">
           {suggestions.map((suggestion, index) => (

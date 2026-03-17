@@ -43,8 +43,8 @@ const CountdownTimer: React.FC<CountdownTimerProps> = ({
   compact = false,
   className = '',
 }) => {
-  const [countdowns, setCountdowns] = useState<Countdown[]>([]);
-  const [activeCountdown, setActiveCountdown] = useState<Countdown | null>(null);
+  const [, /* countdowns */ ] = useState<Countdown[]>([]);
+  const [activeCountdown] = useState<Countdown | null>(null);
   const [timeLeft, setTimeLeft] = useState<TimeLeft | null>(null);
   const [loading, setLoading] = useState(!targetDate);
 
@@ -117,12 +117,12 @@ const CountdownTimer: React.FC<CountdownTimerProps> = ({
 
   if (compact) {
     return (
-      <div className={`inline-flex items-center gap-2 bg-white rounded-xl border-2 border-black px-4 py-2 ${className}`}>
-        <span className="font-cheeky text-sm text-gray-600">{displayTitle}:</span>
+      <div className={`inline-flex items-center gap-2 bg-card rounded-xl border-2 border-black px-4 py-2 ${className}`}>
+        <span className="text-sm text-gray-600">{displayTitle}:</span>
         {isComplete ? (
-          <span className="font-carrots text-lg">it's time!</span>
+          <span className="font-heading text-lg">it&apos;s time!</span>
         ) : (
-          <span className="font-carrots text-lg">
+          <span className="font-heading text-lg">
             {timeLeft.days}d {timeLeft.hours}h {timeLeft.minutes}m
           </span>
         )}
@@ -131,9 +131,9 @@ const CountdownTimer: React.FC<CountdownTimerProps> = ({
   }
 
   return (
-    <div className={`bg-white rounded-2xl border-4 border-black p-6 text-center ${className}`}>
-      <h3 className="font-cheeky text-lg text-gray-600 mb-2">countdown to</h3>
-      <h2 className="font-carrots text-3xl mb-6">{displayTitle}</h2>
+    <div className={`bg-card rounded-2xl border-4 border-black p-6 text-center ${className}`}>
+      <h3 className="text-lg text-gray-600 mb-2">countdown to</h3>
+      <h2 className="font-heading text-3xl mb-6">{displayTitle}</h2>
 
       {isComplete ? (
         <motion.div
@@ -142,7 +142,7 @@ const CountdownTimer: React.FC<CountdownTimerProps> = ({
           className="py-8"
         >
           <span className="text-6xl">🎉</span>
-          <p className="font-carrots text-2xl mt-4">it's happening!</p>
+          <p className="font-heading text-2xl mt-4">it&apos;s happening!</p>
         </motion.div>
       ) : (
         <div className="grid grid-cols-4 gap-3">
@@ -154,7 +154,7 @@ const CountdownTimer: React.FC<CountdownTimerProps> = ({
       )}
 
       {/* fun message based on time left */}
-      <p className="mt-4 text-gray-500 text-sm font-cheeky">
+      <p className="mt-4 text-gray-500 text-sm">
         {timeLeft.days > 30 && "patience, young padawan"}
         {timeLeft.days <= 30 && timeLeft.days > 7 && "getting closer..."}
         {timeLeft.days <= 7 && timeLeft.days > 1 && "almost there!"}
@@ -181,11 +181,11 @@ const TimeBlock: React.FC<TimeBlockProps> = ({ value, label }) => (
       key={value}
       initial={{ y: -10, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
-      className="font-carrots text-3xl"
+      className="font-heading text-3xl"
     >
       {String(value).padStart(2, '0')}
     </motion.div>
-    <div className="font-cheeky text-xs text-gray-400 mt-1">{label}</div>
+    <div className="text-xs text-muted-foreground/70 mt-1">{label}</div>
   </motion.div>
 );
 

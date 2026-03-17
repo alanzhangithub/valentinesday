@@ -41,7 +41,7 @@ export async function POST(request: NextRequest) {
 
     let html: string;
     let subject: string;
-    let recipient = to;
+    const recipient = to;
 
     // generate email content based on type
     switch (type) {

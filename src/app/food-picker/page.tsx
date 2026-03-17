@@ -3,7 +3,7 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { motion } from 'framer-motion';
 import Link from 'next/link';
-import Image from 'next/image';
+
 import SpinWheel from '@/components/food-picker/SpinWheel';
 import FoodList from '@/components/food-picker/FoodList';
 import FoodOptionForm from '@/components/food-picker/FoodOptionForm';
@@ -102,15 +102,8 @@ export default function FoodPickerPage() {
         <motion.div
           animate={{ rotate: 360 }}
           transition={{ duration: 2, repeat: Infinity, ease: 'linear' }}
-        >
-          <Image
-            src="/stickers/meedo-default.svg"
-            alt="loading"
-            width={80}
-            height={80}
-          />
-        </motion.div>
-        <p className="font-cheeky text-2xl text-gray-400">loading restaurants...</p>
+        ></motion.div>
+        <p className="text-2xl text-muted-foreground/70">loading restaurants...</p>
       </div>
     );
   }
@@ -126,7 +119,7 @@ export default function FoodPickerPage() {
         >
           <Link
             href="/"
-            className="inline-flex items-center gap-2 text-gray-500 hover:text-black transition-colors font-cheeky text-lg"
+            className="inline-flex items-center gap-2 text-gray-500 hover:text-black transition-colors text-lg"
           >
             <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
@@ -141,8 +134,8 @@ export default function FoodPickerPage() {
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
         >
-          <h1 className="font-carrots text-5xl md:text-6xl mb-3">where we eating?</h1>
-          <p className="font-cheeky text-xl text-gray-500">
+          <h1 className="font-heading text-5xl md:text-6xl mb-3">where we eating?</h1>
+          <p className="text-xl text-gray-500">
             let the wheel decide so we dont have to argue
           </p>
         </motion.div>
@@ -181,7 +174,7 @@ export default function FoodPickerPage() {
             ) : (
               <motion.button
                 onClick={() => setShowForm(true)}
-                className="w-full bg-black text-white font-carrots text-xl py-4 rounded-2xl border-4 border-black shadow-lg flex items-center justify-center gap-2"
+                className="w-full bg-black text-white font-heading text-xl py-4 rounded-2xl border-4 border-black shadow-lg flex items-center justify-center gap-2"
                 whileHover={{ scale: 1.02, y: -2 }}
                 whileTap={{ scale: 0.98 }}
               >
@@ -201,7 +194,7 @@ export default function FoodPickerPage() {
           animate={{ opacity: 1 }}
           transition={{ delay: 0.5 }}
         >
-          <p className="font-cheeky text-gray-300 text-sm">
+          <p className="text-gray-300 text-sm">
             built with love for meedo and beedo
           </p>
         </motion.div>

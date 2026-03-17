@@ -33,7 +33,7 @@ const Dashboard: React.FC<DashboardProps> = ({ userRole, userName }) => {
           className="flex items-center justify-between mb-8"
         >
           <div className="flex items-center gap-4">
-            <div className="w-16 h-16 rounded-full bg-white border-4 border-black overflow-hidden relative">
+            <div className="w-16 h-16 rounded-full bg-card border-4 border-black overflow-hidden relative">
               <Image
                 src={userRole === 'meedo' ? '/meedo.png' : '/beedo.png'}
                 alt={displayName}
@@ -42,8 +42,8 @@ const Dashboard: React.FC<DashboardProps> = ({ userRole, userName }) => {
               />
             </div>
             <div>
-              <h1 className="font-carrots text-3xl">{greeting}, {displayName}!</h1>
-              <p className="font-cheeky text-gray-500">welcome back to your world</p>
+              <h1 className="font-heading text-3xl">{greeting}, {displayName}!</h1>
+              <p className="text-gray-500">welcome back to your world</p>
             </div>
           </div>
 
@@ -61,10 +61,10 @@ const Dashboard: React.FC<DashboardProps> = ({ userRole, userName }) => {
             <button
               key={tab}
               onClick={() => setSelectedTab(tab)}
-              className={`px-4 py-2 rounded-xl font-cheeky text-lg transition-all ${
+              className={`px-4 py-2 rounded-xl text-lg transition-all ${
                 selectedTab === tab
                   ? 'bg-black text-white'
-                  : 'bg-white border-2 border-black hover:bg-gray-100'
+                  : 'bg-card border-2 border-black hover:bg-gray-100'
               }`}
             >
               {tab}
@@ -103,10 +103,10 @@ const OverviewTab: React.FC<{ userRole: UserRole }> = ({ userRole }) => (
     </div>
 
     {/* Badges Preview */}
-    <div className="bg-white rounded-2xl border-4 border-black p-6">
-      <h3 className="font-carrots text-xl mb-4">recent badges</h3>
+    <div className="bg-card rounded-2xl border-4 border-black p-6">
+      <h3 className="font-heading text-xl mb-4">recent badges</h3>
       <BadgeDisplay userRole={userRole} compact />
-      <button className="mt-4 text-sm text-gray-500 hover:text-black transition-colors font-cheeky">
+      <button className="mt-4 text-sm text-gray-500 hover:text-black transition-colors">
         view all badges →
       </button>
     </div>
@@ -115,8 +115,8 @@ const OverviewTab: React.FC<{ userRole: UserRole }> = ({ userRole }) => (
     <QuickActionsWidget />
 
     {/* Activity Feed */}
-    <div className="lg:col-span-2 bg-white rounded-2xl border-4 border-black p-6">
-      <h3 className="font-carrots text-xl mb-4">recent activity</h3>
+    <div className="lg:col-span-2 bg-card rounded-2xl border-4 border-black p-6">
+      <h3 className="font-heading text-xl mb-4">recent activity</h3>
       <div className="space-y-3">
         <ActivityItem
           icon="🎮"
@@ -154,20 +154,20 @@ const StatsTab: React.FC<{ userRole: UserRole }> = ({ userRole }) => (
     <StatCard title="login streak" value="12 days" icon="🔥" />
 
     {/* Fun Stats */}
-    <div className="md:col-span-2 lg:col-span-3 bg-white rounded-2xl border-4 border-black p-6">
-      <h3 className="font-carrots text-xl mb-4">fun facts</h3>
+    <div className="md:col-span-2 lg:col-span-3 bg-card rounded-2xl border-4 border-black p-6">
+      <h3 className="font-heading text-xl mb-4">fun facts</h3>
       <div className="grid md:grid-cols-3 gap-4 text-center">
         <div>
-          <p className="font-carrots text-4xl text-pink-500">247</p>
-          <p className="font-cheeky text-gray-500">days since first visit</p>
+          <p className="font-heading text-4xl text-pink-500">247</p>
+          <p className="text-gray-500">days since first visit</p>
         </div>
         <div>
-          <p className="font-carrots text-4xl text-purple-500">89%</p>
-          <p className="font-cheeky text-gray-500">spelling mee accuracy</p>
+          <p className="font-heading text-4xl text-purple-500">89%</p>
+          <p className="text-gray-500">spelling mee accuracy</p>
         </div>
         <div>
-          <p className="font-carrots text-4xl text-blue-500">∞</p>
-          <p className="font-cheeky text-gray-500">love for {userRole === 'meedo' ? 'beedo' : 'meedo'}</p>
+          <p className="font-heading text-4xl text-blue-500">∞</p>
+          <p className="text-gray-500">love for {userRole === 'meedo' ? 'beedo' : 'meedo'}</p>
         </div>
       </div>
     </div>
@@ -176,8 +176,8 @@ const StatsTab: React.FC<{ userRole: UserRole }> = ({ userRole }) => (
 
 // Quick Actions Widget
 const QuickActionsWidget: React.FC = () => (
-  <div className="bg-white rounded-2xl border-4 border-black p-6">
-    <h3 className="font-carrots text-xl mb-4">quick actions</h3>
+  <div className="bg-card rounded-2xl border-4 border-black p-6">
+    <h3 className="font-heading text-xl mb-4">quick actions</h3>
     <div className="grid grid-cols-2 gap-3">
       <ActionButton icon="🎮" label="play games" />
       <ActionButton icon="📸" label="add photo" />
@@ -189,21 +189,21 @@ const QuickActionsWidget: React.FC = () => (
 
 // Helper Components
 const QuickStat: React.FC<{ icon: string; value: string; label: string }> = ({ icon, value, label }) => (
-  <div className="bg-white rounded-xl border-2 border-black px-4 py-2 text-center">
+  <div className="bg-card rounded-xl border-2 border-black px-4 py-2 text-center">
     <span className="text-lg mr-1">{icon}</span>
-    <span className="font-carrots text-xl">{value}</span>
-    <p className="font-cheeky text-xs text-gray-500">{label}</p>
+    <span className="font-heading text-xl">{value}</span>
+    <p className="text-xs text-gray-500">{label}</p>
   </div>
 );
 
 const StatCard: React.FC<{ title: string; value: string; icon: string }> = ({ title, value, icon }) => (
   <motion.div
     whileHover={{ scale: 1.02 }}
-    className="bg-white rounded-2xl border-4 border-black p-6 text-center"
+    className="bg-card rounded-2xl border-4 border-black p-6 text-center"
   >
     <span className="text-4xl">{icon}</span>
-    <p className="font-carrots text-3xl mt-2">{value}</p>
-    <p className="font-cheeky text-gray-500">{title}</p>
+    <p className="font-heading text-3xl mt-2">{value}</p>
+    <p className="text-gray-500">{title}</p>
   </motion.div>
 );
 
@@ -214,7 +214,7 @@ const ActionButton: React.FC<{ icon: string; label: string }> = ({ icon, label }
     className="flex flex-col items-center gap-1 p-3 rounded-xl border-2 border-black hover:bg-gray-50 transition-colors"
   >
     <span className="text-2xl">{icon}</span>
-    <span className="font-cheeky text-sm">{label}</span>
+    <span className="text-sm">{label}</span>
   </motion.button>
 );
 
@@ -223,7 +223,7 @@ const ActivityItem: React.FC<{ icon: string; text: string; time: string }> = ({ 
     <span className="text-xl">{icon}</span>
     <div className="flex-1">
       <p className="text-sm">{text}</p>
-      <p className="text-xs text-gray-400 font-cheeky">{time}</p>
+      <p className="text-xs text-muted-foreground/70">{time}</p>
     </div>
   </div>
 );

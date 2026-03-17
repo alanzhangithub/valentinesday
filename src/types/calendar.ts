@@ -1,96 +1,67 @@
-// Calendar Types for Meedobeedo
+// Calendar Stamp System Types
 
-export type EventType = 'hangout' | 'mto' | 'bto' | 'date' | 'special';
-export type User = 'meedo' | 'beedo';
+import type { UserRole } from '@/types/database';
 
-export interface CalendarEvent {
-  id: string;
-  google_event_id?: string;
-  title: string;
-  description?: string;
-  type: EventType;
-  start: string; // ISO datetime
-  end: string; // ISO datetime
-  all_day?: boolean;
-  location?: string;
-  created_by: User;
-  created_at: string;
-  updated_at: string;
-  // For recurring events
-  recurring?: boolean;
-  recurrence_rule?: string;
-}
-
-export interface CreateEventInput {
-  title: string;
-  description?: string;
-  type: EventType;
-  start: string;
-  end: string;
-  all_day?: boolean;
-  location?: string;
-  created_by: User;
-  recurring?: boolean;
-  recurrence_rule?: string;
-}
-
-export interface UpdateEventInput {
-  id: string;
-  title?: string;
-  description?: string;
-  type?: EventType;
-  start?: string;
-  end?: string;
-  all_day?: boolean;
-  location?: string;
-}
-
-// Google Calendar types
-export interface GoogleCalendarEvent {
-  id: string;
-  summary: string;
-  description?: string;
-  location?: string;
-  start: {
-    dateTime?: string;
-    date?: string;
-    timeZone?: string;
-  };
-  end: {
-    dateTime?: string;
-    date?: string;
-    timeZone?: string;
-  };
-  recurrence?: string[];
-  status?: string;
-}
-
-// View types
 export type CalendarViewType = 'month' | 'week';
 
-// Regular schedule - Tues/Sat at Meedo's, Wed/Fri at Beedo's, Sun day dates
-export const REGULAR_SCHEDULE = {
-  tuesday: { location: "meedo's", type: 'hangout' as EventType },
-  wednesday: { location: "beedo's", type: 'hangout' as EventType },
-  friday: { location: "beedo's", type: 'hangout' as EventType },
-  saturday: { location: "meedo's", type: 'hangout' as EventType },
-  sunday: { location: 'day date', type: 'date' as EventType },
-} as const;
+// Stamp definition (what stamps exist)
+export interface Stamp {
+  id: string;
+  name: string;
+  emoji: string;
+  color: string; // hex code e.g. '#3b82f6'
+  created_by: UserRole;
+  created_at: string;
+  updated_at: string;
+  is_default: boolean;
+}
 
-// Event type colors for display
-export const EVENT_TYPE_COLORS: Record<EventType, { bg: string; text: string; border: string }> = {
-  hangout: { bg: 'bg-blue-100', text: 'text-blue-800', border: 'border-blue-300' },
-  mto: { bg: 'bg-orange-100', text: 'text-orange-800', border: 'border-orange-300' },
-  bto: { bg: 'bg-pink-100', text: 'text-pink-800', border: 'border-pink-300' },
-  date: { bg: 'bg-purple-100', text: 'text-purple-800', border: 'border-purple-300' },
-  special: { bg: 'bg-yellow-100', text: 'text-yellow-800', border: 'border-yellow-300' },
-};
+// A stamp placed on a specific day (with joined stamp data)
+export interface DayStamp {
+  id: string;
+  stamp_id: string;
+  date: string; // YYYY-MM-DD
+  placed_by: UserRole;
+  placed_at: string;
+  stamp: Stamp; // joined from stamps table
+}
 
-// Event type labels with cute names
-export const EVENT_TYPE_LABELS: Record<EventType, string> = {
-  hangout: 'Hangout',
-  mto: 'Meedo Time Off',
-  bto: 'Beedo Time Off',
-  date: 'Date Night',
-  special: 'Special Event',
-};
+// API input types
+export interface CreateStampInput {
+  name: string;
+  emoji: string;
+  color: string;
+}
+
+export interface UpdateStampInput {
+  name?: string;
+  emoji?: string;
+  color?: string;
+}
+
+export interface PlaceStampInput {
+  stamp_id: string;
+  date: string; // YYYY-MM-DD
+}
+
+// Date formatting utility
+export function formatDateKey(date: Date): string {
+  const year = date.getFullYear();
+  const month = String(date.getMonth() + 1).padStart(2, '0');
+  const day = String(date.getDate()).padStart(2, '0');
+  return `${year}-${month}-${day}`;
+}
+
+// Color palette for stamp creation
+export const STAMP_COLORS = [
+  { name: 'blue', hex: '#3b82f6' },
+  { name: 'pink', hex: '#ec4899' },
+  { name: 'green', hex: '#10b981' },
+  { name: 'amber', hex: '#f59e0b' },
+  { name: 'red', hex: '#ef4444' },
+  { name: 'purple', hex: '#8b5cf6' },
+  { name: 'orange', hex: '#f97316' },
+  { name: 'teal', hex: '#14b8a6' },
+  { name: 'indigo', hex: '#6366f1' },
+  { name: 'rose', hex: '#f43f5e' },
+] as const;

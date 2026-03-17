@@ -46,13 +46,13 @@ const CoinDisplay: React.FC<CoinDisplayProps> = ({
       </motion.div>
       <div className="flex flex-col">
         {showLabel && (
-          <span className="text-xs text-yellow-700 font-cheeky leading-none">
+          <span className="text-xs text-yellow-700 leading-none">
             Meedo Coins
           </span>
         )}
         <motion.span
           key={coins}
-          className={`font-carrots ${sizeClasses[size]} text-yellow-800`}
+          className={`font-heading ${sizeClasses[size]} text-yellow-800`}
           initial={animate ? { scale: 1.2, color: '#16a34a' } : undefined}
           animate={animate ? { scale: 1, color: '#854d0e' } : undefined}
           transition={{ duration: 0.3 }}

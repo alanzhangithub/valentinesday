@@ -66,7 +66,7 @@ export default function StickerLibrary({ isOpen, onToggle }: StickerLibraryProps
           initial={{ x: -100 }}
           animate={{ x: 0 }}
           onClick={onToggle}
-          className="absolute left-0 top-1/2 -translate-y-1/2 bg-white shadow-lg rounded-r-xl px-3 py-4 hover:bg-gray-50 transition-colors z-20"
+          className="absolute left-0 top-1/2 -translate-y-1/2 bg-card shadow-lg rounded-r-xl px-3 py-4 hover:bg-gray-50 transition-colors z-20"
         >
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
             <path d="M9 18l6-6-6-6" />
@@ -82,7 +82,7 @@ export default function StickerLibrary({ isOpen, onToggle }: StickerLibraryProps
             animate={{ x: 0 }}
             exit={{ x: -280 }}
             transition={{ type: 'spring', damping: 25, stiffness: 200 }}
-            className="absolute left-0 top-0 bottom-0 w-72 bg-white shadow-xl z-20 flex flex-col"
+            className="absolute left-0 top-0 bottom-0 w-72 bg-card shadow-xl z-20 flex flex-col"
           >
             {/* Header */}
             <div className="flex items-center justify-between p-4 border-b">
@@ -138,7 +138,7 @@ export default function StickerLibrary({ isOpen, onToggle }: StickerLibraryProps
                       />
                     ) : (
                       <div className="w-12 h-12 bg-gray-200 rounded-lg flex items-center justify-center">
-                        <span className="text-xs text-gray-400">?</span>
+                        <span className="text-xs text-muted-foreground/70">?</span>
                       </div>
                     )}
                   </motion.div>
@@ -146,7 +146,7 @@ export default function StickerLibrary({ isOpen, onToggle }: StickerLibraryProps
               </div>
 
               {/* Hint */}
-              <p className="text-xs text-gray-400 text-center mt-4">
+              <p className="text-xs text-muted-foreground/70 text-center mt-4">
                 drag stickers onto the board
               </p>
             </div>
