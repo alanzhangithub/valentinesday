@@ -31,8 +31,7 @@ export default function PasswordGatePage() {
       }
 
       // Success - redirect to home
-      router.push("/");
-      router.refresh();
+      window.location.href = "/";
     } catch {
       setError("something went wrong. try again?");
       setLoading(false);
